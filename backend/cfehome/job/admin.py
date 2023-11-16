@@ -15,9 +15,9 @@ class CompanyAdmin(admin.ModelAdmin):
 
 class VacancyAdmin(admin.ModelAdmin):
     model = Vacancy
-    list_display = ('name', 'slug', 'salary', 'body', 'city',
+    list_display = ('name', 'slug', 'model_pic', 'salary', 'body', 'city',
                     'company', 'publish', 'created', 'status', 'user')
-    fields = ('name', 'slug', 'salary', 'body', 'city',
+    fields = ('name', 'slug', 'model_pic', 'salary', 'body', 'city',
                     'company', 'publish', 'status')
     prepopulated_fields = {'slug': ('name', )}
 

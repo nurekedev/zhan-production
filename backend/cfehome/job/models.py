@@ -38,6 +38,7 @@ class Vacancy(models.Model):
     name = models.CharField('Название вакансии', max_length=255)
     slug = models.SlugField(max_length=255, unique=True,
                             db_index=True, verbose_name="URL")
+    model_pic = models.ImageField(upload_to='jobs', blank=True, null=True)
     salary = models.DecimalField(
         'Заработная плата', max_digits=15, decimal_places=2)
     body = models.TextField('Описание')
