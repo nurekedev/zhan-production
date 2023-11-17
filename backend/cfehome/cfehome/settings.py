@@ -27,6 +27,7 @@ SECRET_KEY = 'django-insecure-m-w0t#dgxvl$u@fbb&$yyull1qx@r%*i^yg%5ehhrhshy$kdlt
 DEBUG = True
 
 ALLOWED_HOSTS = []
+WEBSITE_URL = 'http://127.0.0.1:8000'
 
 
 # Application definition
@@ -129,8 +130,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -139,6 +141,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 REST_FRAMEWORK = {
+
+    'DATETIME_FORMAT': '%d.%m.%y %H:%M',
 
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',

@@ -1,6 +1,10 @@
+from collections.abc import Iterable
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 from django.contrib.auth.models import User
+from PIL import Image
+
 # Create your models here.
 
 
@@ -13,6 +17,9 @@ class City(models.Model):
         verbose_name_plural = 'Города'
         db_table = 'city'
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Company(models.Model):
     """Выбор компании работодателя"""
@@ -23,9 +30,12 @@ class Company(models.Model):
         verbose_name_plural = 'Компаний'
         db_table = 'company'
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 class Vacancy(models.Model):
-    """Модель вакансии работодателя"""
+    """Модель вакансии работодателя. Переопределен метод сохрание титульной фотографии"""
 
     DRAFT = 'draft'
     PUBLISHED = 'published'
@@ -38,7 +48,7 @@ class Vacancy(models.Model):
     name = models.CharField('Название вакансии', max_length=255)
     slug = models.SlugField(max_length=255, unique=True,
                             db_index=True, verbose_name="URL")
-    model_pic = models.ImageField(upload_to='jobs', blank=True, null=True)
+    model_pic = models.ImageField('Фотография вакансии', upload_to='jobs', blank=True, null=True)
     salary = models.DecimalField(
         'Заработная плата', max_digits=15, decimal_places=2)
     body = models.TextField('Описание')
@@ -49,7 +59,7 @@ class Vacancy(models.Model):
     publish = models.DateTimeField('Дата', default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
 
-    status = models.CharField(
+    status = models.CharField('Статус активности',
         max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
 
     user = models.ForeignKey(
@@ -63,3 +73,25 @@ class Vacancy(models.Model):
             models.Index(fields=['-publish']),
         ]
         db_table = 'vacancy'
+
+    def __str__(self):
+        return f"{self.name}, {self.city}, {self.company}, {self.status}"
+    
+
+    def get_model_picture(self):
+        if self.model_pic:
+            return settings.WEBSITE_URL + self.model_pic.url
+        else:
+            return 'https://bulma.io/images/placeholders/1280x960.png'
+        
+
+    # def save(self, *args, **kwargs):
+    #     super().save()
+    #     image = Image.open(self.model_pic.path)
+
+    #     if image.height > 500 or image.width > 500:
+    #         croped_image = (500, 500)
+    #         image.thumbnail(croped_image)
+    #         image.save(self.model_pic.path)
+
+    
