@@ -45,7 +45,7 @@ class Vacancy(models.Model):
         (PUBLISHED, 'Published')
     )
 
-    name = models.CharField('Название вакансии', max_length=255)
+    name = models.CharField('Название вакансии', max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True,
                             db_index=True, verbose_name="URL")
     model_pic = models.ImageField('Фотография вакансии', upload_to='jobs', blank=True, null=True)
@@ -84,6 +84,7 @@ class Vacancy(models.Model):
         else:
             return 'https://bulma.io/images/placeholders/1280x960.png'
         
+
 
     # def save(self, *args, **kwargs):
     #     super().save()

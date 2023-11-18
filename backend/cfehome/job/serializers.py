@@ -1,6 +1,7 @@
 from rest_framework.reverse import reverse
-from rest_framework import serializers
+from rest_framework import serializers, validators
 from .models import *
+from .validators import *
 
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,3 +29,18 @@ class VacancySerializer(serializers.ModelSerializer):
         if request is None:
             return None
         return reverse('vacancy-detail', kwargs={'slug':obj.slug}, request=request)
+    
+
+
+class LiteContactSerializer(serializers.Serializer):
+    STUDY = 'study'
+    VACANCY = 'vacancy'
+
+    ACTION_CHOICES = (
+        (STUDY, 'Учеба'),
+        (VACANCY, 'Работа')
+    )
+
+    full_name = serializers.CharField(max_length=100)
+    email = serializers.EmailField(max_length=254)
+    action_type = serializers.ChoiceField(choices=ACTION_CHOICES)

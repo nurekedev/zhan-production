@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from job.views import main_lite_form
 # from .routers import router
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/vacancies/', include('job.urls')),
+    path('submit-contact/', main_lite_form, name='submit-contact')
 ]

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.core.mail import send_mail
 import psycopg
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 WEBSITE_URL = 'http://127.0.0.1:8000'
 
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '7766cd35230fc6'
+EMAIL_HOST_PASSWORD = '7bef4d1c0faed0'
+EMAIL_PORT = '2525'
 
 # Application definition
 
@@ -172,3 +177,5 @@ REST_FRAMEWORK = {
 
 
 }
+
+

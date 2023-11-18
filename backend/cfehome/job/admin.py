@@ -20,7 +20,7 @@ class VacancyAdmin(admin.ModelAdmin):
     fields = ('name', 'slug', 'model_pic', 'salary', 'body', 'city',
                     'company', 'publish', 'status')
     prepopulated_fields = {'slug': ('name', )}
-
+                
     def save_form(self, request, form, change):
         obj = form.save(commit=False)
         if not obj.pk:  
