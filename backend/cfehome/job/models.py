@@ -96,3 +96,16 @@ class Vacancy(models.Model):
     #         image.save(self.model_pic.path)
 
     
+class Review(models.Model):
+    """Модель для Отзыва пользователей"""
+    author = models.CharField('Автор отзыва', max_length=100)
+    body_text = models.TextField('Текст')
+
+
+    class Meta:
+        verbose_name = 'Отзывы'
+        verbose_name_plural = 'Отзывы'
+        db_table = 'review'
+
+    def __str__(self):
+        return f"{self.author} - {self.body_text}"

@@ -33,6 +33,7 @@ class VacancySerializer(serializers.ModelSerializer):
 
 
 class LiteContactSerializer(serializers.Serializer):
+    """Форма для получения контактной информации c возможностью  выбора (учеба, работа)"""
     STUDY = 'study'
     VACANCY = 'vacancy'
 
@@ -41,6 +42,8 @@ class LiteContactSerializer(serializers.Serializer):
         (VACANCY, 'Работа')
     )
 
-    full_name = serializers.CharField(max_length=100)
-    email = serializers.EmailField(max_length=254)
-    action_type = serializers.ChoiceField(choices=ACTION_CHOICES)
+    full_name = serializers.CharField(max_length=100, write_only=True)
+    email = serializers.EmailField(max_length=254, write_only=True)
+    action_type = serializers.ChoiceField(choices=ACTION_CHOICES, write_only=False)
+
+    
