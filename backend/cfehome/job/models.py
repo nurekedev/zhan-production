@@ -48,10 +48,22 @@ class Vacancy(models.Model):
     name = models.CharField('Название вакансии', max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True,
                             db_index=True, verbose_name="URL")
-    model_pic = models.ImageField('Фотография вакансии', upload_to='jobs', blank=True, null=True)
+    model_pic = models.ImageField(
+        'Фотография вакансии', upload_to='jobs', blank=True, null=True)
     salary = models.DecimalField(
         'Заработная плата', max_digits=15, decimal_places=2)
-    body = models.TextField('Описание')
+
+    responsibility_text = models.TextField(
+        'Обязанности', blank=True, null=True)
+    requirement_text = models.TextField('Требования', blank=True, null=True)
+    schedule = models.TextField('График работы', blank=True, null=True)
+    working_condition_text = models.TextField(
+        'Условия работы', blank=True, null=True)
+    accommodation = models.TextField('Проживание', blank=True, null=True)
+    nutrition = models.TextField('Питание', blank=True, null=True)
+    additional_text = models.TextField(
+        'Дополнительная информация', blank=True, null=True)
+
     city = models.ForeignKey(
         to='City', related_name='cities', verbose_name='Город', on_delete=models.CASCADE)
     company = models.ForeignKey(
@@ -60,7 +72,7 @@ class Vacancy(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     status = models.CharField('Статус активности',
-        max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
+                              max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
 
     user = models.ForeignKey(
         User, verbose_name='Пользователь', on_delete=models.CASCADE)
@@ -76,15 +88,12 @@ class Vacancy(models.Model):
 
     def __str__(self):
         return f"{self.name}, {self.city}, {self.company}, {self.status}"
-    
 
     def get_model_picture(self):
         if self.model_pic:
             return settings.WEBSITE_URL + self.model_pic.url
         else:
             return 'https://bulma.io/images/placeholders/1280x960.png'
-        
-
 
     # def save(self, *args, **kwargs):
     #     super().save()
@@ -95,12 +104,11 @@ class Vacancy(models.Model):
     #         image.thumbnail(croped_image)
     #         image.save(self.model_pic.path)
 
-    
+
 class Review(models.Model):
     """Модель для Отзыва пользователей"""
     author = models.CharField('Автор отзыва', max_length=100)
     body_text = models.TextField('Текст')
-
 
     class Meta:
         verbose_name = 'Отзывы'

@@ -18,7 +18,7 @@ from .forms import *
 # Create your views here.
 
 
-class BaseVacancyView(generics.ListCreateAPIView):
+class BaseVacancyView(generics.ListAPIView):
     """Родительский класс для получение (активных) и создание вакансии. Для списка вакансии включена пагинация"""
     serializer_class = VacancySerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -46,7 +46,7 @@ class LiteContactView(APIView):
     def post(self, request):
         serializer = LiteContactSerializer(data=request.data)
         if serializer.is_valid():
-            print(serializer.validated_data['email'], serializer.validated_data['action_type'])
+            print(serializer.validated_data['email'], serializer.validated_data['full_name'])
             message = _('Ваше сообщение успешно отправлено')
             return Response({'message': message}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
