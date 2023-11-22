@@ -15,24 +15,6 @@ class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
-# responsibility_text = models.TextField('Обязанности')
-#     requirement_text = models.TextField('Требования')
-#     schedule = models.TextField('График работы')
-#     working_condition_text = models.TextField('Условия работы')
-#     accommodation = models.TextField('Проживание')
-#     nutrition = models.TextField('Питание')
-#     additional_text = models.TextField('Дополнительная информация')
-
-#     city = models.ForeignKey(
-#         to='City', related_name='cities', verbose_name='Город', on_delete=models.CASCADE)
-#     company = models.ForeignKey(
-#         to='Company', related_name='companies', verbose_name='Компания', on_delete=models.CASCADE)
-#     publish = models.DateTimeField('Дата', default=timezone.now)
-#     created = models.DateTimeField(auto_now_add=True)
-
-#     status = models.CharField('Статус активности',
-#                               max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
-
 class VacancyAdmin(admin.ModelAdmin):
     model = Vacancy
     list_display = ('name', 'slug', 'model_pic', 'salary', 'responsibility_text', 'schedule', 'city',
@@ -52,7 +34,6 @@ class VacancyAdmin(admin.ModelAdmin):
         return obj
 
 class ReviewAdmin(admin.ModelAdmin):
-    """Базовые настройки для модели "Отзыв". Для текста было использовано редактор WYSIWYG"""
     list_display = ['author', 'body_text']
     list_filter = ['author']
     search_fields = ['author', 'body_text']
@@ -63,7 +44,7 @@ admin.site.register(City, CityAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Review, ReviewAdmin)
-                      
+
 
 # class VacancyAdmin(admin.ModelAdmin):
 #     model = Vacancy

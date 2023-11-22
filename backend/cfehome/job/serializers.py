@@ -4,6 +4,7 @@ from .models import *
 from .validators import *
 
 
+
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
@@ -39,7 +40,16 @@ class VacancySerializer(serializers.ModelSerializer):
 
 
 class LiteContactSerializer(serializers.Serializer):
-    """Форма для получения контактной информации c возможностью  выбора (учеба, работа)"""
+    """Форма для получения контактной информации"""
     full_name = serializers.CharField(max_length=100, write_only=True)
-    email = serializers.EmailField(max_length=254, write_only=True)
-    
+    phone_number = serializers.CharField(validators=[validate_phone_number])
+
+
+
+class ResponseVacancySerializer(serializers.Serializer):
+    """Формя для получени отклика. Поля 'phone_number', 'cv_filed' имеют дополнительную валидацию"""
+    full_name = serializers.CharField(max_length=100)
+    phone_number = serializers.CharField(validators=[validate_phone_number])
+    email = serializers.EmailField()
+    cv_field = serializers.FileField(validators=[validate_file_size, validate_file_extension])
+
