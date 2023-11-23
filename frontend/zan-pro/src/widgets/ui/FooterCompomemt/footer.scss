@@ -1,0 +1,60 @@
+@import '../../../app/style/variables';
+
+footer{
+    height: 11rem;
+    width: 100%;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    .f-cont{
+        width: 78%;
+        height: 6.5rem;
+        margin-top: 1.8rem;
+        background-color: $white;
+        display: flex;
+        justify-content: space-between
+    }
+    .f-cont div:first-child{
+        display: flex;
+        align-items: center;
+        div{
+            margin-left: 1rem;
+        }
+        div p:first-child{
+            font: normal 600 1.25rem/2.25rem Montserrat;
+            margin-bottom: 0.25rem;
+        }
+        div p:last-child{
+            font: normal 400 0.875rem/1.575rem Montserrat;
+        }
+    }
+    .f-cont div:nth-child(2){
+        width: fit-content;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        p:first-child{
+            font: normal 600 1rem/1.8rem Montserrat;
+        }
+        p{
+            font: normal 400 1rem/1.8rem Montserrat;
+        }
+    }
+    .f-cont div:last-child{
+        width: fit-content;
+        p{
+            font: normal 600 1rem/1.8rem Montserrat;
+        }
+        div{
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            flex-direction: row;
+            margin-top: 0.8rem;
+            img{
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+    }
+}
