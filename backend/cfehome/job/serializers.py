@@ -4,7 +4,6 @@ from .models import *
 from .validators import *
 
 
-
 class CitySerializer(serializers.ModelSerializer):
     class Meta:
         model = City
@@ -29,8 +28,8 @@ class VacancySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vacancy
-        fields = ('name', 'slug', 'url', 'model_pic', 'salary', 'city', 'company', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text',
-        'publish', 'status','user')
+        fields = ('name', 'slug', 'url', 'model_pic', 'salary', 'city', 'company',
+                  'responsibility_text', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish', 'status', 'user')
 
     def get_detail_url(self, obj):
         request = self.context.get('request')
@@ -45,11 +44,11 @@ class LiteContactSerializer(serializers.Serializer):
     phone_number = serializers.CharField(validators=[validate_phone_number])
 
 
-
 class ResponseVacancySerializer(serializers.Serializer):
     """Формя для получени отклика. Поля 'phone_number', 'cv_filed' имеют дополнительную валидацию"""
     full_name = serializers.CharField(max_length=100)
     phone_number = serializers.CharField(validators=[validate_phone_number])
     email = serializers.EmailField()
-    cv_field = serializers.FileField(validators=[validate_file_size, validate_file_extension])
-
+    cv_field = serializers.FileField(
+        validators=[validate_file_size, validate_file_extension])
+    additional_text = serializers.CharField(max_length=300, allow_blank=True)

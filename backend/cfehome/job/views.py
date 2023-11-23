@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_protect
@@ -5,9 +7,10 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 
 
-from rest_framework import generics, viewsets, mixins, authentication, status
+from rest_framework import generics, viewsets, mixins, authentication, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
 
 from .models import *
 from .serializers import *
@@ -21,6 +24,8 @@ class BaseVacancyView(generics.ListAPIView):
     serializer_class = VacancySerializer
     permission_classes = [IsAdminOrReadOnly]
     pagination_class = VacancyPagination
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'responsibility_text', 'city__name', 'company__name']
 
     def get_queryset(self):
         return Vacancy.objects.filter(status=Vacancy.PUBLISHED)
@@ -55,7 +60,6 @@ class LiteContactView(APIView):
 class ResponseVacnacyView(APIView):
     """Получает данные с формы (ФИО, номер телефона, почта, резюме и скрытое поле(название вакансии))Возвращет статус действии (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
-
     def post(self, request, slug):
         try:
             vacancy = Vacancy.objects.get(slug=slug)
@@ -69,9 +73,19 @@ class ResponseVacnacyView(APIView):
             applicant_phone_number = serializer.validated_data['phone_number']
             applicant_email = serializer.validated_data['email']
             applicant_cv = request.FILES.get('cv_field')
+            applicant_additional_text = serializer.validated_data['additional_text']
+
+            # if applicant_cv:
+            #     file_name = applicant_cv.name 
+            #     file_path = os.path.join(settings.MEDIA_ROOT, 'cv_field', file_name)
+
+            #     with open(file_path, 'wb') as destination:
+            #         for chunk in applicant_cv.chunks():
+            #             destination.write(chunk)
 
             print(vacancy_title, applicant_full_name,
-                  applicant_phone_number, applicant_email, applicant_cv)
+                  applicant_phone_number, applicant_email, 
+                  applicant_cv, applicant_additional_text)
 
             message = 'Response submitted successfully'
             return Response({'message': message}, status=status.HTTP_200_OK)

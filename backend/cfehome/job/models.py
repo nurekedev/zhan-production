@@ -1,8 +1,10 @@
 from collections.abc import Iterable
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db.models import QuerySet
 from PIL import Image
 
 # Create your models here.
@@ -32,6 +34,7 @@ class Company(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
 
 
 class Vacancy(models.Model):
@@ -82,7 +85,7 @@ class Vacancy(models.Model):
         verbose_name_plural = 'Вакансии'
         ordering = ['-publish']
         indexes = [
-            models.Index(fields=['-publish']),
+            models.Index(fields=['-publish', 'name', 'responsibility_text']),
         ]
         db_table = 'vacancy'
 

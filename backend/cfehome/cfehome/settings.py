@@ -46,16 +46,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'job',
-
+    # Third part packages
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'django_summernote'
+    'django_summernote',
+    'debug_toolbar',
+    'drf_spectacular',
+
+    # Internal apps
+    'job',
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'cfehome.urls'
@@ -187,6 +196,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
     ],
 
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     # 'DEFAULT_THROTTLE_CLASSES': [
     #     'rest_framework.throttling.AnonRateThrottle',
     #     'rest_framework.throttling.UserRateThrottle'
@@ -202,4 +212,10 @@ REST_FRAMEWORK = {
 
 }
 
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Zan API Documentation",
+    "DESCRIPTION": "DRF API Endpoints of website",
+    "VERSION": "1.0.0",
+}
 
