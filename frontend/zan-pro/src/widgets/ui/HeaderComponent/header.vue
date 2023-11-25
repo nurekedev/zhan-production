@@ -10,7 +10,7 @@
         </div>
         <nav>
             <ul>
-                <router-link to="/employee"><li>Трудоустройство в Польше</li></router-link>
+                <router-link to="/employment"><li>Трудоустройство в Польше</li></router-link>
                 <router-link to="/contact"><li>Контакты</li></router-link>
             </ul>
         </nav>
