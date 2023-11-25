@@ -1,5 +1,4 @@
 <script>
-    import { WebWindowXmark } from '@iconoir/vue';
     export default {
         data() {
             return {
