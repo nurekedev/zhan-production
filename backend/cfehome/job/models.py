@@ -1,8 +1,13 @@
 from collections.abc import Iterable
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.conf import settings
+from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db.models import QuerySet
+from django.utils.translation import gettext as _
+
 from PIL import Image
 
 # Create your models here.
@@ -10,11 +15,11 @@ from PIL import Image
 
 class City(models.Model):
     """Выбор города работодателя"""
-    name = models.CharField('Название города', max_length=255)
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
 
     class Meta:
-        verbose_name = 'Города'
-        verbose_name_plural = 'Города'
+        verbose_name = _('Cities')
+        verbose_name_plural = _('Cities')
         db_table = 'city'
 
     def __str__(self):
@@ -23,15 +28,16 @@ class City(models.Model):
 
 class Company(models.Model):
     """Выбор компании работодателя"""
-    name = models.CharField('Название компании', max_length=255)
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
 
     class Meta:
-        verbose_name = 'Компаний'
-        verbose_name_plural = 'Компаний'
+        verbose_name = _('Companies')
+        verbose_name_plural = _('Companies')
         db_table = 'company'
 
     def __str__(self):
         return f"{self.name}"
+    
 
 
 class Vacancy(models.Model):
@@ -41,48 +47,44 @@ class Vacancy(models.Model):
     PUBLISHED = 'published'
 
     STATUS_CHOICES = (
-        (DRAFT, 'Draft'),
-        (PUBLISHED, 'Published')
+        (DRAFT, _('Draft')),
+        (PUBLISHED, _('Published'))
     )
 
-    name = models.CharField('Название вакансии', max_length=255, unique=True)
+    name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True,
                             db_index=True, verbose_name="URL")
-    model_pic = models.ImageField(
-        'Фотография вакансии', upload_to='jobs', blank=True, null=True)
-    salary = models.DecimalField(
-        'Заработная плата', max_digits=15, decimal_places=2)
+    model_pic = models.ImageField(verbose_name=_('Photo'), upload_to='jobs', blank=True, null=True)
+    salary = models.DecimalField(verbose_name=_('Salary'), max_digits=15, decimal_places=2)
 
     responsibility_text = models.TextField(
-        'Обязанности', blank=True, null=True)
-    requirement_text = models.TextField('Требования', blank=True, null=True)
-    schedule = models.TextField('График работы', blank=True, null=True)
+        verbose_name=_('Responsibility'), blank=True, null=True)
+    requirement_text = models.TextField(verbose_name=_('Requirements'), blank=True, null=True)
+    schedule = models.TextField(verbose_name=_('Schedule'), blank=True, null=True)
     working_condition_text = models.TextField(
-        'Условия работы', blank=True, null=True)
-    accommodation = models.TextField('Проживание', blank=True, null=True)
-    nutrition = models.TextField('Питание', blank=True, null=True)
-    additional_text = models.TextField(
-        'Дополнительная информация', blank=True, null=True)
+        verbose_name=_('Working Condition'), blank=True, null=True)
+    accommodation = models.TextField(verbose_name=_('Accommodation'), blank=True, null=True)
+    nutrition = models.TextField(verbose_name=_('Nutrition'), blank=True, null=True)
+    additional_text = models.TextField(verbose_name=_('Additional text'), blank=True, null=True)
 
     city = models.ForeignKey(
-        to='City', related_name='cities', verbose_name='Город', on_delete=models.CASCADE)
+        to='City', related_name='cities', verbose_name=_('City'), on_delete=models.CASCADE)
     company = models.ForeignKey(
-        to='Company', related_name='companies', verbose_name='Компания', on_delete=models.CASCADE)
-    publish = models.DateTimeField('Дата', default=timezone.now)
+        to='Company', related_name='companies', verbose_name=_('Company'), on_delete=models.CASCADE)
+    publish = models.DateTimeField(verbose_name=_('Published Time'), default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
 
-    status = models.CharField('Статус активности',
-                              max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
+    status = models.CharField(verbose_name=_('Status'), max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
 
     user = models.ForeignKey(
-        User, verbose_name='Пользователь', on_delete=models.CASCADE)
+        User, verbose_name=_('Created by'), on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Вакансии'
-        verbose_name_plural = 'Вакансии'
+        verbose_name = _('Vacancies')
+        verbose_name_plural = _('Vacancies')
         ordering = ['-publish']
         indexes = [
-            models.Index(fields=['-publish']),
+            models.Index(fields=['-publish', 'name', 'responsibility_text']),
         ]
         db_table = 'vacancy'
 
@@ -94,6 +96,9 @@ class Vacancy(models.Model):
             return settings.WEBSITE_URL + self.model_pic.url
         else:
             return 'https://bulma.io/images/placeholders/1280x960.png'
+        
+    def get_absolute_url(self):
+        return reverse('vacancy-detail', kwargs={'slug': self.slug}) 
 
     # def save(self, *args, **kwargs):
     #     super().save()
@@ -107,12 +112,12 @@ class Vacancy(models.Model):
 
 class Review(models.Model):
     """Модель для Отзыва пользователей"""
-    author = models.CharField('Автор отзыва', max_length=100)
-    body_text = models.TextField('Текст')
+    author = models.CharField(verbose_name=_('Author'), max_length=100)
+    body_text = models.TextField(verbose_name=_('Text of review'))
 
     class Meta:
-        verbose_name = 'Отзывы'
-        verbose_name_plural = 'Отзывы'
+        verbose_name = _('Reviews')
+        verbose_name_plural = _('Reviews')
         db_table = 'review'
 
     def __str__(self):
