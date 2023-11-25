@@ -31,5 +31,31 @@ header{
             }
         }
     }
+    .burger-btn {
+        display: none;
+    }
 }
 
+@media (max-width: 460px) {
+    header {
+        height: 3.15rem;
+        .burger-btn {
+            display: block;
+            margin-right: 1rem;
+        }
+        .logo {
+            img {
+                width: 2.5rem;
+                height: 2.5rem;
+                margin: .88rem .63rem;
+            }
+            p {
+                display: none;
+            }
+        }
+    }
+
+    li {
+        display: none;
+    }
+}
