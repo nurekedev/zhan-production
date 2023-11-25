@@ -18,31 +18,40 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.i18n import JavaScriptCatalog
+from django.contrib.sitemaps.views import sitemap
+from django.conf.urls.i18n import i18n_patterns
+
+
 from drf_spectacular.views import (
     SpectacularAPIView, 
     SpectacularSwaggerView, 
-    SpectacularRedocView)
+)
 
 from job.views import main_lite_form
 
+from job.sitemaps import VacancySitemap
+
 
 # from .routers import router
-
+sitemaps = {
+    'vacancies': VacancySitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/vacancies/', include('job.urls')),
-    path('submit-contact/', main_lite_form, name='submitcontact'),
+    path('rosetta/', include('rosetta.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
-     path("schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("schema/swagger-ui/",
-         SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui")
+         SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps}, 
+         name='django.contrib.sitemaps.views.sitemap')
 ]
 
-urlpatterns += [path('jsi18n/', JavaScriptCatalog.as_view())]
-
+urlpatterns += i18n_patterns(
+    path('api/v1/vacancies/', include('job.urls')),
+    path('submit-contact/', main_lite_form, name='submitcontact'),
+)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

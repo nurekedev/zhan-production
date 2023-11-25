@@ -1,5 +1,9 @@
+from django.utils.translation import gettext as _
+
 from rest_framework.reverse import reverse
 from rest_framework import serializers, validators
+
+
 from .models import *
 from .validators import *
 
@@ -18,7 +22,6 @@ class CompanySerializer(serializers.ModelSerializer):
 
 class VacancySerializer(serializers.ModelSerializer):
     """Сериализатор вакансии. Для отображение всех полей вакансии"""
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     city = CitySerializer(read_only=True)
     company = CompanySerializer(read_only=True)
     url = serializers.HyperlinkedIdentityField(
@@ -29,7 +32,7 @@ class VacancySerializer(serializers.ModelSerializer):
     class Meta:
         model = Vacancy
         fields = ('name', 'slug', 'url', 'model_pic', 'salary', 'city', 'company',
-                  'responsibility_text', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish', 'status', 'user')
+                  'responsibility_text', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish',)
 
     def get_detail_url(self, obj):
         request = self.context.get('request')
@@ -40,15 +43,20 @@ class VacancySerializer(serializers.ModelSerializer):
 
 class LiteContactSerializer(serializers.Serializer):
     """Форма для получения контактной информации"""
-    full_name = serializers.CharField(max_length=100, write_only=True)
-    phone_number = serializers.CharField(validators=[validate_phone_number])
+    full_name = serializers.CharField(
+        max_length=100, write_only=True, help_text=_("Enter your full name"))
+    phone_number = serializers.CharField(
+        validators=[validate_phone_number], help_text=_("Enter your phone number"))
 
 
 class ResponseVacancySerializer(serializers.Serializer):
     """Формя для получени отклика. Поля 'phone_number', 'cv_filed' имеют дополнительную валидацию"""
-    full_name = serializers.CharField(max_length=100)
-    phone_number = serializers.CharField(validators=[validate_phone_number])
-    email = serializers.EmailField()
+    full_name = serializers.CharField(
+        max_length=100, help_text=_("Enter your full name"))
+    phone_number = serializers.CharField(
+        validators=[validate_phone_number], help_text=_("Enter your phone number"))
+    email = serializers.EmailField(help_text=_("Enter your email"))
     cv_field = serializers.FileField(
-        validators=[validate_file_size, validate_file_extension])
-    additional_text = serializers.CharField(max_length=300, allow_blank=True)
+        validators=[validate_file_size, validate_file_extension], help_text=_("Upload your CV"))
+    additional_text = serializers.CharField(
+        max_length=300, allow_blank=True, help_text=_("Enter additional text (optional)"))

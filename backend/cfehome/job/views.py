@@ -22,7 +22,6 @@ from .forms import *
 class BaseVacancyView(generics.ListAPIView):
     """Родительский класс для получение (активных) и создание вакансии. Для списка вакансии включена пагинация"""
     serializer_class = VacancySerializer
-    permission_classes = [IsAdminOrReadOnly]
     pagination_class = VacancyPagination
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'responsibility_text', 'city__name', 'company__name']
@@ -37,8 +36,34 @@ class VacancyListView(BaseVacancyView):
 
 
 class VacancyDetailtView(generics.RetrieveAPIView, BaseVacancyView):
-    """Класс для детальной страницы вакансии. Наследуется от BaseVacancyView"""
+    """
+    Класс для детальной страницы вакансии. Наследуется от BaseVacancyView имеет логику вывода 
+    похожих вакансии
+    """
     lookup_field = 'slug'
+
+    def get_similar_vacancies(self, vacancy):
+        similar_vacancies = Vacancy.objects.filter(
+            city=vacancy.city,
+            status=Vacancy.PUBLISHED
+        ).exclude(id=vacancy.id)[:3]
+        return similar_vacancies
+    
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        context = {'request': request}
+        serializer = self.get_serializer(instance, context=context)
+        similar_vacancies = self.get_similar_vacancies(instance)
+        similar_serializer = VacancySerializer(similar_vacancies, many=True, context=context)
+        
+        data = {
+            'vacancy_details': serializer.data,
+            'similar_vacancies': similar_serializer.data
+        }
+        return Response(data)
+
+
+
 
 
 # @method_decorator(csrf_protect, name='dispatch')
@@ -51,7 +76,7 @@ class LiteContactView(APIView):
         if serializer.is_valid():
             print(serializer.validated_data['phone_number'],
                   serializer.validated_data['full_name'])
-            message = ('Message was sent succesfully')
+            message = _('Message was sent succesfully')
             return Response({'message': message}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -64,7 +89,8 @@ class ResponseVacnacyView(APIView):
         try:
             vacancy = Vacancy.objects.get(slug=slug)
         except Vacancy.DoesNotExist:
-            return Response({'error': 'Vacancy not found'}, status=status.HTTP_404_NOT_FOUND)
+            message = _('Data not found')
+            return Response({'message': message}, status=status.HTTP_404_NOT_FOUND)
 
         serializer = ResponseVacancySerializer(data=request.data)
         if serializer.is_valid():
@@ -87,7 +113,7 @@ class ResponseVacnacyView(APIView):
                   applicant_phone_number, applicant_email, 
                   applicant_cv, applicant_additional_text)
 
-            message = 'Response submitted successfully'
+            message = _('Message was sent succesfully')
             return Response({'message': message}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

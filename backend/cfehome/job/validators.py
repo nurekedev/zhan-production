@@ -4,6 +4,8 @@ from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 import re
 
+from django.utils.translation import gettext as _
+
 
 """Не обращать внимание"""
 # unique_vacancy_title = UniqueValidator(queryset=Vacancy.PUBLISHED, lookup='iexact')
@@ -14,7 +16,7 @@ def validate_phone_number(value):
     """
     phone_regex = r'^\+?1?\d{9,15}$'
     if not re.match(phone_regex, value):
-        raise ValidationError("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+        raise ValidationError(_("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."))
 
 def validate_file_size(value):
     """
@@ -22,11 +24,11 @@ def validate_file_size(value):
     """
     limit = 10 * 1024 * 1024 
     if value.size > limit:
-        raise ValidationError('File too large. Size should not exceed 10 MiB.')
+        raise ValidationError(_("File too large. Size should not exceed 10 MiB."))
     
 def validate_file_extension(value):
     """
-    Валидатор для проверки расширение файла. Принимаются форматы: '.pdf', '.png' 
+    Валидатор для проверки расширения файла. Принимаются форматы: '.pdf', '.png' 
     """
     allowed_extensions = ['pdf', 'png']
     validator = FileExtensionValidator(allowed_extensions)
@@ -34,4 +36,6 @@ def validate_file_extension(value):
     try:
         validator(value)
     except ValidationError:
-        raise ValidationError((f"Unsupported file extension. Allowed extensions are {', '.join(allowed_extensions)}"))
+        allowed_extensions_str = ', '.join(allowed_extensions)
+        error_message = _("Unsupported file extension. Allowed extensions are %(extensions)s") % {'extensions': allowed_extensions_str}
+        raise ValidationError(error_message)

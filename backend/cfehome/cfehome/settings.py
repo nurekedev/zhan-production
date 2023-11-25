@@ -37,6 +37,7 @@ EMAIL_HOST_PASSWORD = '7bef4d1c0faed0'
 EMAIL_PORT = '2525'
 
 # Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
 
     # Third part packages
     'rest_framework',
@@ -53,6 +56,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'debug_toolbar',
     'drf_spectacular',
+    'rosetta',
 
     # Internal apps
     'job',
@@ -113,7 +117,6 @@ DATABASES = {
 }
 
 
-
 # pip install psycopg2-binary
 
 
@@ -139,6 +142,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
+LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('ru', _('Russian')),
+    ('kz', _('Kazakh')),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale/')
+]
+
 
 TIME_ZONE = 'UTC'
 
@@ -147,8 +162,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
-
 
 
 # Static files (CSS, JavaScript, Images)
@@ -165,17 +178,6 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LANGUAGE_CODE = 'en-us'
-
-LANGUAGES = [
-    ('en', _('English')),
-    ('sv', _('Swedish')), 
-    ('ru', _('Russian')),
-]
-
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale/')
-]
 
 
 REST_FRAMEWORK = {
@@ -218,4 +220,3 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "DRF API Endpoints of website",
     "VERSION": "1.0.0",
 }
-
