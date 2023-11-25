@@ -1,0 +1,24 @@
+.pagination{
+    width: 17%;
+    height: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .p-item{
+        width: fit-content;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        span{
+            width: 3rem;
+            height: 100%;
+            background-color: #5AAAFA21;
+            font: normal 500 1rem/normal Montserrat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
