@@ -1,4 +1,48 @@
 <script>
+import axios from 'axios';
+
+export default {
+    data() {
+        return {
+            form: {
+                full_name: '',
+                phone_number: '',
+            },
+            error: [
+
+            ]
+        }
+    },
+    methods: {
+        submitLightForm() {
+            console.log("submit form", this.form)
+
+            this.errors = []
+
+            if (this.form.full_name === '') {
+                this.errors.push('The name must be filled out')
+            }
+
+            if (this.form.phone_number === '') {
+                this.errors.push('The content must be filled out')
+            }
+
+            if(!this.error.lenght) {
+                axios
+                    .post(`en/submit-contact/`, this.form)
+                    .then(response => {
+                        this.form.full_name = ''
+                        this.form.phone_number = ''
+
+                        this.$emit('submitLightForm', response.data)
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+        }
+    }
+}
 </script>
 
 <template>
@@ -14,10 +58,11 @@
                         magna aliqua. Auctor elit sed vulputate mi.
                     </p>
                 </article>
-                <form method="post">
+                <form v-on:submit.prevent="submitLightForm()">
                     <label>Уточните что вы хотите?</label>
-                    <input type="text" placeholder="Имя">
-                    <input type="tel" pattern="[8]{1}-[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="Телефон">
+                    <input type="text" placeholder="Имя" v-model="form.full_name">
+                    <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" v-model="form.phone_number">
+                    <p class="error" v-for="error in errors" v-bind:key="error">{{ error }}</p>
                     <button type="submit">Отправить</button>
                 </form>
             </div>

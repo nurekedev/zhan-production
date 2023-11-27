@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@iconoir/vue": "^7.0.3",
     "axios": "^1.6.2",
     "sass": "^1.69.5",
     "scss": "^0.2.4",
