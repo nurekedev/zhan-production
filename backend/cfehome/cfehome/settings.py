@@ -40,6 +40,8 @@ EMAIL_PORT = '2525'
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    'grappelli', # custom admin template
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,7 +59,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'drf_spectacular',
     'rosetta',
-
+    
     # Internal apps
     'job',
 ]
@@ -109,8 +111,12 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'zan-db',
+        'USER': 'postgres',
+        'PASSWORD': '123456789n',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -145,8 +151,13 @@ LANGUAGE_CODE = 'en-us'
 LANGUAGES = [
     ('en', _('English')),
     ('ru', _('Russian')),
-    ('kz', _('Kazakh')),
+    ('kk', _('Kazakh')),
 ]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'  
+MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'kk')
+
+
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale/')

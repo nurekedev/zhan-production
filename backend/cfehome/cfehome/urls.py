@@ -38,6 +38,7 @@ sitemaps = {
 }
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('rosetta/', include('rosetta.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
