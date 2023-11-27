@@ -1,10 +1,11 @@
 import os
 
 from django.shortcuts import render
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
+from django.conf import settings
 
 
 from rest_framework import generics, viewsets, mixins, authentication, status, filters
@@ -24,7 +25,8 @@ class BaseVacancyView(generics.ListAPIView):
     serializer_class = VacancySerializer
     pagination_class = VacancyPagination
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'responsibility_text', 'city__name', 'company__name']
+    search_fields = ['name', 'responsibility_text',
+                     'city__name', 'company__name']
 
     def get_queryset(self):
         return Vacancy.objects.filter(status=Vacancy.PUBLISHED)
@@ -48,22 +50,20 @@ class VacancyDetailtView(generics.RetrieveAPIView, BaseVacancyView):
             status=Vacancy.PUBLISHED
         ).exclude(id=vacancy.id)[:3]
         return similar_vacancies
-    
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         context = {'request': request}
         serializer = self.get_serializer(instance, context=context)
         similar_vacancies = self.get_similar_vacancies(instance)
-        similar_serializer = VacancySerializer(similar_vacancies, many=True, context=context)
-        
+        similar_serializer = VacancySerializer(
+            similar_vacancies, many=True, context=context)
+
         data = {
             'vacancy_details': serializer.data,
             'similar_vacancies': similar_serializer.data
         }
         return Response(data)
-
-
-
 
 
 # @method_decorator(csrf_protect, name='dispatch')
@@ -85,6 +85,7 @@ class LiteContactView(APIView):
 class ResponseVacnacyView(APIView):
     """Получает данные с формы (ФИО, номер телефона, почта, резюме и скрытое поле(название вакансии))Возвращет статус действии (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
+
     def post(self, request, slug):
         try:
             vacancy = Vacancy.objects.get(slug=slug)
@@ -100,9 +101,33 @@ class ResponseVacnacyView(APIView):
             applicant_email = serializer.validated_data['email']
             applicant_cv = request.FILES.get('cv_field')
             applicant_additional_text = serializer.validated_data['additional_text']
+            
+            
+            email_subject = f"Application for {vacancy_title}"
+            email_message = (
+                f"Vacancy Title: {vacancy_title}\n"
+                f"Applicant Full Name: {applicant_full_name}\n"
+                f"Applicant Phone Number: {applicant_phone_number}\n"
+                f"Applicant Email: {applicant_email}\n"
+                f"Applicant Additional Text: {applicant_additional_text}\n"
+            )
+
+            # Sending the email with file attachment
+            email = EmailMessage(
+                subject=email_subject,
+                body=email_message,
+                from_email=settings.EMAIL_HOST_USER,
+                to=['snurzan21@gmail.com']  # Replace with desired recipient(s)
+            )
+
+            if applicant_cv:
+                email.attach(applicant_cv.name, applicant_cv.read(), applicant_cv.content_type)
+
+            email.send()
+
 
             # if applicant_cv:
-            #     file_name = applicant_cv.name 
+            #     file_name = applicant_cv.name
             #     file_path = os.path.join(settings.MEDIA_ROOT, 'cv_field', file_name)
 
             #     with open(file_path, 'wb') as destination:
@@ -110,7 +135,7 @@ class ResponseVacnacyView(APIView):
             #             destination.write(chunk)
 
             print(vacancy_title, applicant_full_name,
-                  applicant_phone_number, applicant_email, 
+                  applicant_phone_number, applicant_email,
                   applicant_cv, applicant_additional_text)
 
             message = _('Message was sent succesfully')
