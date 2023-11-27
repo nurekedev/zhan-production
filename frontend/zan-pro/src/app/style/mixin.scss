@@ -1,0 +1,6 @@
+@import 'variables';
+
+@mixin btn() {
+    background: $red;
+    color: $white;
+}

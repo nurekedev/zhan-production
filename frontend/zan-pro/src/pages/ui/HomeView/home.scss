@@ -1,0 +1,141 @@
+@import '../../../app/style/mixin';
+
+.home-main{
+    width: 100%;
+    min-height: calc(100vh - 16rem);
+    section{
+        width: 100%;
+        position: relative;
+        img{
+            width: 100%;
+            height: 60rem;
+            object-fit:cover;
+            object-position: 100% 36%;
+            overflow: hidden;
+        }
+        .img-t-q{
+            position: absolute;
+            top: 10rem;
+            left: 10rem;
+            width: 85%;
+            height: 27rem;
+            padding: 0 1.5rem 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            article{
+                width: 40rem;
+                height: auto;
+                h1{
+                    color: #FFF;
+                    font: normal 700 3.25rem/normal Montserrat;
+                    margin-bottom: 1rem;
+                }
+                p{
+                    color: #FFF;
+                    font: normal 400 1.75rem/normal Monserrat;
+                }
+            }
+            form{
+                width: 35rem;
+                height: 100%;
+                background-color: #fff;
+                border-radius: 0.625rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 3rem;
+                label{
+                    margin-top: 2rem;
+                    font: normal 600 2rem/normal Montserrat;
+                }
+                input{
+                    background-color: #D9D9D94D;
+                    border: none;
+                    width: 90%;
+                    height: 3rem;
+                    padding: 0.5rem 1rem;
+                    font: normal 300 1.25rem/normal Montserrat;
+                    color: #949494;
+                }
+                input:focus{
+                    outline: none;
+                }
+                input::placeholder{
+                    font: normal 300 1.25rem/normal Montserrat;
+                    color: #949494;
+                }
+                button{
+                    @include btn;
+                    border: none;
+                    width: 90%;
+                    height: 3rem;
+                    padding: 0.5rem 0;
+                    text-align: center;
+                    font: normal 700 1.5rem/normal Montserrat;
+                }
+            }
+        }
+    }
+    article{
+        width: 100%;
+        .about{
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            margin: 5rem 0;
+            h1{
+                font: normal 700 4rem/normal Montserrat;
+            }
+            p{
+                width: 80%;
+                font: normal 400 1.5rem/normal Montserrat;
+                text-align: center;
+            }
+        }
+        aside{
+            width: 100%;
+            height: 35rem;
+            .review-title{
+                width: 100%;
+                margin: 5rem 0;
+                display: flex;
+                align-items: center;
+                gap: 1.5rem;
+                flex-direction: column;
+                h1{
+                    font: normal 500 2.5rem/normal Montserrat;
+                    letter-spacing: 0.2rem;
+                }
+                .review-img{
+                    width: 12rem;
+                    height: 12rem;
+                    background-color: #949494;
+                    border-radius: 50%;
+                }
+                h2{
+                    font: normal 300 1.75rem/normal Montserrat;
+                }
+                p{
+                    font: normal 600 1.25rem/normal Montserrat;
+                    width: 80%;
+                    text-align: center;
+                    margin-top: 4rem;
+                }
+                .home-pagination{
+                    width: 25%;
+                    height: 0.4rem;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 4rem;
+                    span{
+                        width: 24%;
+                        height: 100%;
+                        background-color: #949494;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -109,10 +109,8 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'zan-db',
-        'USER': 'postgres',
-        'PASSWORD': '123456789n',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -220,3 +218,12 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "DRF API Endpoints of website",
     "VERSION": "1.0.0",
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'snurekeee03@gmail.com'
+EMAIL_HOST_PASSWORD = 'bvpqshybjtztzugg'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
