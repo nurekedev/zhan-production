@@ -40,6 +40,8 @@ EMAIL_PORT = '2525'
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    'grappelli', # custom admin template
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,11 +55,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'django_summernote',
     'debug_toolbar',
     'drf_spectacular',
     'rosetta',
-
+    'admin_honeypot',
+    
     # Internal apps
     'job',
 ]
@@ -88,7 +90,7 @@ ROOT_URLCONF = 'cfehome.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'media' / 'template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,8 +111,12 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'zan-db',
+        'USER': 'postgres',
+        'PASSWORD': '123456789n',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -145,8 +151,15 @@ LANGUAGE_CODE = 'en-us'
 LANGUAGES = [
     ('en', _('English')),
     ('ru', _('Russian')),
-    ('kz', _('Kazakh')),
+    ('kk', _('Kazakh')),
 ]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'  
+MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'kk')
+
+
+ADMIN_HONEYPOT_EMAIL_ADMINS = False
+
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale/')
@@ -192,11 +205,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
-
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
     # 'DEFAULT_THROTTLE_CLASSES': [
     #     'rest_framework.throttling.AnonRateThrottle',
     #     'rest_framework.throttling.UserRateThrottle'
@@ -207,10 +217,12 @@ REST_FRAMEWORK = {
     #     'user': '1000/day'
     # },
     # 'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.LimitOffPagination',
-    # 'PAGE_SIZE': 100
+    # 'PAGE_SIZE': 100,
 
 
 }
+
+
 
 
 SPECTACULAR_SETTINGS = {
@@ -218,3 +230,12 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "DRF API Endpoints of website",
     "VERSION": "1.0.0",
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'snurekeee03@gmail.com'
+EMAIL_HOST_PASSWORD = 'bvpqshybjtztzugg'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

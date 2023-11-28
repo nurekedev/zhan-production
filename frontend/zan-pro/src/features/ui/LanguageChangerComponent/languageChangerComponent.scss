@@ -1,0 +1,50 @@
+@import '../../../app/style/variables';
+.locale-container {
+    display: flex;
+    flex-flow: column-reverse wrap;
+    gap: .4rem;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    color: $white;
+    font-family: Montserrat;
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: uppercase;
+    .active-locale {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 50%;
+        background-color: $red;
+    }
+    .dropdown-content {
+        display: flex;
+        flex-flow: column wrap;
+        gap: .4rem;
+    }
+    .locale {
+        background-color: $red;
+        border-radius: 50%;
+        cursor: pointer;
+        width: 2.75rem;
+        height: 2.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: dropdown 500ms ease-in-out forwards alternate;
+    }
+    @keyframes dropdown {
+        0% {
+            transform: scale(0);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+}

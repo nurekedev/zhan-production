@@ -2,11 +2,13 @@ from collections.abc import Iterable
 from django.db import models
 from django.db.models.query import QuerySet
 from django.utils import timezone
+from django.utils.text import slugify
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.db.models import QuerySet
 from django.utils.translation import gettext as _
+
 
 from PIL import Image
 
@@ -53,9 +55,9 @@ class Vacancy(models.Model):
 
     name = models.CharField(verbose_name=_('Name'), max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True,
-                            db_index=True, verbose_name="URL")
-    model_pic = models.ImageField(verbose_name=_('Photo'), upload_to='jobs', blank=True, null=True)
-    salary = models.DecimalField(verbose_name=_('Salary'), max_digits=15, decimal_places=2)
+                            db_index=True, verbose_name="URL", help_text='ignore this field')
+    model_pic = models.ImageField(verbose_name=_('Photo'), upload_to='jobs', blank=True, null=True, help_text='Extensions: .jpg .jpeg, .png,')
+    salary = models.DecimalField(verbose_name=_('Salary'), max_digits=15, decimal_places=2, help_text='Numeric field (1200, 1200.5)')
 
     responsibility_text = models.TextField(
         verbose_name=_('Responsibility'), blank=True, null=True)
@@ -68,13 +70,13 @@ class Vacancy(models.Model):
     additional_text = models.TextField(verbose_name=_('Additional text'), blank=True, null=True)
 
     city = models.ForeignKey(
-        to='City', related_name='cities', verbose_name=_('City'), on_delete=models.CASCADE)
+        to='City', related_name='cities', verbose_name=_('City'), on_delete=models.CASCADE, help_text='Choose a city from the list')
     company = models.ForeignKey(
-        to='Company', related_name='companies', verbose_name=_('Company'), on_delete=models.CASCADE)
+        to='Company', related_name='companies', verbose_name=_('Company'), on_delete=models.CASCADE, help_text='Choose a company from the list')
     publish = models.DateTimeField(verbose_name=_('Published Time'), default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
 
-    status = models.CharField(verbose_name=_('Status'), max_length=20, choices=STATUS_CHOICES, default=PUBLISHED)
+    status = models.CharField(verbose_name=_('Status'), max_length=20, choices=STATUS_CHOICES, default=PUBLISHED, help_text='Select "Published" to publish')
 
     user = models.ForeignKey(
         User, verbose_name=_('Created by'), on_delete=models.CASCADE)
@@ -99,6 +101,7 @@ class Vacancy(models.Model):
         
     def get_absolute_url(self):
         return reverse('vacancy-detail', kwargs={'slug': self.slug}) 
+    
 
     # def save(self, *args, **kwargs):
     #     super().save()
