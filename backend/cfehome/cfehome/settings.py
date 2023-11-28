@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'drf_spectacular',
     'rosetta',
+    'admin_honeypot',
     
     # Internal apps
     'job',
@@ -90,7 +91,7 @@ ROOT_URLCONF = 'cfehome.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'media' / 'template'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -208,6 +209,7 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
     # 'DEFAULT_THROTTLE_CLASSES': [
     #     'rest_framework.throttling.AnonRateThrottle',
     #     'rest_framework.throttling.UserRateThrottle'
@@ -218,7 +220,7 @@ REST_FRAMEWORK = {
     #     'user': '1000/day'
     # },
     # 'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.LimitOffPagination',
-    # 'PAGE_SIZE': 100
+    # 'PAGE_SIZE': 100,
 
 
 }

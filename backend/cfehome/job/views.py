@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.core.mail import send_mail, EmailMessage
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.conf import settings
 
@@ -101,30 +102,41 @@ class ResponseVacnacyView(APIView):
             applicant_email = serializer.validated_data['email']
             applicant_cv = request.FILES.get('cv_field')
             applicant_additional_text = serializer.validated_data['additional_text']
-            
-            
+
+            html = render_to_string('message.html', {
+                'title': vacancy_title,
+                'name': applicant_full_name,
+                'phone_number': applicant_phone_number,
+                'email': applicant_email,
+                'file_folder': applicant_cv,
+                'additional_text': applicant_additional_text,
+                'logo_url': 'logo.svg'
+            })
+
             email_subject = f"Application for {vacancy_title}"
-            email_message = (
-                f"Vacancy Title: {vacancy_title}\n"
-                f"Applicant Full Name: {applicant_full_name}\n"
-                f"Applicant Phone Number: {applicant_phone_number}\n"
-                f"Applicant Email: {applicant_email}\n"
-                f"Applicant Additional Text: {applicant_additional_text}\n"
-            )
+            # email_message = (
+            #     f"Vacancy Title: {vacancy_title}\n"
+            #     f"Applicant Full Name: {applicant_full_name}\n"
+            #     f"Applicant Phone Number: {applicant_phone_number}\n"
+            #     f"Applicant Email: {applicant_email}\n"
+            #     f"Applicant Additional Text: {applicant_additional_text}\n"
+            # )
 
             # Sending the email with file attachment
             email = EmailMessage(
                 subject=email_subject,
-                body=email_message,
+                body=html,
                 from_email=settings.EMAIL_HOST_USER,
                 to=['snurzan21@gmail.com']  # Replace with desired recipient(s)
+
             )
 
             if applicant_cv:
-                email.attach(applicant_cv.name, applicant_cv.read(), applicant_cv.content_type)
+                email.attach(applicant_cv.name, applicant_cv.read(),
+                             applicant_cv.content_type)
 
+            email.content_subtype = 'html'
             email.send()
-
 
             # if applicant_cv:
             #     file_name = applicant_cv.name

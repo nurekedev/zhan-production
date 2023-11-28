@@ -15,7 +15,7 @@ Including another URLconf
 """
 import debug_toolbar
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
@@ -38,8 +38,9 @@ sitemaps = {
 }
 
 urlpatterns = [
-    path('grappelli/', include('grappelli.urls')),
-    path('admin/', admin.site.urls),
+    re_path('grappelli/', include('grappelli.urls')),
+    path('admin/', include('admin_honeypot.urls')),
+    path('secret/', admin.site.urls),
     path('rosetta/', include('rosetta.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
@@ -47,13 +48,11 @@ urlpatterns = [
          SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
     path('sitemap.xml', sitemap, {'sitemaps':sitemaps}, 
          name='django.contrib.sitemaps.views.sitemap')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(
     path('api/v1/vacancies/', include('job.urls')),
     path('submit-contact/', main_lite_form, name='submitcontact'),
 )
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+
