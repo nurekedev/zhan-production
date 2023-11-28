@@ -8,9 +8,12 @@ export default {
                 full_name: '',
                 phone_number: '',
             },
-            error: [
-
-            ]
+            message: {
+                message: '',
+            },
+            error: {
+                err: '',
+            }
         }
     },
     methods: {
@@ -29,16 +32,20 @@ export default {
 
             if(!this.error.lenght) {
                 axios
-                    .post(`en/submit-contact/`, this.form)
+                    .post(`${this.$i18n.locale}/submit-contact/`, this.form)
                     .then(response => {
-                        this.form.full_name = ''
-                        this.form.phone_number = ''
+                        this.message = response.data.message;
+                        console.log(this.message);
 
                         this.$emit('submitLightForm', response.data)
                     })
                     .catch(error => {
-                        console.log(error)
+                        console.log(error.response.data)
                     })
+            }
+            else {
+                // this.err = response.data.response;
+                // console.log(thsis.err[1]);
             }
         }
     }
@@ -51,42 +58,34 @@ export default {
             <img src="../../model/main.jpeg" />
             <div class="img-t-q">
                 <article>
-                    <h1>Работа в Польше</h1>
+                    <h1>{{ $t('homePictureHeader') }}</h1>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore 
-                        magna aliqua. Auctor elit sed vulputate mi.
+                        {{ $t('homePictureText') }}
                     </p>
                 </article>
                 <form v-on:submit.prevent="submitLightForm()">
-                    <label>Уточните что вы хотите?</label>
+                    <label>{{ $t('homeFormHeader') }}</label>
                     <input type="text" placeholder="Имя" v-model="form.full_name">
-                    <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" v-model="form.phone_number">
+                    <input type="tel" placeholder="Телефон" v-model="form.phone_number">
                     <p class="error" v-for="error in errors" v-bind:key="error">{{ error }}</p>
-                    <button type="submit">Отправить</button>
+                    <button type="submit">{{ $t('formButton') }}</button>
                 </form>
             </div>
         </section>
         <article>
             <div class="about">
-                <h1>О компании</h1>
+                <h1>{{ $t('homeMainHeader') }}</h1>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Auctor elit sed vulputate mi. Faucibus scelerisque
-                    eleifend donec pretium vulputate sapien nec sagittis aliquam.
-                    At tempor commodo ullamcorper a lacus vestibulum sed arcu non.
-                    Amet purus gravida quis blandit. Scelerisque purus semper eget
-                    duis at tellus at urna condimentum. Et malesuada fames ac turpis egestas maecenas. 
+                    {{ $t('homeMainText') }}
                 </p>
             </div>
             <aside>
                 <div class="review-title">
-                    <h1>Отзывы клиентов</h1>
+                    <h1>{{ $t('homeReviewHeader') }}</h1>
                     <img class="review-img">
                     <h2>Динара Асылхановна</h2>
                     <p>
-                        "Share a real testimonial that hits some of your benefits (but isn’t too sales-y)."
+                        "{{ $t('homeReviewText') }}"
                     </p>
                     <div class="home-pagination">
                         <span></span>
