@@ -1,5 +1,4 @@
 <script>
-
 </script>
 
 <template>
@@ -23,6 +22,6 @@
                 <rect width="32" height="2" fill="black" />
                 <rect y="6" width="32" height="2" fill="black" />
             </svg>
-</div>
+        </div>
     </header>
 </template>

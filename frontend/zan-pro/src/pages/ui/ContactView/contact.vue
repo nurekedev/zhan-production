@@ -1,4 +1,6 @@
-<script></script>
+<script setup>
+import LanguageChangerComponent from '../../../features/ui/LanguageChangerComponent/languageChangerComponent.vue';
+</script>
 
 <template>
     <main class="contact">
@@ -32,5 +34,6 @@
                 </form>
             </div>
         </article>
+        <LanguageChangerComponent />
     </main>
 </template>

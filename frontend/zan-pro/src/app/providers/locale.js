@@ -3,19 +3,13 @@ import ru from './locale/ru.json';
 import en from './locale/en.json';
 import kz from './locale/kz.json';
 import pl from './locale/pl.json';
+import store from '../../shared/store/index.js';
 
-function loadLocaleMessages() {
-    const locales = [{ru: ru, en: en, kz: kz, pl: pl}];
-    const messages = {};
-    locales.forEach(lang => {
-        const key = Object.keys(lang);
-        messages[key] = lang[key];
-    });
-    return messages;
-}
+console.log(store.getters.getCurrentLocale);
+const locales = store.getters.getLocales;
 
 const i18n = createI18n({
-    locale: 'kz',
+    locale: store.getters.getCurrentLocale,
     fallbackLocale: 'ru',
     messages: {
         ru: ru,

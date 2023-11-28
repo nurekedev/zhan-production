@@ -8,9 +8,12 @@ export default {
                 full_name: '',
                 phone_number: '',
             },
-            error: [
-
-            ]
+            message: {
+                message: '',
+            },
+            error: {
+                err: '',
+            }
         }
     },
     methods: {
@@ -29,16 +32,20 @@ export default {
 
             if(!this.error.lenght) {
                 axios
-                    .post(`en/submit-contact/`, this.form)
+                    .post(`${this.$i18n.locale}/submit-contact/`, this.form)
                     .then(response => {
-                        this.form.full_name = ''
-                        this.form.phone_number = ''
+                        this.message = response.data.message;
+                        console.log(this.message);
 
                         this.$emit('submitLightForm', response.data)
                     })
                     .catch(error => {
-                        console.log(error)
+                        console.log(error.response.data)
                     })
+            }
+            else {
+                // this.err = response.data.response;
+                // console.log(thsis.err[1]);
             }
         }
     }
@@ -59,7 +66,7 @@ export default {
                 <form v-on:submit.prevent="submitLightForm()">
                     <label>{{ $t('homeFormHeader') }}</label>
                     <input type="text" placeholder="Имя" v-model="form.full_name">
-                    <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" v-model="form.phone_number">
+                    <input type="tel" placeholder="Телефон" v-model="form.phone_number">
                     <p class="error" v-for="error in errors" v-bind:key="error">{{ error }}</p>
                     <button type="submit">{{ $t('formButton') }}</button>
                 </form>
