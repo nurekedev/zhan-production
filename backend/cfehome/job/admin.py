@@ -1,5 +1,4 @@
 from django.contrib import admin, messages
-from django_summernote.admin import SummernoteModelAdmin
 from django.utils.translation import gettext as _
 
 from modeltranslation.admin import TranslationAdmin
@@ -14,11 +13,11 @@ class JobAdminArea(admin.AdminSite):
     site_title = _("Sign in | Administration")
 
 
-class CityAdmin(admin.ModelAdmin):
+class CityAdmin(TranslationAdmin):
     list_display = ('name',)
 
 
-class CompanyAdmin(admin.ModelAdmin):
+class CompanyAdmin(TranslationAdmin):
     list_display = ('name',)
 
 
@@ -85,7 +84,7 @@ class VacancyAdmin(TranslationAdmin):
         return obj
 
 
-class ReviewAdmin(admin.ModelAdmin):
+class ReviewAdmin(TranslationAdmin):
     list_display = ('author', 'body_text',)
     list_filter = ('author',)
     search_fields = ('author', 'body_text', )

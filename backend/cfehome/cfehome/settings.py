@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'django_summernote',
     'debug_toolbar',
     'drf_spectacular',
     'rosetta',
@@ -159,6 +158,8 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
 MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'kk')
 
 
+ADMIN_HONEYPOT_EMAIL_ADMINS = False
+
 
 LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale/')
@@ -204,10 +205,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
-
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
     # 'DEFAULT_THROTTLE_CLASSES': [
@@ -224,6 +221,8 @@ REST_FRAMEWORK = {
 
 
 }
+
+
 
 
 SPECTACULAR_SETTINGS = {

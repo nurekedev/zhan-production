@@ -13,7 +13,6 @@ django-grappelli==3.0.8
 django-ipware==6.0.0
 django-modeltranslation==0.18.11
 django-rosetta==0.9.9
-django-summernote==0.8.20.0
 djangorestframework==3.14.0
 drf-spectacular==0.26.5
 idna==3.4

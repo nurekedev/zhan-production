@@ -60,3 +60,14 @@ class ResponseVacancySerializer(serializers.Serializer):
         validators=[validate_file_size, validate_file_extension], help_text=_("Upload your CV"))
     additional_text = serializers.CharField(
         max_length=300, allow_blank=True, help_text=_("Enter additional text (optional)"))
+
+
+class QuestionContactSerializer(serializers.Serializer):
+    """Форма для получения вопроса в разделе 'Контакты'"""
+    full_name = serializers.CharField(
+        max_length=100, write_only=True, help_text=_("Enter your full name"))
+    phone_number = serializers.CharField(
+        validators=[validate_phone_number], help_text=_("Enter your phone number"))
+    email = serializers.EmailField(help_text=_("Enter your email"))
+    question_text = serializers.CharField(
+        max_length=300, help_text=_("Enter your question text (optional)"))

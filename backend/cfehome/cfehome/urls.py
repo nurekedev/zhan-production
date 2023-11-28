@@ -27,7 +27,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView, 
 )
 
-from job.views import main_lite_form
+from job.views import main_lite_form, question_contact_form
 
 from job.sitemaps import VacancySitemap
 
@@ -38,7 +38,7 @@ sitemaps = {
 }
 
 urlpatterns = [
-    re_path('grappelli/', include('grappelli.urls')),
+    path('grappelli/', include('grappelli.urls')),
     path('admin/', include('admin_honeypot.urls')),
     path('secret/', admin.site.urls),
     path('rosetta/', include('rosetta.urls')),
@@ -53,6 +53,8 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('api/v1/vacancies/', include('job.urls')),
     path('submit-contact/', main_lite_form, name='submitcontact'),
+    path('submit-question/', question_contact_form, name='submitquestion')
+    
 )
 
 
