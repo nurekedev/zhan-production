@@ -1,5 +1,6 @@
 @import '../../../app/style/variables';
 @import '../../../app/style/mixin';
+
 .contact {
     width: 100%;
     min-height: calc(100vh - 16rem);
@@ -17,7 +18,7 @@
             background-color: $red;
             width: fit-content;
             margin: 29rem 76rem 3rem 3rem;
-            padding: .5rem .25rem;
+            padding: .5rem .25rem;  
             color: $white;
             font-family: Montserrat;
             font-size: 2rem;

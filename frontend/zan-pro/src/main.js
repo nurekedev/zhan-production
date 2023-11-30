@@ -1,5 +1,4 @@
 import './app/style/main.scss'
-
 import { createApp } from 'vue'
 import App from './app/App.vue'
 import router from './app/providers/index.js'

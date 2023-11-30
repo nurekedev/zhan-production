@@ -1,21 +1,46 @@
 <script>
+import { ref } from 'vue';
 import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemComponent.vue';
     export default {
-    data() {
-        return {
-            showModal: false,
-        };
-    },
-    methods: {
-        openModal() {
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
+        name: 'VacancyPage',
+        components: { EmpItemComponent },
+        setup() {
+            const showModal = ref(false);
+            const selectedFileName = ref('');
+
+            const openModal = () => showModal.value = true;
+            const closeModal = () => showModal.value = false;
+            const onFileChange = (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    selectedFileName.value = file.name;
+                } else {
+                    selectedFileName.value = '';
+                }
+            };
+
+            return {
+                showModal,
+                selectedFileName,
+                openModal,
+                closeModal,
+                onFileChange
+            }
         }
-    },
-    components: { EmpItemComponent }
-}
+        // data() {
+        //     return {
+        //         showModal: false,
+        //     };
+        // },
+        // methods: {
+        //     openModal() {
+        //         this.showModal = true;
+        //     },
+        //     closeModal() {
+        //         this.showModal = false;
+        //     }
+        // },
+    }
 </script>
 
 <template>
@@ -75,13 +100,13 @@ import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemCompon
             </article>
         </div>
         <aside class="similar-vacancy">
-            <h2>{{ $t('') }}</h2>
+            <h2>{{ $t('vacancyAsideSimilar') }}</h2>
             <EmpItemComponent v-for="i in 2" :key="i" />
         </aside>
         <div class="modal-overlay" v-if="showModal"></div>
         <div class="modal" v-if="showModal">
             <div class="modal-content">
-                <span class="xmark" @click="closeModal">X</span>
+                <img src="../../model/xmark.svg" alt="X" class="xmark" @click="closeModal">
                 <form action="" method="post">
                         <p>{{ $t('vacancyFormHeader') }}</p>
                         <div class="input-container">
@@ -97,8 +122,9 @@ import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemCompon
                             <label for="email">{{ $t('formLabelMail') }}</label>
                         </div>
                         <div class="input-container-file">
-                            <input type="file" name="file" id="file" placeholder="" accept="image/png, image/jpg, image/jpeg, application/pdf">
+                            <input @change="onFileChange" ref="fileInput" type="file" name="file" id="file" placeholder="" accept="image/png, image/jpg, image/jpeg, application/pdf">
                             <label class="input-file-label" for="file">{{ $t('formLabelFile') }}</label>
+                            <p v-if="selectedFileName" class="file-name">{{ selectedFileName }}</p>
                         </div>
                         <div class="input-container">
                             <textarea name="additional" id="additional" cols="30" rows="10" placeholder=""></textarea>

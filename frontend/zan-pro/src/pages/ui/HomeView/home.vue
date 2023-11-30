@@ -1,51 +1,54 @@
 <script>
 import axios from 'axios';
+import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
 
 export default {
+    components: {
+        ToastNotificationComponent
+    },
     data() {
         return {
             form: {
                 full_name: '',
                 phone_number: '',
             },
-            message: {
-                message: '',
-            },
-            error: {
-                err: '',
-            }
+            message: '',
+            error: [
+
+            ]
         }
     },
     methods: {
+        showToast() {
+            this.$refs.toast.showToast();
+        },
         submitLightForm() {
             console.log("submit form", this.form)
-
+            
             this.errors = []
-
+            
             if (this.form.full_name === '') {
                 this.errors.push('The name must be filled out')
             }
-
+            
             if (this.form.phone_number === '') {
                 this.errors.push('The content must be filled out')
             }
 
             if(!this.error.lenght) {
+            // const csrftoken = getCSRFToken();
                 axios
                     .post(`${this.$i18n.locale}/submit-contact/`, this.form)
                     .then(response => {
+                        this.form.full_name = ''
+                        this.form.phone_number = ''
+                        
                         this.message = response.data.message;
-                        console.log(this.message);
-
                         this.$emit('submitLightForm', response.data)
                     })
                     .catch(error => {
-                        console.log(error.response.data)
+                        console.log(error)
                     })
-            }
-            else {
-                // this.err = response.data.response;
-                // console.log(thsis.err[1]);
             }
         }
     }
@@ -66,9 +69,9 @@ export default {
                 <form v-on:submit.prevent="submitLightForm()">
                     <label>{{ $t('homeFormHeader') }}</label>
                     <input type="text" placeholder="Имя" v-model="form.full_name">
-                    <input type="tel" placeholder="Телефон" v-model="form.phone_number">
+                    <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" v-model="form.phone_number">
                     <p class="error" v-for="error in errors" v-bind:key="error">{{ error }}</p>
-                    <button type="submit">{{ $t('formButton') }}</button>
+                    <button @click="showToast" type="submit">Отправить</button>
                 </form>
             </div>
         </section>
@@ -96,6 +99,10 @@ export default {
                 </div>
             </aside>
         </article>
+        <ToastNotificationComponent ref="toast" :message="this.message" />
     </main>
 </template>
 
+<script>
+
+</script>
