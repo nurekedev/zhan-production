@@ -8,7 +8,6 @@
             <h3>Варшава</h3>
             <div class="btn">
                 <button><router-link to="/employmentDetails">{{ $t('cardButtonRespond') }}</router-link></button>
-                <button><router-link to="/contact">{{ $t('cardButtonContact') }}</router-link></button>
             </div>
         </article>
     </div>
