@@ -68,6 +68,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
+
+
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
@@ -109,14 +112,20 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'zan-db',
+#         'USER': 'postgres',
+#         'PASSWORD': '123456789n',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'zan-db',
-        'USER': 'postgres',
-        'PASSWORD': '123456789n',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db',
     }
 }
 
