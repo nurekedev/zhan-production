@@ -23,7 +23,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            article{
+            article {
                 width: 40rem;
                 height: auto;
                 h1{
@@ -36,45 +36,112 @@
                     font: normal 400 1.75rem/normal Monserrat;
                 }
             }
-            form{
-                width: 35rem;
-                height: 100%;
-                background-color: #fff;
-                border-radius: 0.625rem;
+            .form-group {
                 display: flex;
-                flex-direction: column;
+                flex-flow: column wrap;
                 align-items: center;
-                gap: 3rem;
-                label{
-                    margin-top: 2rem;
-                    font: normal 600 2rem/normal Montserrat;
-                }
-                input{
-                    background-color: #D9D9D94D;
-                    border: none;
-                    width: 90%;
-                    height: 3rem;
-                    padding: 0.5rem 1rem;
-                    font: normal 300 1.25rem/normal Montserrat;
-                    color: #949494;
-                }
-                input:focus{
-                    outline: none;
-                }
-                input::placeholder{
-                    font: normal 300 1.25rem/normal Montserrat;
-                    color: #949494;
-                }
-                button{
-                    @include btn;
-                    border: none;
-                    width: 90%;
-                    height: 3rem;
-                    padding: 0.5rem 0;
+                justify-content: center;
+                background-color: $white;
+                padding: 2rem 2rem;
+                border-radius: 2rem;
+                p {
+                    color: $black;
+                    font-family: Montserrat;
+                    font-size: 2rem;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    margin-bottom: 3rem;
                     text-align: center;
-                    font: normal 700 1.5rem/normal Montserrat;
                 }
+                .input-container {
+                    position: relative;
+                    margin: 0 auto 3rem;
+                    textarea {
+                        background-color: rgba(217, 217, 217, 0.30);
+                        width: 100%;
+                        height: 9.83731rem;
+                        padding: 1.12rem 1.3rem;
+                        border: none;
+                        border-radius: .25rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: normal;
+                        resize: none;
+                    }
+                    input {
+                        width: 100%;
+                        height: 3.83731rem;
+                        flex-shrink: 0;
+                        background-color: rgba(217, 217, 217, 0.30);
+                        border: none;
+                        border-radius: .25rem;
+                        text-indent: 1.3rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: normal;
+                    }
+                    input:-webkit-autofill {
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: norma
+                    }
+                    label {
+                        position: absolute;
+                        left: 1.3rem;
+                        top: 1.11rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        transition: all 400ms ease;
+                    }
+                    input:focus {
+                        outline: none;
+                    }
+                    textarea:focus {
+                        outline: none;
+                    }
+                    input:focus + label, input:not(:placeholder-shown) + label{
+                        top: -2rem;
+                        left: 0;
+                    }
+                    textarea:focus + label, textarea:not(:placeholder-shown) + label{
+                        top: -2rem;
+                        left: 0;
+                    }
+                }
+
+                button {
+                    @include btn();
+                    width: 100%;
+                    height: 3.83731rem;
+                    padding: 1rem 14rem;
+                    border: none;
+                    border-radius: .25rem;
+                    color: $white;
+                    font-family: Montserrat;
+                    font-size: 1.5rem;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;
+                    cursor: pointer;
+                    text-align: center;
+                }
+
             }
+            
         }
     }
     article{

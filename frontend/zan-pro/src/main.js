@@ -1,5 +1,6 @@
 import './app/style/main.scss'
 import { createApp } from 'vue'
+import store from './shared/store/index.js'
 import App from './app/App.vue'
 import router from './app/providers/index.js'
 import i18n from './app/providers/locale.js';
@@ -8,4 +9,4 @@ import axios from 'axios'
 axios.defaults.baseURL = 'http://127.0.0.1:8000/'
 
 
-createApp(App).use(router, axios).use(i18n).mount('#app')
+createApp(App).use(router, axios).use(i18n).use(store).mount('#app')
