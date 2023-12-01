@@ -67,6 +67,7 @@ INSTALLED_APPS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 
 INTERNAL_IPS = [
     '127.0.0.1',
@@ -111,14 +112,9 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'zan-db',
-        'USER': 'postgres',
-        'PASSWORD': '123456789n',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+}}
 
 
 # pip install psycopg2-binary
@@ -239,3 +235,4 @@ EMAIL_HOST_PASSWORD = 'bvpqshybjtztzugg'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+CSRF_COOKIE_NAME = "csrftoken"

@@ -141,6 +141,7 @@ class ResponseVacnacyView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @method_decorator(csrf_protect, name='dispatch')
 class QuestionContactView(APIView):
     """Для ролучения вопроса с клиента в разделе "Конакты" (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
