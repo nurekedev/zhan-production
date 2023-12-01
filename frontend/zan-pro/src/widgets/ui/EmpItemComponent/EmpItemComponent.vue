@@ -6,13 +6,14 @@
             salary: '',
             companyName: '',
             city: '',
+            picURL: '',
         }
     }
 </script>
 
 <template>
     <div class="item">
-        <img src="../../model/Vacancy img.png">
+        <img :src="picURL" alt="vacancy picture">
         <article>
             <h1>{{ title }}</h1>
             <h2>{{ salary }}</h2>

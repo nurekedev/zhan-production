@@ -61,7 +61,8 @@ export default {
                         :title="vacancy.name"
                         :salary="vacancy.salary"
                         :companyName="vacancy.company.name"
-                        :city="vacancy.city.name"/>
+                        :city="vacancy.city.name"
+                        :picURL="vacancy.model_pic"/>
                 </div>
                 <!-- TODO: Implement pagination logic -->
                 <Pagination />

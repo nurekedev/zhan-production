@@ -27,19 +27,6 @@ import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemCompon
                 onFileChange
             }
         }
-        // data() {
-        //     return {
-        //         showModal: false,
-        //     };
-        // },
-        // methods: {
-        //     openModal() {
-        //         this.showModal = true;
-        //     },
-        //     closeModal() {
-        //         this.showModal = false;
-        //     }
-        // },
     }
 </script>
 
