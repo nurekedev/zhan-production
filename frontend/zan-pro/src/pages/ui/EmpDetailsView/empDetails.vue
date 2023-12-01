@@ -1,13 +1,26 @@
 <script>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemComponent.vue';
+import { computed } from 'vue';
+import { reactive } from 'vue';
+import { onMounted } from 'vue';
     export default {
         name: 'VacancyPage',
         components: { EmpItemComponent },
-        setup() {
+        props: ["slug"],
+        setup(props) {
+            // State
+            const store = useStore();
             const showModal = ref(false);
             const selectedFileName = ref('');
 
+            // Computed
+            const currentVacancy = computed(() => store.getters.currentVacancy);
+            const similarVacancies = computed(() => store.getters.allSimilarVacancies);
+            console.log(similarVacancies);
+
+            // Methods
             const openModal = () => showModal.value = true;
             const closeModal = () => showModal.value = false;
             const onFileChange = (event) => {
@@ -19,12 +32,17 @@ import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemCompon
                 }
             };
 
+            onMounted(() => store.dispatch('fetchVacancy', props.slug))
+
             return {
                 showModal,
                 selectedFileName,
                 openModal,
                 closeModal,
-                onFileChange
+                onFileChange,
+                currentVacancy,
+                similarVacancies,
+                // vacancyItem
             }
         }
     }
@@ -41,54 +59,52 @@ import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemCompon
         <div class="left-side">
             <section class="top-container">
                 <div class="left-info">
-                    <h2>UX/UI Designer</h2>
-                    <p class="salary">Зарплата: <span>1000 - 1500 $</span><br><small>На руки</small></p>
+                    <h2>{{ currentVacancy.name }}</h2>
+                    <p class="salary">Зарплата: <span>{{ currentVacancy.salary }} $</span><br><small>На руки</small></p>
                     <p>Без опыта работы</p>
                 </div>
                 <div class="right-info">
                     <div class="right-info__text">
-                        <p>Частная компаия %Company Name%</p>
-                        <p class="city">Варшава</p>
+                        <p>{{ currentVacancy.company.name }}</p>
+                        <p class="city">{{ currentVacancy.city.name }}</p>
                     </div>
                     <button @click="openModal">{{ $t('cardButtonRespond') }}</button>
                 </div>
             </section>
             <article class="details">
-                <section class="detail description">
-                    <h4>{{ $t('vacancyDescription') }}</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex officiis labore molestiae! Sed laborum ipsam officiis iure ea laudantium vel!</p>
-                    <ul>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                    </ul>
-                </section>
-                <section class="detail responsibilities">
+                <section v-if="currentVacancy.responsibility_text" class="detail responsibilities">
                     <h4>{{ $t('vacancyResponsibility') }}</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro molestiae, quidem culpa magnam minima blanditiis. Excepturi, vitae odio voluptatum fugiat iure, ut quod dolorem at exercitationem harum dolor laborum voluptas, itaque velit possimus repellat ab ipsa repudiandae laboriosam. Quae numquam eius ducimus excepturi suscipit voluptates animi eligendi illo itaque eum!</p>
+                    <p>{{ currentVacancy.responsibility_text }}</p>
                 </section>
-                <section class="detail requirments">
+                <section v-if="currentVacancy.working_condition_text" class="detail requirments">
                     <h4>{{ $t('vacancyRequirments') }}</h4>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt ex laborum amet quo sed accusantium ratione reprehenderit minus aliquam est tempore illo iste eius non, doloribus dolores vel aperiam quasi iure, at, ea quidem id. Doloribus, voluptatem rem. Et eos necessitatibus neque nobis architecto voluptate repudiandae alias distinctio incidunt fugiat quos rerum saepe a dolorem, ab deserunt. At dignissimos et veritatis aperiam cumque? Saepe dolores ducimus atque beatae, velit commodi aliquid placeat pariatur voluptatem, necessitatibus est harum neque nesciunt, exercitationem sapiente laborum natus dolor et nam sit libero tempora. Dolores aut voluptas perspiciatis reiciendis ut quo architecto omnis molestias nisi!</p>
+                    <p>{{ currentVacancy.working_condition_text }}</p>
                 </section>
-                <section class="detail schedule">
+                <!-- <section class="detail schedule">
                     <h4>{{ $t('vacancySchedule') }}</h4>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit neque, explicabo a maxime reiciendis libero quia! Officiis sit cupiditate velit est ex nostrum asperiores obcaecati veniam. Saepe, minima eveniet quo officia labore, vitae asperiores nihil natus sapiente dolorum eius id repellendus, dolores placeat laboriosam exercitationem nesciunt! Omnis id voluptatibus officiis nemo eligendi, harum cum asperiores commodi eos minus earum ab reiciendis recusandae, ipsam, corporis velit rem delectus! Earum quibusdam recusandae numquam fugiat a dolores fuga repudiandae rerum eum explicabo, quia porro esse at non suscipit quis impedit dolorum dignissimos, accusantium, exercitationem minima excepturi! Blanditiis molestiae nesciunt nihil rerum, sint nam.</p>
-                </section>
-                <section class="detail additional">
+                    <p></p>
+                </section> -->
+                <section v-if="currentVacancy.additional_text" class="detail additional">
                     <h4>{{ $t('vacancyAdditional') }}</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, voluptas amet maxime pariatur excepturi eaque! Reprehenderit tempore nostrum deleniti veritatis quae recusandae commodi corrupti dicta quis reiciendis? Ipsum doloremque quisquam sunt animi voluptates quo laboriosam numquam reprehenderit mollitia iste incidunt repellat labore possimus, quidem dignissimos odit temporibus officiis optio dolor laudantium, illo dolore nam? Impedit repudiandae sit, laboriosam est culpa at illo voluptatibus optio inventore consequuntur officiis totam reiciendis dicta. </p>
+                    <p>{{ currentVacancy.additional_text }}</p>
                 </section>
-                <section class="detail living">
+                <section v-if="currentVacancy.accommodation" class="detail living">
                     <h4>{{ $t('vacancyLiving') }}</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint fugiat iste iure aspernatur quia alias beatae molestias corrupti mollitia molestiae dolore, nisi, qui, vel accusamus animi ipsa neque eveniet doloribus. Harum sequi excepturi consequuntur culpa repellendus libero quae mollitia reiciendis, assumenda, labore, expedita perspiciatis magni porro ducimus fuga quaerat veniam!</p>
+                    <p>{{ currentVacancy.accommodation }}</p>
                 </section>
             </article>
         </div>
         <aside class="similar-vacancy">
             <h2>{{ $t('vacancyAsideSimilar') }}</h2>
-            <EmpItemComponent v-for="i in 2" :key="i" />
+            <EmpItemComponent
+                v-for="vacancy in similarVacancies" :key="vacancy.slug"
+                :slug="vacancy.slug"
+                :title="vacancy.name"
+                :picURL="vacancy.model_pic"
+                :salary="vacancy.salary"
+                :companyName="vacancy.company.name"
+                :city="vacancy.city.name"
+            />
         </aside>
         <div class="modal-overlay" v-if="showModal"></div>
         <div class="modal" v-if="showModal">

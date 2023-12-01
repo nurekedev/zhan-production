@@ -3,11 +3,12 @@
         name: 'EmpItem',
         props: {
             title: '',
+            slug: '',
             salary: '',
             companyName: '',
             city: '',
             picURL: '',
-        }
+        },
     }
 </script>
 
@@ -20,7 +21,7 @@
             <h3>{{ companyName }}</h3>
             <h3>{{ city }}</h3>
             <div class="btn">
-                <button><router-link to="/employmentDetails">{{ $t('cardButtonRespond') }}</router-link></button>
+                <button><router-link :to="'/employment/' + slug + '/'">{{ $t('cardButtonRespond') }}</router-link></button>
             </div>
         </article>
     </div>

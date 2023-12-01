@@ -19,6 +19,11 @@
             font: normal 700 1.5rem/normal Montserrat;
             color: $yellow;
         }
+        h2::after {
+            content: '$';
+            font: normal 700 1.5rem/normal Montserrat;
+            color: $yellow;
+        }
         h3{
             font: normal 400 1.125rem/normal Montserrat;
         }
@@ -28,6 +33,7 @@
             margin-top: 1rem;
             button{
                 @include btn;
+                width: 100%;
                 border: none;
                 font: normal 700 1.375rem/normal Montserrat;
                 padding: 0.5rem;

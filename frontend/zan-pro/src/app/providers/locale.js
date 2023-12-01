@@ -1,7 +1,7 @@
 import { createI18n } from 'vue-i18n';
 import ru from './locale/ru.json';
 import en from './locale/en.json';
-import kz from './locale/kz.json';
+import kk from './locale/kk.json';
 import pl from './locale/pl.json';
 
 
@@ -12,7 +12,7 @@ const i18n = createI18n({
     messages: {
         ru: ru,
         en: en,
-        kz: kz,
+        kk: kk,
         pl: pl,
     }
 })

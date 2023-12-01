@@ -24,7 +24,7 @@ export default {
         <div v-if="showDropdown" class="dropdown-content">
             <div class="locale" @click="changeLocale('ru')"><p>ru</p></div>
             <div class="locale" @click="changeLocale('pl')"><p>pl</p></div>
-            <div class="locale" @click="changeLocale('kz')"><p>kz</p></div>
+            <div class="locale" @click="changeLocale('kk')"><p>kk</p></div>
             <div class="locale" @click="changeLocale('en')"><p>en</p></div>
         </div>
     </div>

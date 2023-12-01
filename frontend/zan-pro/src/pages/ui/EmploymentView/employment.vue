@@ -59,6 +59,7 @@ export default {
                         v-for="vacancy in allVacancies"
                         :key="vacancy.slug"
                         :title="vacancy.name"
+                        :slug="vacancy.slug"
                         :salary="vacancy.salary"
                         :companyName="vacancy.company.name"
                         :city="vacancy.city.name"

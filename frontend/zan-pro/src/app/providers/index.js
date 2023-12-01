@@ -20,9 +20,10 @@ const router = createRouter({
       component: () => import('../../pages/ui/EmploymentView/employment.vue')
     },
     {
-      path: '/employmentDetails',
+      path: '/employment/:slug',
       name: 'employmentDetails',
-      component: () => import('../../pages/ui/EmpDetailsView/empDetails.vue')
+      component: () => import('../../pages/ui/EmpDetailsView/empDetails.vue'),
+      props: true,
     },
   ]
 })
