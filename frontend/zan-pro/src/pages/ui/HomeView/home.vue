@@ -2,7 +2,13 @@
 import axios from 'axios';
 import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
 
+// axios.defaults.xsrfHeaderName = 'x-csrftoken'
+// axios.defaults.xsrfCookieName = 'csrftoken'
+// axios.defaults.withCredentials = true
+
 export default {
+
+
     components: {
         ToastNotificationComponent
     },
@@ -36,9 +42,12 @@ export default {
             }
 
             if(!this.error.lenght) {
-            // const csrftoken = getCSRFToken();
+                let token = getCookie('X-CSRFToken');
+
+                console.log(token)
+
                 axios
-                    .post(`${this.$i18n.locale}/submit-contact/`, this.form)
+                    .post(`${this.$i18n.locale}/submit-contact/`, this.form, {'X-CSRFTOKEN': token})
                     .then(response => {
                         this.form.full_name = ''
                         this.form.phone_number = ''

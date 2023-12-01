@@ -122,6 +122,8 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 #         'PORT': '5432',
 #     }
 # }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -248,3 +250,6 @@ EMAIL_HOST_PASSWORD = 'bvpqshybjtztzugg'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# CORS_ALLOW_CREDENTIALS = True
+# CSRF_COOKIE_HTTPONLY = False

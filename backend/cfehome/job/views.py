@@ -1,4 +1,5 @@
 import os
+from django.http import JsonResponse
 
 from django.shortcuts import render
 from django.core.mail import send_mail, EmailMessage
@@ -7,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.conf import settings
+from django.views.generic.edit import FormView
+
 
 
 from rest_framework import generics, permissions, status, filters
@@ -68,9 +71,20 @@ class VacancyDetailtView(generics.RetrieveAPIView, BaseVacancyView):
             'similar_vacancies': similar_serializer.data
         }
         return Response(data)
+    
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 
 
-# @method_decorator(csrf_protect, name='dispatch')
+# @ensure_csrf_cookie
+# def get_csrf(request):
+#     response = JsonResponse({'detail': 'CSRF cookie set'})
+#     response['X-CSRFToken'] = get_token(request)
+#     return response
+
+
+
+@method_decorator(csrf_protect, name='dispatch')
 class LiteContactView(APIView):
     """Получает данные с формы и возвращет статус действии (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
@@ -85,10 +99,13 @@ class LiteContactView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
 # @method_decorator(csrf_protect, name='dispatch')
 class ResponseVacnacyView(APIView):
     """Получает данные с формы (ФИО, номер телефона, почта, резюме и скрытое поле(название вакансии))Возвращет статус действии (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
+
 
     def post(self, request, slug):
         try:
