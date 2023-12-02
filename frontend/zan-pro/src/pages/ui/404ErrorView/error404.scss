@@ -1,0 +1,30 @@
+@import '../../../app/style/variables';
+@import '../../../app/style/mixin';
+
+.error404 {
+    width: 100%;
+    min-height: calc(100vh - 16rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Montserrat;
+    font-style: normal;
+    line-height: normal;
+    .error-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column wrap;
+        gap: 2rem;
+        h1 {
+            width: 40ch;
+            span {
+                color: $yellow;
+            }
+        }
+        p {
+            width: 74vh;
+            font-weight: 400;
+        }
+    }
+}

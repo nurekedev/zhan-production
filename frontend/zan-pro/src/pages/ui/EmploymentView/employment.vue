@@ -54,7 +54,6 @@ export default {
                     <Search />
                 </div>
                 <div class="wrap-content">
-                    <!-- TODO: Implement api request for vacancies -->
                     <EmpItem 
                         v-for="vacancy in allVacancies"
                         :key="vacancy.slug"

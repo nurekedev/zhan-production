@@ -171,6 +171,7 @@
         display: flex;
         flex-flow: column wrap;
         margin-left: 12rem;
+        gap: 1.5rem;
         h2 {
             color: $black;
             text-align: justify;
@@ -183,7 +184,6 @@
         .item{
             width: 32rem;
             height: 28rem;
-            margin: 2rem 0;
             img{
                 width: 100%;
                 height: 58%;

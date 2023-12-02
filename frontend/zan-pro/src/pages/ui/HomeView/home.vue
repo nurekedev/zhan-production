@@ -2,11 +2,21 @@
 import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
 import { computed, reactive, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Scrollbar, A11y, EffectFade } from 'swiper/modules';
+import router from '../../../app/providers';
+import { onMounted } from 'vue';
+import 'swiper/scss';
+import 'swiper/scss/navigation';
+import 'swiper/scss/pagination';
+import 'swiper/scss/autoplay';
 
 // FIXME: remove unneсessary data(states)
 export default {
     components: {
-        ToastNotificationComponent
+        ToastNotificationComponent,
+        Swiper,
+        SwiperSlide,
     },
     setup() {
         const store = useStore();
@@ -22,7 +32,13 @@ export default {
         const toast = ref(null);
         const emptyStringRegex = /^\s*$/;
 
+        // Computed
         const responseMessage = computed(() => store.getters.getMessage);
+        const errorMessage = computed(() => store.getters.errorMessage)
+        const resStatus = computed(() => store.getters.responseStatus)
+        const reviews = computed(() => store.getters.allReviews)
+
+        // Methods
         const showToast = () => {
             toast.value.showToast();
         };
@@ -37,9 +53,9 @@ export default {
         };
         const validatePhone = () => {
             // FIXME: Fix spaces between numbers in regex
-            // const phoneRegexPoland = /^(?:\+?48)?(?:\s?\d{3}\s?){3}$/;
-            // const phoneRegexKazakhstan = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
-            // const phoneRegexRussia = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
+            const phoneRegexPoland = /^(?:\+?48)?(?:\s?\d{3}\s?){3}$/;
+            const phoneRegexKazakhstan = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
+            const phoneRegexRussia = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
             if (
                 phoneRegexPoland.test(phone_number.value) ||
                 phoneRegexRussia.test(phone_number.value) || 
@@ -54,8 +70,8 @@ export default {
         };
         const handleSubmit = async () => {
             // FIXME: trigger api request only when no errors
-            // validateName(full_name);
-            // validatePhone(phone_number);
+            validateName(full_name);
+            validatePhone(phone_number);
             try {
                 const formValues = {
                     full_name: full_name.value,
@@ -65,9 +81,14 @@ export default {
 
                 console.log(phone_number.value, full_name.value);
             } catch (error) {
+                if (resStatus === '500') {
+                    router.push('/error500')
+                }
                 console.log(error);    
             }
         };
+
+        onMounted(() => store.dispatch('fetchReviews'));
 
         return {
             toast,
@@ -79,54 +100,11 @@ export default {
             showToast,
             handleSubmit,
             responseMessage,
+            errorMessage,
+            reviews,
+            modules: [Navigation, Pagination, Scrollbar, A11y]
         }
     },
-    // data() {
-    //     return {
-    //         form: {
-    //             full_name: '',
-    //             phone_number: '',
-    //         },
-    //         message: '',
-    //         error: [
-
-    //         ]
-    //     }
-    // },
-    // methods: {
-    //     showToast() {
-    //         this.$refs.toast.showToast();
-    //     },
-    //     submitLightForm() {
-    //         console.log("submit form", this.form)
-            
-    //         this.errors = []
-            
-    //         if (this.form.full_name === '') {
-    //             this.errors.push('The name must be filled out')
-    //         }
-            
-    //         if (this.form.phone_number === '') {
-    //             this.errors.push('The content must be filled out')
-    //         }
-
-    //         if(!this.error.lenght) {
-    //         // const csrftoken = getCSRFToken();
-    //             axios
-    //                 .post(`${this.$i18n.locale}/submit-contact/`, this.form)
-    //                 .then(response => {
-    //                     this.form.full_name = ''
-    //                     this.form.phone_number = ''
-                        
-    //                     this.message = response.data.message;
-    //                     this.$emit('submitLightForm', response.data)
-    //                 })
-    //                 .catch(error => {
-    //                     console.log(error)
-    //                 })
-    //         }
-    //     }
-    // }
 }
 </script>
 
@@ -154,9 +132,6 @@ export default {
                             <label for="phone">{{ $t('formLabelNumber') }}</label>
                             <span class="validation-error" v-if="phoneError">{{ phoneError }}</span>
                         </div>
-                        <!-- <input type="text" placeholder="Имя" v-model="full_name">
-                        <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" v-model="phone_number"> -->
-                        <!-- <p class="error" v-for="error in errors" v-bind:key="error">{{ error }}</p> -->
                         <button @click="showToast" type="submit">{{ $t('formButton') }}</button>
                     </form>
                 </div>
@@ -169,25 +144,25 @@ export default {
                     {{ $t('homeMainText') }}
                 </p>
             </div>
-            <!-- TODO: Carousel animation -->
-            <aside>
-                <div class="review-title">
-                    <h1>{{ $t('homeReviewHeader') }}</h1>
-                    <img class="review-img">
-                    <h2>Динара Асылхановна</h2>
-                    <p>
-                        "{{ $t('homeReviewText') }}"
-                    </p>
-                    <div class="home-pagination">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+            <Swiper
+                :modules="modules"
+                :pagination="{ clickable: true }"
+                :autoplay="{ delay: 3000, disableOnInteraction: false }"
+                navigation
+            >
+                <SwiperSlide v-for="review in reviews" :key="review.author">
+                    <div class="review">
+                        <h1>{{ $t('homeReviewHeader') }}</h1>
+                        <img :src="review.author_pic" class="review-img">
+                        <h2>{{ review.author }}</h2>
+                        <p>
+                            "{{ review.body_text }}"
+                        </p>
                     </div>
-                </div>
-            </aside>
+                </SwiperSlide>
+            </Swiper>
         </article>
-        <ToastNotificationComponent ref="toast" :message="responseMessage" />
+        <ToastNotificationComponent v-if="responseMessage" ref="toast" :message="responseMessage" />
     </main>
 </template>
 

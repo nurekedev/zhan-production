@@ -29,13 +29,13 @@ import { useStore } from 'vuex';
             const validateEmail = () => {};
             const validateQuestionText = () => {};
             const handleSubmit = async () => {
+                const formValues = {
+                    full_name: full_name.value,
+                    phone_number: phone_number.value,
+                    email: email.value,
+                    question_text: question_text.value
+                };
                 try {
-                    const formValues = {
-                        full_name: full_name.value,
-                        phone_number: phone_number.value,
-                        email: email.value,
-                        question_text: question_text.value
-                    }
                     await store.dispatch('questionSubmit', formValues);
 
                     console.log(phone_number.value, full_name.value, email.value, question_text.value);

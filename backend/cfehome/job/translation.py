@@ -31,7 +31,6 @@ class CompanyTranslationOptions(TranslationOptions):
 @register(Review)
 class ReviewTranslationOptions(TranslationOptions):
     fields = (
-        'author',
         'body_text',
     )
 

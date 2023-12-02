@@ -1,6 +1,6 @@
-import { onBeforeUpdate, reactive } from "vue";
-import i18n from '../../../app/providers/locale';
+import { reactive } from "vue";
 import axios from 'axios';
+import { i18n } from '@/main';
 
 const state = reactive({
     vacancies: [],
@@ -54,7 +54,7 @@ const mutations = {
 const getters = {
     allVacancies: state => state.vacancies,
     currentVacancy: state => state.vacancy,
-    allSimilarVacancies: state => state.similar_vacancies,
+    allSimilarVacancies: state => state.similar_vacancies
 };
 
 const vacancy = {

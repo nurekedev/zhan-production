@@ -25,6 +25,14 @@ const router = createRouter({
       component: () => import('../../pages/ui/EmpDetailsView/empDetails.vue'),
       props: true,
     },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('../../pages/ui/404ErrorView/error404.vue'),
+    },
+    {
+      path: '/error500',
+      component: () => import('../../pages/ui/500ErrorView/error500.vue'),
+    }
   ]
 })
 

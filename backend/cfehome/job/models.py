@@ -116,6 +116,7 @@ class Vacancy(models.Model):
 class Review(models.Model):
     """Модель для Отзыва пользователей"""
     author = models.CharField(verbose_name=_('Author'), max_length=100)
+    author_pic = models.ImageField(verbose_name=_('Photo'), upload_to='jobs', blank=True, null=True, help_text='Extensions: .jpg .jpeg, .png,')
     body_text = models.TextField(verbose_name=_('Text of review'))
 
     class Meta:
