@@ -18,9 +18,10 @@ const state = reactive({
     similar_vacancies: [],
 });
 const actions = {
-    async fetchVacancies({ commit }) {
+    async fetchVacancies({ commit }, payload) {
         try {
-            const res = await axios.get(`${i18n.global.locale}/api/v1/vacancies/`);
+            console.log(payload);
+            const res = await axios.get(`${payload}/api/v1/vacancies/`);
             commit('UPDATE_VACANCIES', res.data.results);
             console.log(res.data.results);
         } catch (e) {
@@ -30,7 +31,7 @@ const actions = {
     },
     async fetchVacancy({ commit }, slug) {
         try {
-            const res = await axios.get(`${i18n.global.locale}/api/v1/vacancies/${slug}`);
+            const res = await axios.get(`${i18n.global.locale.value}/api/v1/vacancies/${slug}`);
             console.log(i18n.global.locale);
             commit('UPDATE_SIMILAR', res.data.similar_vacancies);
             commit('UPDATE_VACANCY', res.data.vacancy_details);

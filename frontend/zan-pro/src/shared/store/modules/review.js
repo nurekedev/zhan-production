@@ -10,8 +10,8 @@ const state = reactive({
     }
 });
 const actions = {
-    async fetchReviews({ commit }) {
-        const res = await axios.get(`${i18n.global.locale}/api/v1/reviews/`);
+    async fetchReviews({ commit }, payload) {
+        const res = await axios.get(`${payload}/api/v1/reviews/`);
         commit('UPDATE_REVIEWS', res.data)
 
     }

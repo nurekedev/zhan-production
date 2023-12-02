@@ -40,7 +40,7 @@ const actions = {
     async submitForm({ commit }, payload) {
         commit('CLEAR_MESSAGE');
         try {
-            const res = await axios.post(`${i18n.global.locale}/submit-contact/`, payload);        
+            const res = await axios.post(`${i18n.global.locale.value}/submit-contact/`, payload);        
         } catch (error) {
             if(res.status === '500') {
                 commit('UPDATE_STATUS', res.status);
@@ -52,7 +52,7 @@ const actions = {
     async questionSubmit({ commit }, payload) {
         commit('CLEAR_MESSAGE');
         try {
-            const res = await axios.post(`${i18n.global.locale}/submit-question/`, payload);
+            const res = await axios.post(`${i18n.global.locale.value}/submit-question/`, payload);
             commit('UPDATE_MESSAGE', res.data.message);
         } catch (e) {
             if(res.status === '500') {
@@ -65,7 +65,7 @@ const actions = {
     async submitVacancy({ commit }, payload) {
         commit('CLEAR_MESSAGE');
         try {
-            const endPoint = `${i18n.global.locale}/api/v1/vacancies/${payload.slug}/submit/`;
+            const endPoint = `${i18n.global.locale.value}/api/v1/vacancies/${payload.slug}/submit/`;
             const res = await axios.post(endPoint, payload.form, {
                 headers: {
                     'Content-Type': 'multipart/form-data',

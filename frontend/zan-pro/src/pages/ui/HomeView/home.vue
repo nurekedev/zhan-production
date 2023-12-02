@@ -1,11 +1,11 @@
 <script>
 import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
-import { computed, reactive, ref, toRefs } from 'vue';
+import { computed, reactive, ref, toRefs, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Navigation, Pagination, Scrollbar, A11y, EffectFade } from 'swiper/modules';
 import router from '../../../app/providers';
-import { onMounted } from 'vue';
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
@@ -19,6 +19,7 @@ export default {
         SwiperSlide,
     },
     setup() {
+        const { locale } = useI18n();
         const store = useStore();
         const form = reactive({
             full_name: '',
@@ -78,8 +79,6 @@ export default {
                     phone_number: phone_number.value,
                 }
                 await store.dispatch('submitForm', formValues);
-
-                console.log(phone_number.value, full_name.value);
             } catch (error) {
                 if (resStatus === '500') {
                     router.push('/error500')
@@ -88,7 +87,12 @@ export default {
             }
         };
 
-        onMounted(() => store.dispatch('fetchReviews'));
+        onMounted(() => store.dispatch('fetchReviews', locale.value));
+        watch(locale, async (newLocale, oldLocale) => {
+            if (newLocale !== oldLocale) {
+                store.dispatch('fetchReviews', locale.value);
+            }
+        });
 
         return {
             toast,

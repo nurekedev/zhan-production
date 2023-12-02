@@ -1,8 +1,8 @@
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { i18n } from '../../../main';
 import { computed } from 'vue';
+import { i18n } from '../../../main';
 
 export default {
     name: 'LocaleChanger',
@@ -12,12 +12,11 @@ export default {
         const showDropdown = ref(false);
 
         // Computed
-        const activeLocale = computed(() => store.getters.activeLocale);
+
         // Methods
-        const changeLocale = (locale) => {
-            store.dispatch('updateLocale', locale);
-            localStorage.setItem('locale', locale);
-            i18n.global.locale = locale;
+        const changeLocale = (newLocale) => {
+            store.dispatch('updateLocale', newLocale);
+            localStorage.setItem('locale', newLocale);
             toggleDropdown();
         };
         const toggleDropdown = () => {
