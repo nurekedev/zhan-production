@@ -41,6 +41,7 @@ const actions = {
         commit('CLEAR_MESSAGE');
         try {
             const res = await axios.post(`${i18n.global.locale.value}/submit-contact/`, payload);        
+            commit('UPDATE_MESSAGE', res.data.message);
         } catch (error) {
             if(res.status === '500') {
                 commit('UPDATE_STATUS', res.status);

@@ -35,7 +35,6 @@ export default {
 
         // Computed
         const responseMessage = computed(() => store.getters.getMessage);
-        const errorMessage = computed(() => store.getters.errorMessage)
         const resStatus = computed(() => store.getters.responseStatus)
         const reviews = computed(() => store.getters.allReviews)
 
@@ -79,6 +78,8 @@ export default {
                     phone_number: phone_number.value,
                 }
                 await store.dispatch('submitForm', formValues);
+                full_name.value = '';
+                phone_number.value = '';
             } catch (error) {
                 if (resStatus === '500') {
                     router.push('/error500')
@@ -104,7 +105,6 @@ export default {
             showToast,
             handleSubmit,
             responseMessage,
-            errorMessage,
             reviews,
             modules: [Navigation, Pagination, Scrollbar, A11y]
         }
@@ -166,7 +166,7 @@ export default {
                 </SwiperSlide>
             </Swiper>
         </article>
-        <ToastNotificationComponent v-if="responseMessage" ref="toast" :message="responseMessage" />
+        <ToastNotificationComponent ref="toast" :message="responseMessage" />
     </main>
 </template>
 
