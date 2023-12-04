@@ -98,18 +98,16 @@ import ToastNotificationComponent from '../../../shared/ToastNotificationCompone
 
 <template>
     <main class="main-page" >
-        <section>
-            <img src="../../model/employment-main.jpeg" alt="emplloyment-main">
+        <div class="main-img">
             <div class="info">
                 <p>{{ $t('navWork') }}</p>
             </div>
-        </section>
+        </div>
         <div class="left-side">
             <section class="top-container">
                 <div class="left-info">
                     <h2>{{ currentVacancy.name }}</h2>
-                    <p class="salary">Зарплата: <span>{{ currentVacancy.salary }} $</span><br><small>На руки</small></p>
-                    <p>Без опыта работы</p>
+                    <p class="salary">Зарплата: <span>{{ currentVacancy.salary }} $</span></p>
                 </div>
                 <div class="right-info">
                     <div class="right-info__text">

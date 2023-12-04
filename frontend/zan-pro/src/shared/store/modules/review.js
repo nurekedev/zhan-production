@@ -19,7 +19,10 @@ const actions = {
             const res = await axios.get(`${locale}/api/v1/reviews/`);
             commit('UPDATE_REVIEWS', res.data)
         } catch (e) {
-            
+            if(e.response.status === '500') {
+                commit('UPDATE_STATUS', e.response.status);
+            }
+            throw e;
         }
 
     }
