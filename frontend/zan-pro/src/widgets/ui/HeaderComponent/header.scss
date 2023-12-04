@@ -31,31 +31,94 @@ header{
             }
         }
     }
-    .burger-btn {
+    $burgerHeight: calc(.3rem * 3 + .4rem * 2);
+    $xWidth: calc($burgerHeight * 1.4142135);
+    .burger-container {
         display: none;
+        .burger-menu {
+            display: flex;
+            flex-direction: column;
+            gap: .4rem;
+            width: max-content;
+            position: absolute;
+            top: 1.4rem;
+            right: 1rem;
+            z-index: 2;
+            cursor: pointer;
+            input {
+                appearance: none;
+                outline: none;
+                pointer-events: none;
+            }
+            input:checked {
+                width: 0;
+                opacity: 0;
+            }
+        }
+        .burger-menu::before, .burger-menu::after, input {
+            content: "";
+            width: 3rem;
+            height: .3rem;
+            background-color: $black;
+            transform-origin: left center;
+            transition: all 200ms ease-in-out;
+            border-radius: 20rem;
+        }
+    
+        .burger-menu:has(input:checked)::before {
+            rotate: 45deg;
+            width: $xWidth;
+            translate: 0 calc(.3rem / -2);
+        }
+        .burger-menu:has(input:checked)::after {
+            rotate: -45deg;
+            width: $xWidth;
+            translate: 0 calc(.3rem / 2);
+        }
     }
 }
 
 @media (max-width: 460px) {
     header {
-        height: 3.15rem;
-        .burger-btn {
-            display: block;
-            margin-right: 1rem;
-        }
+        height: 100%;
+        align-items: start;
         .logo {
             img {
-                width: 2.5rem;
-                height: 2.5rem;
+                width: 3rem;
+                height: 3rem;
                 margin: .88rem .63rem;
             }
             p {
                 display: none;
             }
         }
+        li {
+            display: none;
+        }
+    .burger-container {
+        display: block;
+        .nav-links {
+            min-height: 0;
+            transition: all 200ms ease-in-out;
+        }
+        .burger-menu:has(input:checked) + .nav-links {
+            min-height: 30rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            ul {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-right: 7rem;
+            }
+            li {
+                display: block;
+                font-size: 1rem;
+            }
+        }
+    }
     }
 
-    li {
-        display: none;
-    }
+
 }
