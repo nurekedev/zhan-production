@@ -11,8 +11,16 @@ const state = reactive({
 });
 const actions = {
     async fetchReviews({ commit }, payload) {
-        const res = await axios.get(`${payload}/api/v1/reviews/`);
-        commit('UPDATE_REVIEWS', res.data)
+        let locale = payload;
+        if (locale === 'pl') {
+            locale = 'en';
+        }
+        try {
+            const res = await axios.get(`${locale}/api/v1/reviews/`);
+            commit('UPDATE_REVIEWS', res.data)
+        } catch (e) {
+            
+        }
 
     }
 };

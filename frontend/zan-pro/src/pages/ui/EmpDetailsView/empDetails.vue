@@ -56,6 +56,11 @@ import ToastNotificationComponent from '../../../shared/ToastNotificationCompone
                         slug: props.slug,
                         form: formData,
                     });
+                    full_name.value = '';
+                    phone_number.value = '';
+                    email.value = '';
+                    fileInput.value = null;
+                    additional_text.value = '';
                     showToast();
                 } catch (e) {
                     console.log(e);
@@ -64,7 +69,6 @@ import ToastNotificationComponent from '../../../shared/ToastNotificationCompone
             };
             const showToast = () => {
                 showModal.value = false;
-                console.log('response_message:', responseMessage.value);
                 if (responseMessage.value) {
                     toast.value.showToast();
                 }

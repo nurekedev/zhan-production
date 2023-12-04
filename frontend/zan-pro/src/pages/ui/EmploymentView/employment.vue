@@ -28,11 +28,11 @@ export default {
 
         // get all vacancies on component mount
         onMounted(
-            // FIXME: update data when locale changes
             () => {
                 store.dispatch('fetchVacancies', localStorage.getItem('locale'));
             }
         );
+        // checks locale changing and triggers on change
         watch(locale, async (newLocale, oldLocale) => {
             console.log('new:', newLocale);
             console.log('old:', oldLocale);

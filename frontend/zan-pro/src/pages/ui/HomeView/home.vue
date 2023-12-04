@@ -11,7 +11,6 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import 'swiper/scss/autoplay';
 
-// FIXME: remove unneсessary data(states)
 export default {
     components: {
         ToastNotificationComponent,
@@ -53,13 +52,11 @@ export default {
         };
         const validatePhone = () => {
             // FIXME: Fix spaces between numbers in regex
-            const phoneRegexPoland = /^(?:\+?48)?(?:\s?\d{3}\s?){3}$/;
-            const phoneRegexKazakhstan = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
-            const phoneRegexRussia = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
+            const phoneRegexPoland = /^(?:\+?48)?(?:\d{3}){3}$/;
+            const phoneRegexKazakhstanAndRussia = /^(?:\+?7|8)\(?\d{3}\)?\d{3}[-]?\d{2}[-]?\d{2}$/;
             if (
                 phoneRegexPoland.test(phone_number.value) ||
-                phoneRegexRussia.test(phone_number.value) || 
-                phoneRegexKazakhstan.test(phone_number.value)
+                phoneRegexKazakhstanAndRussia.test(phone_number.value)
             ) {
                 phoneError.value = 'The phone field must be filled!';
                 return false;
@@ -70,8 +67,6 @@ export default {
         };
         const handleSubmit = async () => {
             // FIXME: trigger api request only when no errors
-            validateName(full_name);
-            validatePhone(phone_number);
             try {
                 const formValues = {
                     full_name: full_name.value,
@@ -89,6 +84,7 @@ export default {
         };
 
         onMounted(() => store.dispatch('fetchReviews', locale.value));
+        // checks locale changing and triggers on change
         watch(locale, async (newLocale, oldLocale) => {
             if (newLocale !== oldLocale) {
                 store.dispatch('fetchReviews', locale.value);

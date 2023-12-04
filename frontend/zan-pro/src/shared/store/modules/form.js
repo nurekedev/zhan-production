@@ -42,12 +42,12 @@ const actions = {
         try {
             const res = await axios.post(`${i18n.global.locale.value}/submit-contact/`, payload);        
             commit('UPDATE_MESSAGE', res.data.message);
-        } catch (error) {
-            if(res.status === '500') {
-                commit('UPDATE_STATUS', res.status);
+        } catch (e) {
+            if(e.response.status === '500') {
+                commit('UPDATE_STATUS', e.response.status);
             } 
             commit('UPDATE_MESSAGE', 'You filled wrong data!')
-            throw error;
+            throw e;
         }
     },
     async questionSubmit({ commit }, payload) {
@@ -56,8 +56,8 @@ const actions = {
             const res = await axios.post(`${i18n.global.locale.value}/submit-question/`, payload);
             commit('UPDATE_MESSAGE', res.data.message);
         } catch (e) {
-            if(res.status === '500') {
-                commit('UPDATE_STATUS', res.status);
+            if(e.response.status === '500') {
+                commit('UPDATE_STATUS', e.response.status);
             } 
             commit('UPDATE_MESSAGE', 'You filled wrong data!')
             throw e;
@@ -74,8 +74,8 @@ const actions = {
             });
             commit('UPDATE_MESSAGE', res.data.message)
         } catch (e) {
-            if(res.status === '500') {
-                commit('UPDATE_STATUS', res.status);
+            if(e.response.status === '500') {
+                commit('UPDATE_STATUS', e.response.status);
             } 
             commit('UPDATE_MESSAGE', 'You filled wrong data!')
             throw e;
