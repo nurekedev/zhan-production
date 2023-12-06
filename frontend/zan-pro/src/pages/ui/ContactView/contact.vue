@@ -2,33 +2,74 @@
 import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
 import { computed, reactive, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
-    export default {
-        name: "ContactPage",
-        components: {
-            ToastNotificationComponent,
-        },
-        setup() {
-            // Data
-            const store = useStore();
-            const fields = reactive({
-                full_name: '',
-                phone_number: '',
-                email: '',
-                question_text: '',
-            });
-            const fieldRefs = toRefs(fields);
-            const { full_name, phone_number, email, question_text } = fieldRefs;
-            const toast = ref(null);
-            // Computed
-            const responseMessage = computed(() => store.getters.getMessage);
+export default {
+    name: "ContactPage",
+    components: {
+        ToastNotificationComponent,
+    },
+    setup() {
+        // Data
+        const store = useStore();
+        const fields = reactive({
+            full_name: '',
+            phone_number: '',
+            email: '',
+            question_text: '',
+        });
+        const fieldRefs = toRefs(fields);
+        const { full_name, phone_number, email, question_text } = fieldRefs;
+        const toast = ref(null);
+        // Computed
+        const responseMessage = computed(() => store.getters.getMessage);
 
-            // Methods
-            // TODO: make regex validation for every input
-            const validateName = () => {};
-            const validatePhone = () => {};
-            const validateEmail = () => {};
-            const validateQuestionText = () => {};
-            const handleSubmit = async () => {
+        // Methods
+        // TODO: make regex validation for every input
+        const validateName = () => {
+            if (emptyStringRegex.test(full_name.value)) {
+                nameError.value = 'The name field must be filled!';
+                return false;
+            } else {
+                nameError.value = '';
+                return true;
+            }
+        };
+
+        const validatePhone = () => {
+            const globalPhoneRegex = /^(?:\+?\d{1,3}[\s-]?)?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+            // FIXME: WARNING FIX DISPLAYING THE ERROR
+            if (!globalPhoneRegex.test(phone_number.value)) {
+                phoneError.value = 'Please write valid number';
+                return false;
+            } else {
+                phoneError.value = '';
+                return true;
+            }
+        };
+
+        const validateEmail = () => {
+            const emailValue = emailField.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (emailRegex.test(emailValue)) {
+                emailError.value = ''; // Поле ошибки для email (предположим, что переменная emailError хранит информацию об ошибке)
+                return true;
+            } else {
+                emailError.value = 'Invalid email format!'; // Сообщение об ошибке
+                return false;
+            }
+        };
+
+        const validateQuestionText = (questionText) => {
+            if (!questionText.trim()) {
+                // Если текст вопроса пуст или содержит только пробельные символы
+                return false; // Возврат false, если текст пустой
+            } else {
+                return true; // Возврат true, если текст не пустой
+            }
+        };
+
+        const handleSubmit = async () => {
+            if (validateName() && validatePhone() && validateEmail() && validateQuestionText()) {
                 try {
                     const formValues = {
                         full_name: full_name.value,
@@ -37,26 +78,27 @@ import { useStore } from 'vuex';
                         question_text: question_text.value
                     }
                     await store.dispatch('questionSubmit', formValues);
-
+    
                     console.log(phone_number.value, full_name.value, email.value, question_text.value);
                 } catch (error) {
                     console.log(error);
                     throw error;
                 }
-            };
-            const showToast = () => {
-                toast.value.showToast();
-            };
-            
-            return {
-                ...fieldRefs,
-                responseMessage,
-                handleSubmit,
-                toast,
-                showToast
             }
-        },
-    }
+        };
+        const showToast = () => {
+            toast.value.showToast();
+        };
+
+        return {
+            ...fieldRefs,
+            responseMessage,
+            handleSubmit,
+            toast,
+            showToast
+        }
+    },
+}
 </script>
 
 <template>
@@ -84,7 +126,8 @@ import { useStore } from 'vuex';
                         <label for="email">{{ $t('formLabelMail') }}</label>
                     </div>
                     <div class="input-container">
-                        <textarea name="additional" id="additional" cols="30" rows="10" placeholder="" v-model="question_text"></textarea>
+                        <textarea name="additional" id="additional" cols="30" rows="10" placeholder=""
+                            v-model="question_text"></textarea>
                         <label for="additional">{{ $t('formLabelOptional') }}</label>
                     </div>
                     <button type="submit" @click="showToast">{{ $t('formButton') }}</button>

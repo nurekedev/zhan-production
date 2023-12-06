@@ -101,16 +101,7 @@ class Vacancy(models.Model):
         
     def get_absolute_url(self):
         return reverse('vacancy-detail', kwargs={'slug': self.slug}) 
-    
 
-    # def save(self, *args, **kwargs):
-    #     super().save()
-    #     image = Image.open(self.model_pic.path)
-
-    #     if image.height > 500 or image.width > 500:
-    #         croped_image = (500, 500)
-    #         image.thumbnail(croped_image)
-    #         image.save(self.model_pic.path)
 
 
 class Review(models.Model):

@@ -1,6 +1,6 @@
 import requests
 
-enpoint = 'http://127.0.0.1:8000/api/v1/'
+enpoint = 'http://127.0.0.1:8000/api/v1/vacancies/'
 
 get_response = requests.get(enpoint)
-print(get_response.json())
+print(get_response.json())  

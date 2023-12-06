@@ -28,13 +28,26 @@ const mutations = {
 const actions = {
     async submitForm({ commit }, payload) {
         try {
-            const res = await axios.post(`${i18n.global.locale}/submit-contact/`, payload);          
+
+            function getCookie(name) {
+                const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+                return cookieValue ? cookieValue.pop() : '';
+            }
+            
+            const csrftoken = getCookie('csrftoken');
+            console.log('CSRF Token:', csrftoken);
+
+            axios.defaults.withCredentials = false
+            
+            const res = await axios.post(`${i18n.global.locale}/submit-contact/`, payload);
+    
             commit('UPDATE_MESSAGE', res.data.message);
         } catch (error) {
-            console.log(error);
+            console.error('Error:', error);
             throw error;
         }
     },
+    
     async questionSubmit({ commit }, payload) {
       try {
             const res = await axios.post(`${i18n.global.locale}/submit-question/`, payload);

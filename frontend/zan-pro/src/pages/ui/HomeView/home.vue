@@ -36,16 +36,11 @@ export default {
             }
         };
         const validatePhone = () => {
-            // FIXME: Fix spaces between numbers in regex
-            // const phoneRegexPoland = /^(?:\+?48)?(?:\s?\d{3}\s?){3}$/;
-            // const phoneRegexKazakhstan = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
-            // const phoneRegexRussia = /^(?:\+?7|8)\s?\(?\d{3}\)?\s?\d{3}[-]?\d{2}[-]?\d{2}$/;
-            if (
-                phoneRegexPoland.test(phone_number.value) ||
-                phoneRegexRussia.test(phone_number.value) || 
-                phoneRegexKazakhstan.test(phone_number.value)
-            ) {
-                phoneError.value = 'The phone field must be filled!';
+            
+            const globalPhoneRegex = /^(?:\+?\d{1,3}[\s-]?)?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+            // WARNING FIX DISPLAYING THE ERROR
+            if (!globalPhoneRegex.test(phone_number.value)) {
+                phoneError.value = 'Please write valid number';
                 return false;
             } else {
                 phoneError.value = '';
@@ -54,8 +49,8 @@ export default {
         };
         const handleSubmit = async () => {
             // FIXME: trigger api request only when no errors
-            // validateName(full_name);
-            // validatePhone(phone_number);
+            validateName(full_name);
+            validatePhone(phone_number);
             try {
                 const formValues = {
                     full_name: full_name.value,
@@ -65,7 +60,7 @@ export default {
 
                 console.log(phone_number.value, full_name.value);
             } catch (error) {
-                console.log(error);    
+                console.log(error);
             }
         };
 
@@ -81,52 +76,7 @@ export default {
             responseMessage,
         }
     },
-    // data() {
-    //     return {
-    //         form: {
-    //             full_name: '',
-    //             phone_number: '',
-    //         },
-    //         message: '',
-    //         error: [
 
-    //         ]
-    //     }
-    // },
-    // methods: {
-    //     showToast() {
-    //         this.$refs.toast.showToast();
-    //     },
-    //     submitLightForm() {
-    //         console.log("submit form", this.form)
-            
-    //         this.errors = []
-            
-    //         if (this.form.full_name === '') {
-    //             this.errors.push('The name must be filled out')
-    //         }
-            
-    //         if (this.form.phone_number === '') {
-    //             this.errors.push('The content must be filled out')
-    //         }
-
-    //         if(!this.error.lenght) {
-    //         // const csrftoken = getCSRFToken();
-    //             axios
-    //                 .post(`${this.$i18n.locale}/submit-contact/`, this.form)
-    //                 .then(response => {
-    //                     this.form.full_name = ''
-    //                     this.form.phone_number = ''
-                        
-    //                     this.message = response.data.message;
-    //                     this.$emit('submitLightForm', response.data)
-    //                 })
-    //                 .catch(error => {
-    //                     console.log(error)
-    //                 })
-    //         }
-    //     }
-    // }
 }
 </script>
 

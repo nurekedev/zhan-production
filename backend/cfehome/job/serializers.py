@@ -70,4 +70,4 @@ class QuestionContactSerializer(serializers.Serializer):
         validators=[validate_phone_number], help_text=_("Enter your phone number"))
     email = serializers.EmailField(help_text=_("Enter your email"))
     question_text = serializers.CharField(
-        max_length=300, help_text=_("Enter your question text (optional)"))
+        max_length=255, help_text=_("Enter your question text (optional)"))

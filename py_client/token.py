@@ -1,21 +1,21 @@
 import requests
+import json
 
-enpoint = 'http://127.0.0.1:8000/auth/'
+enpoint = 'http://127.0.0.1:8000/en/submit-contactv2/'  # Corrected variable name
 
-auth_response = requests.post(enpoint, json={'username':'nurekedev', 'password':'123'})
+data = {
+    'full_name': 'John Doe',
+    'phone_number': '+1234567890'
+}
 
-print(auth_response.json())
+headers = {
+    'Content-Type': 'application/json',
+}
 
-if auth_response.status_code == 200:
-    token = auth_response.json()['token']
-    headers = {
-        'Authorization': f"Token {token}"
-    }
-
-    enpoint_2='http://127.0.0.1:8000/api/v1/vacancies/'
-    get_response = requests.get(enpoint_2)
-    print(get_response.status_code)
-
-
-get_response = requests.get(enpoint)
-print(get_response.json())
+response = requests.post(enpoint, json={
+    'full_name': 'John Doe',
+    'phone_number': '+1234567890'
+}, headers=headers)  
+# Process the response
+print(response.status_code)
+print(response.json())
