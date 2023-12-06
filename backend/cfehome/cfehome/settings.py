@@ -160,7 +160,7 @@ SESSION_COOKIE_SECURE = True
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 LANGUAGES = [
     ('en', _('English')),
@@ -222,11 +222,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
 
-
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ],
 
     'DEFAULT_THROTTLE_RATES': {
         'contact_form': '5/min'
