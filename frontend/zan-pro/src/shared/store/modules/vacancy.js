@@ -1,6 +1,6 @@
-import { onBeforeUpdate, reactive } from "vue";
-import i18n from '../../../app/providers/locale';
+import { reactive } from "vue";
 import axios from 'axios';
+import { i18n } from '@/main';
 
 const state = reactive({
     vacancies: [],
@@ -18,24 +18,35 @@ const state = reactive({
     similar_vacancies: [],
 });
 const actions = {
-    async fetchVacancies({ commit }) {
+    async fetchVacancies({ commit }, payload) {
+        let locale = payload;
+        if (locale === 'pl') {
+            locale = 'en';
+        }
         try {
-            const res = await axios.get(`${i18n.global.locale}/api/v1/vacancies/`);
+            const res = await axios.get(`${locale}/api/v1/vacancies/`);
             commit('UPDATE_VACANCIES', res.data.results);
-            console.log(res.data.results);
         } catch (e) {
-            console.log(e);
+            if(e.response.status === '500') {
+                commit('UPDATE_STATUS', e.response.status);
+            }
             throw e;
         }
     },
     async fetchVacancy({ commit }, slug) {
+        let locale = i18n.global.locale.value;
+        if (locale === 'pl') {
+            locale = 'en';
+        }
         try {
-            const res = await axios.get(`${i18n.global.locale}/api/v1/vacancies/${slug}`);
+            const res = await axios.get(`${locale}/api/v1/vacancies/${slug}`);
             console.log(i18n.global.locale);
             commit('UPDATE_SIMILAR', res.data.similar_vacancies);
             commit('UPDATE_VACANCY', res.data.vacancy_details);
         } catch (e) {
-            console.log(e);
+            if(e.response.status === '500') {
+                commit('UPDATE_STATUS', e.response.status);
+            }
             throw e;
         }
     }
@@ -54,7 +65,7 @@ const mutations = {
 const getters = {
     allVacancies: state => state.vacancies,
     currentVacancy: state => state.vacancy,
-    allSimilarVacancies: state => state.similar_vacancies,
+    allSimilarVacancies: state => state.similar_vacancies
 };
 
 const vacancy = {

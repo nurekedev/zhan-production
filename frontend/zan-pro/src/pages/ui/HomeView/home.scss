@@ -161,48 +161,38 @@
                 text-align: center;
             }
         }
-        aside{
+        .review{
             width: 100%;
-            height: 35rem;
-            .review-title{
-                width: 100%;
-                margin: 5rem 0;
-                display: flex;
-                align-items: center;
-                gap: 1.5rem;
-                flex-direction: column;
-                h1{
-                    font: normal 500 2.5rem/normal Montserrat;
-                    letter-spacing: 0.2rem;
-                }
-                .review-img{
-                    width: 12rem;
-                    height: 12rem;
-                    background-color: #949494;
-                    border-radius: 50%;
-                }
-                h2{
-                    font: normal 300 1.75rem/normal Montserrat;
-                }
-                p{
-                    font: normal 600 1.25rem/normal Montserrat;
-                    width: 80%;
-                    text-align: center;
-                    margin-top: 4rem;
-                }
-                .home-pagination{
-                    width: 25%;
-                    height: 0.4rem;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 4rem;
-                    span{
-                        width: 24%;
-                        height: 100%;
-                        background-color: #949494;
-                    }
-                }
+            margin: 5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-direction: column;
+            h1{
+                font: normal 500 2.5rem/normal Montserrat;
+                letter-spacing: 0.2rem;
             }
+            .review-img{
+                width: 12rem;
+                height: 12rem;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            h2{
+                font: normal 300 1.75rem/normal Montserrat;
+            }
+            p{
+                font: normal 600 1.25rem/normal Montserrat;
+                width: 80%;
+                text-align: center;
+                margin-top: 4rem;
+            }
+        }
+        .swiper-button-prev, .swiper-button-next {
+            color: $red;
+        }
+        .swiper-pagination-bullet {
+            background-color: $red;
         }
     }
 }

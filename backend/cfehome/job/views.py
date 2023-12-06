@@ -21,6 +21,13 @@ from .permissions import *
 from .paginations import *
 from .throttling import ContactThrottling
 
+class ReviewApiView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.all()
+
+
 class BaseVacancyView(generics.ListAPIView):
     """Родительский класс для получение (активных) и создание вакансии. Для списка вакансии включена пагинация"""
     serializer_class = VacancySerializer
@@ -221,5 +228,6 @@ vacancy_detail_view = VacancyDetailtView.as_view()
 main_lite_form = LiteContactView.as_view()
 response_vacancy_form = ResponseVacnacyView.as_view()
 question_contact_form = QuestionContactView.as_view()
+review_list_view = ReviewApiView.as_view()
 
 

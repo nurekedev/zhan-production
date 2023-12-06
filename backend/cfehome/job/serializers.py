@@ -69,5 +69,15 @@ class QuestionContactSerializer(serializers.Serializer):
     phone_number = serializers.CharField(
         validators=[validate_phone_number], help_text=_("Enter your phone number"))
     email = serializers.EmailField(help_text=_("Enter your email"))
-    question_text = serializers.CharField(
-        max_length=255, help_text=_("Enter your question text (optional)"))
+    question_text = serializers.CharField(max_length=255, help_text=_("Enter your question text (optional)"))
+
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    """Сериализатор для отзыва. Для отображение всех полей отзывов"""
+    class Meta:
+        model = Review
+        fields = ('author', 'author_pic', 'body_text')
+
+
+

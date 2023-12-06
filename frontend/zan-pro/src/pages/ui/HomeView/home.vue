@@ -1,14 +1,24 @@
 <script>
 import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
-import { computed, reactive, ref, toRefs } from 'vue';
+import { computed, reactive, ref, toRefs, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Navigation, Pagination, Scrollbar, A11y, EffectFade } from 'swiper/modules';
+import router from '../../../app/providers';
+import 'swiper/scss';
+import 'swiper/scss/navigation';
+import 'swiper/scss/pagination';
+import 'swiper/scss/autoplay';
 
-// FIXME: remove unneсessary data(states)
 export default {
     components: {
-        ToastNotificationComponent
+        ToastNotificationComponent,
+        Swiper,
+        SwiperSlide,
     },
     setup() {
+        const { locale } = useI18n();
         const store = useStore();
         const form = reactive({
             full_name: '',
@@ -22,7 +32,12 @@ export default {
         const toast = ref(null);
         const emptyStringRegex = /^\s*$/;
 
+        // Computed
         const responseMessage = computed(() => store.getters.getMessage);
+        const resStatus = computed(() => store.getters.responseStatus)
+        const reviews = computed(() => store.getters.allReviews)
+
+        // Methods
         const showToast = () => {
             toast.value.showToast();
         };
@@ -36,6 +51,7 @@ export default {
             }
         };
         const validatePhone = () => {
+
             
             const globalPhoneRegex = /^(?:\+?\d{1,3}[\s-]?)?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
             // WARNING FIX DISPLAYING THE ERROR
@@ -48,21 +64,35 @@ export default {
             }
         };
         const handleSubmit = async () => {
-            // FIXME: trigger api request only when no errors
+            // FIXME: trigger api request only when no errors and validation
+
             validateName(full_name);
             validatePhone(phone_number);
+
             try {
                 const formValues = {
                     full_name: full_name.value,
                     phone_number: phone_number.value,
                 }
                 await store.dispatch('submitForm', formValues);
-
-                console.log(phone_number.value, full_name.value);
+                full_name.value = '';
+                phone_number.value = '';
             } catch (error) {
-                console.log(error);
+
+                if (resStatus === '500') {
+                    router.push('/error500')
+                }
+                console.log(error);    
             }
         };
+
+        onMounted(() => store.dispatch('fetchReviews', locale.value));
+        // checks locale changing and triggers on change
+        watch(locale, async (newLocale, oldLocale) => {
+            if (newLocale !== oldLocale) {
+                store.dispatch('fetchReviews', locale.value);
+            }
+        });
 
         return {
             toast,
@@ -74,9 +104,10 @@ export default {
             showToast,
             handleSubmit,
             responseMessage,
+            reviews,
+            modules: [Navigation, Pagination, Scrollbar, A11y]
         }
     },
-
 }
 </script>
 
@@ -104,9 +135,6 @@ export default {
                             <label for="phone">{{ $t('formLabelNumber') }}</label>
                             <span class="validation-error" v-if="phoneError">{{ phoneError }}</span>
                         </div>
-                        <!-- <input type="text" placeholder="Имя" v-model="full_name">
-                        <input type="tel" pattern="[0-9]{11}" placeholder="Телефон" v-model="phone_number"> -->
-                        <!-- <p class="error" v-for="error in errors" v-bind:key="error">{{ error }}</p> -->
                         <button @click="showToast" type="submit">{{ $t('formButton') }}</button>
                     </form>
                 </div>
@@ -119,23 +147,23 @@ export default {
                     {{ $t('homeMainText') }}
                 </p>
             </div>
-            <!-- TODO: Carousel animation -->
-            <aside>
-                <div class="review-title">
-                    <h1>{{ $t('homeReviewHeader') }}</h1>
-                    <img class="review-img">
-                    <h2>Динара Асылхановна</h2>
-                    <p>
-                        "{{ $t('homeReviewText') }}"
-                    </p>
-                    <div class="home-pagination">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+            <Swiper
+                :modules="modules"
+                :pagination="{ clickable: true }"
+                :autoplay="{ delay: 3000, disableOnInteraction: false }"
+                navigation
+            >
+                <SwiperSlide v-for="review in reviews" :key="review.author">
+                    <div class="review">
+                        <h1>{{ $t('homeReviewHeader') }}</h1>
+                        <img :src="review.author_pic" class="review-img">
+                        <h2>{{ review.author }}</h2>
+                        <p>
+                            "{{ review.body_text }}"
+                        </p>
                     </div>
-                </div>
-            </aside>
+                </SwiperSlide>
+            </Swiper>
         </article>
         <ToastNotificationComponent ref="toast" :message="responseMessage" />
     </main>

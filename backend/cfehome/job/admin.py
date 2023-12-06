@@ -85,7 +85,7 @@ class VacancyAdmin(TranslationAdmin):
 
 
 class ReviewAdmin(TranslationAdmin):
-    list_display = ('author', 'body_text',)
+    list_display = ('author', 'author_pic', 'body_text',)
     list_filter = ('author',)
     search_fields = ('author', 'body_text', )
     ordering = ('author',)

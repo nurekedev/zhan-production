@@ -2,9 +2,10 @@
 import Search from '../../../features/ui/SearchComponent/searchComp.vue';
 import EmpItem from '../../../widgets/ui/EmpItemComponent/EmpItemComponent.vue';
 import Pagination from '../../../features/ui/PaginationComponent/paginationComponent.vue';
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import { computed, reactive, ref, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n'
 export default {
     name: 'EmploymentPage',
     components: {
@@ -14,25 +15,36 @@ export default {
     },
     setup() {
         // States
+        const { t, locale } = useI18n();
         const store = useStore();
         const vacancies = ref([]);
         
         // Computed
         const allVacancies = computed(() => store.getters.allVacancies);
+        const oldLocale = computed(() => store.getters.oldLocale);
+        const activeLocale = computed(() => store.getters.activeLocale);
 
         // Methods
 
         // get all vacancies on component mount
         onMounted(
-            // FIXME: update data when locale changes
             () => {
-                store.dispatch('fetchVacancies');
+                store.dispatch('fetchVacancies', localStorage.getItem('locale'));
             }
         );
+        // checks locale changing and triggers on change
+        watch(locale, async (newLocale, oldLocale) => {
+            console.log('new:', newLocale);
+            console.log('old:', oldLocale);
+            if (newLocale !== oldLocale) {
+                store.dispatch('fetchVacancies', locale.value);
+            }
+        });
         
         return {
             vacancies,
             allVacancies,
+            t
         }
     }
 }
@@ -54,7 +66,6 @@ export default {
                     <Search />
                 </div>
                 <div class="wrap-content">
-                    <!-- TODO: Implement api request for vacancies -->
                     <EmpItem 
                         v-for="vacancy in allVacancies"
                         :key="vacancy.slug"

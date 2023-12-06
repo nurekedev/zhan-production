@@ -1,18 +1,31 @@
 <script>
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import { i18n } from '../../../main';
+
 export default {
-    data() {
+    name: 'LocaleChanger',
+    setup() {
+        // States
+        const store = useStore();
+        const showDropdown = ref(false);
+
+        // Computed
+
+        // Methods
+        const changeLocale = (newLocale) => {
+            store.dispatch('updateLocale', newLocale);
+            localStorage.setItem('locale', newLocale);
+            toggleDropdown();
+        };
+        const toggleDropdown = () => {
+            showDropdown.value = !showDropdown.value;
+        };
         return {
-            showDropdown: false,
-            locales: ['ru', 'pl', 'kz'],
-        }
-    },
-    methods: {
-        changeLocale(locale) {
-            this.$i18n.locale = locale;
-            this.showDropdown = !this.showDropdown;
-        },
-        toggleDropdown() {
-            this.showDropdown = !this.showDropdown;
+            showDropdown,
+            changeLocale,
+            toggleDropdown,
         }
     },
 }
