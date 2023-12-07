@@ -199,12 +199,11 @@ class QuestionContactView(APIView):
 
             email_subject = f"Question from {applicant_email}"
 
-            # Sending the email with file attachment
             email = EmailMessage(
                 subject=email_subject,
                 body=html,
                 from_email=settings.EMAIL_HOST_USER,
-                to=['snurzan21@gmail.com']  # Replace with desired recipient(s)
+                to=['snurzan21@gmail.com'] 
             )
 
             email.content_subtype = 'html'
