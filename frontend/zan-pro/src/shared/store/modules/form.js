@@ -87,10 +87,13 @@ const actions = {
             commit("UPDATE_MESSAGE", "You filled wrong data!");
             throw e;
         }
+    },
+    
     setMessage({ commit }, payload) {
         commit("UPDATE_MESSAGE", payload);
     },
 };
+
 
 const getters = {
     getPhone: (state) => state.form.phone_number,
