@@ -1,7 +1,7 @@
 from django.utils.translation import gettext as _
 
 from rest_framework.reverse import reverse
-from rest_framework import serializers, validators
+from rest_framework import serializers
 
 
 from .models import *

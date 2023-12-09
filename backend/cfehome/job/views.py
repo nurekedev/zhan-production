@@ -1,8 +1,9 @@
 import os
+import requests
 
 from django.shortcuts import render
 from django.core.mail import send_mail, EmailMessage
-from django.views.decorators.csrf import csrf_protect, csrf_exempt, ensure_csrf_cookie, requires_csrf_token
+from django.views.decorators.csrf import  ensure_csrf_cookie, requires_csrf_token
 from django.utils.decorators import method_decorator
 from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
@@ -11,7 +12,6 @@ from django.conf import settings
 from rest_framework import generics, permissions, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework.parsers import  FormParser, MultiPartParser, FileUploadParser
 
 
@@ -153,7 +153,6 @@ class ResponseVacnacyView(APIView):
 
             email_subject = f"Application for {vacancy_title}"
 
-            #
             email = EmailMessage(
                 subject=email_subject,
                 body=html,
@@ -218,6 +217,7 @@ class QuestionContactView(APIView):
             return Response({'message': message}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
