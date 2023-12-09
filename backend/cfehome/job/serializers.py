@@ -32,7 +32,7 @@ class VacancySerializer(serializers.ModelSerializer):
     class Meta:
         model = Vacancy
         fields = ('name', 'slug', 'url', 'model_pic', 'salary', 'city', 'company',
-                  'responsibility_text', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish',)
+                  'responsibility_text', 'requirement_text', 'schedule', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish',)
 
     def get_detail_url(self, obj):
         request = self.context.get('request')

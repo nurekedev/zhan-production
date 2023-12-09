@@ -1,8 +1,8 @@
-@import '../../../app/style/variables';
+@import "../../../app/style/variables";
 .locale-container {
     display: flex;
     flex-flow: column-reverse wrap;
-    gap: .4rem;
+    gap: 0.4rem;
     position: fixed;
     bottom: 2rem;
     right: 2rem;
@@ -26,7 +26,7 @@
     .dropdown-content {
         display: flex;
         flex-flow: column wrap;
-        gap: .4rem;
+        gap: 0.4rem;
     }
     .locale {
         background-color: $red;

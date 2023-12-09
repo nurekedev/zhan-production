@@ -1,24 +1,41 @@
-.pagination{
-    width: 17%;
+@import "../../../app/style/variables";
+.pagination {
+    width: 100%;
     height: 2.5rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    .p-item{
+    justify-content: center;
+    gap: 1rem;
+    img {
+        cursor: pointer;
+        padding: 1rem;
+    }
+    img:hover {
+        transform: scale(1.1);
+    }
+    .p-item {
         width: fit-content;
         height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 1rem;
-        span{
+        span {
+            cursor: pointer;
             width: 3rem;
             height: 100%;
-            background-color: #5AAAFA21;
-            font: normal 500 1rem/normal Montserrat;
+            background-color: #5aaafa21;
+            font: normal 500 1rem / normal Montserrat;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: all 200ms ease;
+        }
+        span:hover {
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.4));
+        }
+        .lastPage {
+            background-color: #5aaafa21;
         }
     }
 }

@@ -1,5 +1,5 @@
-@import '../../../app/style/variables';
-header{
+@import "../../../app/style/variables";
+header {
     width: 100%;
     height: 5rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -7,38 +7,38 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .logo{
+    .logo {
         display: flex;
         align-items: center;
-        img{
+        img {
             width: 4.5rem;
             height: 4.5rem;
             margin: 0.2rem 1.5rem;
         }
-        p{
-            font:normal 600 1.5rem/normal Montserrat;
+        p {
+            font: normal 600 1.5rem / normal Montserrat;
         }
     }
-    nav{
-        font: normal 500 1.25rem/normal Montserrat;
+    nav {
+        font: normal 500 1.25rem / normal Montserrat;
         margin: 0 1.5rem 0 0;
-        ul{
+        ul {
             display: flex;
             justify-content: space-between;
             gap: 1rem;
-            li{
+            li {
                 list-style: none;
             }
         }
     }
-    $burgerHeight: calc(.3rem * 3 + .4rem * 2);
+    $burgerHeight: calc(0.3rem * 3 + 0.4rem * 2);
     $xWidth: calc($burgerHeight * 1.4142135);
     .burger-container {
         display: none;
         .burger-menu {
             display: flex;
             flex-direction: column;
-            gap: .4rem;
+            gap: 0.4rem;
             width: max-content;
             position: absolute;
             top: 1.4rem;
@@ -54,26 +54,30 @@ header{
                 width: 0;
                 opacity: 0;
             }
+            .burger-line {
+                content: "";
+                width: 3rem;
+                height: 0.3rem;
+                background-color: $black;
+                transform-origin: left center;
+                transition: all 200ms ease-in-out;
+                border-radius: 20rem;
+            }
         }
-        .burger-menu::before, .burger-menu::after, input {
-            content: "";
-            width: 3rem;
-            height: .3rem;
-            background-color: $black;
-            transform-origin: left center;
-            transition: all 200ms ease-in-out;
-            border-radius: 20rem;
-        }
-    
-        .burger-menu:has(input:checked)::before {
-            rotate: 45deg;
-            width: $xWidth;
-            translate: 0 calc(.3rem / -2);
-        }
-        .burger-menu:has(input:checked)::after {
-            rotate: -45deg;
-            width: $xWidth;
-            translate: 0 calc(.3rem / 2);
+        .burger-menu.active {
+            .burger-line:nth-child(1) {
+                transform: rotate(45deg) translate(0, calc(0.3rem / -2));
+                width: 2.2rem;
+                margin-left: 1rem;
+            }
+            .burger-line:nth-child(2) {
+                opacity: 0;
+            }
+            .burger-line:nth-child(3) {
+                transform: rotate(-45deg) translate(0, calc(0.3rem / 2));
+                width: 2.2rem;
+                margin-left: 1rem;
+            }
         }
     }
 }
@@ -86,7 +90,7 @@ header{
             img {
                 width: 3rem;
                 height: 3rem;
-                margin: .88rem .63rem;
+                margin: 0.88rem 0.63rem;
             }
             p {
                 display: none;
@@ -95,30 +99,28 @@ header{
         li {
             display: none;
         }
-    .burger-container {
-        display: block;
-        .nav-links {
-            min-height: 0;
-            transition: all 200ms ease-in-out;
-        }
-        .burger-menu:has(input:checked) + .nav-links {
-            min-height: 30rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            ul {
+        .burger-container {
+            display: block;
+            .nav-links {
+                min-height: 0;
+                transition: all 300ms ease-in-out;
+            }
+            .burger-menu.active + .nav-links {
+                min-height: 30rem;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
-                margin-right: 7rem;
-            }
-            li {
-                display: block;
-                font-size: 1rem;
+                justify-content: center;
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-right: 7rem;
+                }
+                li {
+                    display: block;
+                    font-size: 1rem;
+                }
             }
         }
     }
-    }
-
-
 }

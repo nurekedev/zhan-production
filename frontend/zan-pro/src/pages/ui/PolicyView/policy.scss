@@ -1,0 +1,31 @@
+.privacy {
+    width: 75%;
+    margin: 0 auto;
+    h1 {
+        font: normal 600 2rem / normal Montserrat;
+        text-align: center;
+    }
+    section {
+        text-align: justify;
+        margin-top: 1rem;
+        h2 {
+            font: normal 500 1.2rem / normal Montserrat;
+            margin-bottom: 1rem;
+        }
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            h3 {
+                font: normal 500 1.1rem / normal Montserrat;
+                li {
+                    margin-top: 0.5rem;
+                }
+            }
+            li {
+                list-style: number;
+                font: normal 400 1rem / normal Montsrrat;
+            }
+        }
+    }
+}
