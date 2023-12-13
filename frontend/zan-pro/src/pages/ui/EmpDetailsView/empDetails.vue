@@ -20,6 +20,7 @@
             const showModal = ref(false);
             const selectedFileName = ref("");
             const fileInput = ref(null);
+            const isFile = ref(false);
             const fields = reactive({
                 full_name: "",
                 phone_number: "",
@@ -65,12 +66,14 @@
                     if (format === "png" || format === "pdf") {
                         selectedFileName.value = file.name;
                         console.log(selectedFileName.value);
+                        isFile.value = true;
                     } else {
                         store.dispatch("setMessage", t("formFileError"));
                         showToast();
                     }
                 } else {
                     selectedFileName.value = "";
+                    isFile.value = false;
                 }
             };
             const validateName = () => {
@@ -107,7 +110,7 @@
             };
             const validateQuestionText = () => {
                 const emptyStringRegex = /^\s*$/;
-                if (emptyStringRegex.test(full_name.value)) {
+                if (emptyStringRegex.test(additional_text.value)) {
                     questionError.value = "This field must be filled!";
                     return false;
                 } else {
@@ -115,12 +118,18 @@
                     return true;
                 }
             };
+
+
+
+            
             const handleSubmit = async () => {
                 if (
                     validateName() &&
                     validatePhone() &&
                     validateEmail() &&
-                    validateQuestionText()
+                    validateQuestionText() &&
+                    isFile.value
+                    
                 ) {
                     const formData = new FormData();
                     formData.append("full_name", full_name.value);
@@ -138,6 +147,7 @@
                         email.value = "";
                         fileInput.value = null;
                         additional_text.value = "";
+                        selectedFileName.value = "";
                         showToast();
                     } catch (e) {
                         if (resStatus === "500") {
@@ -152,9 +162,7 @@
             };
             const showToast = () => {
                 showModal.value = false;
-                if (responseMessage.value) {
-                    toast.value.showToast();
-                }
+                toast.value.showToast();
             };
 
             onMounted(() =>

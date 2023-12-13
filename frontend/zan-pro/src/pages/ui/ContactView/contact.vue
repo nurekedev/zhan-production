@@ -30,12 +30,13 @@
                 errorRefs;
             // Computed
             const responseMessage = computed(() => store.getters.getMessage);
+            const resStatus = computed(() => store.getters.responseStatus);
 
             // Methods
             // TODO: make regex validation for every input
             const validateName = () => {
                 const emptyStringRegex = /^\s*$/;
-                if (emptyStringRegex.test(full_name.value)) {
+                if (emptyStringRegex.test(question_text.value)) {
                     nameError.value = "Name field must be filled!";
                     return false;
                 } else {
@@ -67,7 +68,7 @@
             };
             const validateQuestionText = () => {
                 const emptyStringRegex = /^\s*$/;
-                if (emptyStringRegex.test(full_name.value)) {
+                if (emptyStringRegex.test(question_text.value)) {
                     questionError.value = "This field must be filled!";
                     return false;
                 } else {
@@ -82,14 +83,20 @@
                     validateEmail() &&
                     validateQuestionText()
                 ) {
+
+                    
                     const formValues = {
                         full_name: full_name.value,
                         phone_number: phone_number.value,
                         email: email.value,
                         question_text: question_text.value,
                     };
+
+                    
                     try {
+                        
                         await store.dispatch("questionSubmit", formValues);
+
 
                         console.log(
                             phone_number.value,

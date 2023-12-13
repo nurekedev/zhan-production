@@ -34,10 +34,10 @@
                 });
             };
             const loadPrevPage = async () => {
-                if (currentPage.value > 0) {
+                if (currentPage.value > 1) {
                     currentPage.value--;
                 } else {
-                    currentPage.value = 0;
+                    currentPage.value = 1;
                 }
                 await store.dispatch("fetchVacancies", {
                     locale: locale.value,

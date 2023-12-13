@@ -39,11 +39,12 @@ const mutations = {
 const actions = {
     async submitForm({ commit }, payload) {
         commit("CLEAR_MESSAGE");
+        let locale = i18n.global.locale.value;
+        if (locale === "pl") {
+            locale = "en";
+        }
         try {
-            const res = await axios.post(
-                `${i18n.global.locale.value}/submit-contact/`,
-                payload
-            );
+            const res = await axios.post(`${locale}/submit-contact/`, payload);
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === "500") {
@@ -53,14 +54,15 @@ const actions = {
             throw e;
         }
     },
-    
     async questionSubmit({ commit }, payload) {
         commit("CLEAR_MESSAGE");
+        let locale = i18n.global.locale.value;
+        if (locale === "pl") {
+            locale = "en";
+        }
         try {
-            const res = await axios.post(
-                `${i18n.global.locale.value}/submit-question/`,
-                payload
-            );
+            const res = await axios.post(`${locale}/submit-question/`, payload);
+            console.log("File was sent successfully")
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === "500") {
@@ -72,13 +74,18 @@ const actions = {
     },
     async submitVacancy({ commit }, payload) {
         commit("CLEAR_MESSAGE");
+        let locale = i18n.global.locale.value;
+        if (locale === "pl") {
+            locale = "en";
+        }
         try {
-            const endPoint = `${i18n.global.locale.value}/api/v1/vacancies/${payload.slug}/submit/`;
+            const endPoint = `${locale}/api/v1/vacancies/${payload.slug}/submit/`;
             const res = await axios.post(endPoint, payload.form, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
             });
+            console.log(res.data.message);
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === "500") {
@@ -88,7 +95,6 @@ const actions = {
             throw e;
         }
     },
-    
     setMessage({ commit }, payload) {
         commit("UPDATE_MESSAGE", payload);
     },
