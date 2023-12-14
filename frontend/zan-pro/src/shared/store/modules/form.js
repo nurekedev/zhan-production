@@ -54,8 +54,10 @@ const actions = {
         } catch (e) {
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
+            } else if (e.response.status === 429) {
+                console.log(e.response.data.detail);
+                commit("UPDATE_MESSAGE", e.response.data.detail);
             }
-            commit("UPDATE_MESSAGE", "You filled wrong data!");
             throw e;
         }
     },
@@ -68,13 +70,15 @@ const actions = {
         }
         try {
             const res = await axios.post(`${locale}/submit-question/`, payload);
-            console.log("File was sent successfully")
+            console.log("File was sent successfully");
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
-            if (e.response.status === "500") {
+            if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
+            } else if (e.response.status === 429) {
+                console.log(r.response.data.detail);
+                commit("UPDATE_MESSAGE", e.response.data.detail);
             }
-            commit("UPDATE_MESSAGE", "You filled wrong data!");
             throw e;
         }
     },
@@ -94,10 +98,12 @@ const actions = {
             console.log(res.data.message);
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
-            if (e.response.status === "500") {
+            if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
+            } else if (e.response.status === 429) {
+                console.log(r.response.data.detail);
+                commit("UPDATE_MESSAGE", e.response.data.detail);
             }
-            commit("UPDATE_MESSAGE", "You filled wrong data!");
             throw e;
         }
     },
@@ -105,7 +111,6 @@ const actions = {
         commit("UPDATE_MESSAGE", payload);
     },
 };
-
 
 const getters = {
     getPhone: (state) => state.form.phone_number,

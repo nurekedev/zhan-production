@@ -100,7 +100,7 @@ header {
             display: none;
         }
         .burger-container {
-            display: block;
+            display: flex;
             .nav-links {
                 min-height: 0;
                 transition: all 300ms ease-in-out;
@@ -114,11 +114,11 @@ header {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
-                    margin-right: 7rem;
                 }
                 li {
                     display: block;
                     font-size: 1rem;
+                    margin-right: 8rem;
                 }
             }
         }

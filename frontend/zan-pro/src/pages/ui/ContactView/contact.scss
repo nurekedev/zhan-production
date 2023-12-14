@@ -1,15 +1,15 @@
-@import '../../../app/style/variables';
-@import '../../../app/style/mixin';
+@import "../../../app/style/variables";
+@import "../../../app/style/mixin";
 
 .contact {
     width: 100%;
     min-height: calc(100vh - 16rem);
     position: relative;
-    section {
+    .img {
         display: flex;
         align-items: flex-end;
         justify-content: flex-start;
-        background-image: url('../../model/contact-main.jpg');
+        background-image: url("../../model/contact-main.jpg");
         background-position: 100% 35%;
         background-size: cover;
         width: 100%;
@@ -18,7 +18,7 @@
             background-color: $red;
             width: fit-content;
             margin: 29rem 76rem 3rem 3rem;
-            padding: .5rem .25rem;  
+            padding: 0.5rem 0.25rem;
             color: $white;
             font-family: Montserrat;
             font-size: 2rem;
@@ -32,6 +32,132 @@
         align-items: center;
         justify-content: space-around;
         margin: 2rem 0;
+    }
+    .main-text {
+        max-width: 100ch;
+        p {
+            color: #000;
+            font-family: Montserrat;
+            font-size: 3rem;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 180%; /* 5.4rem */
+        }
+    }
+    .form-group {
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        justify-content: center;
+        .policy-container {
+            p {
+                max-width: 50ch;
+                font-size: 1.1rem;
+                font-weight: 400;
+                a {
+                    color: $yellow;
+                    font-weight: 500;
+                }
+            }
+        }
+        p {
+            color: $black;
+            font-family: Montserrat;
+            font-size: 2rem;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .input-container {
+            position: relative;
+            margin: 0 auto 3rem;
+            textarea {
+                background-color: rgba(217, 217, 217, 0.3);
+                width: 100%;
+                height: 9.83731rem;
+                padding: 1.12rem 1.3rem;
+                border: none;
+                border-radius: 0.25rem;
+                color: $black;
+                font-family: Montserrat;
+                font-size: 1.375rem;
+                font-style: normal;
+                font-weight: 300;
+                line-height: normal;
+                resize: none;
+            }
+            input {
+                width: 100%;
+                height: 3.83731rem;
+                flex-shrink: 0;
+                background-color: rgba(217, 217, 217, 0.3);
+                border: none;
+                border-radius: 0.25rem;
+                text-indent: 1.3rem;
+                color: $black;
+                font-family: Montserrat;
+                font-size: 1.375rem;
+                font-style: normal;
+                font-weight: 300;
+                line-height: normal;
+            }
+            input:-webkit-autofill {
+                color: $black;
+                font-family: Montserrat;
+                font-size: 1.375rem;
+                font-style: normal;
+                font-weight: 300;
+                line-height: norma;
+            }
+            label {
+                position: absolute;
+                left: 1.3rem;
+                top: 1.11rem;
+                color: $black;
+                font-family: Montserrat;
+                font-size: 1.375rem;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+                transition: all 400ms ease;
+            }
+            input:focus {
+                outline: none;
+            }
+            textarea:focus {
+                outline: none;
+            }
+            input:focus + label,
+            input:not(:placeholder-shown) + label {
+                top: -2rem;
+                left: 0;
+            }
+            textarea:focus + label,
+            textarea:not(:placeholder-shown) + label {
+                top: -2rem;
+                left: 0;
+            }
+        }
+
+        button {
+            @include btn();
+            width: 100%;
+            height: 3.83731rem;
+            padding: 1rem 14rem;
+            border: none;
+            border-radius: 0.25rem;
+            color: $white;
+            font-family: Montserrat;
+            font-size: 1.5rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+            cursor: pointer;
+            text-align: center;
+        }
     }
 }
 
@@ -121,134 +247,20 @@
                     font-family: Montserrat;
                     font-size: 0.875rem;
                     font-style: normal;
-                    font-weight: 4  00;
+                    font-weight: 4 00;
                     line-height: normal;
                 }
-                input:focus + label, input:not(:placeholder-shown) + label{
+                input:focus + label,
+                input:not(:placeholder-shown) + label {
                     top: -1.2rem;
                     left: 0;
                 }
-                textarea:focus + label, textarea:not(:placeholder-shown) + label{
+                textarea:focus + label,
+                textarea:not(:placeholder-shown) + label {
                     top: -1.2rem;
                     left: 0;
                 }
             }
         }
     }
-}
-
-.main-text {
-    max-width: 100ch;
-    p {
-        color: #000;
-        font-family: Montserrat;
-        font-size: 3rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 180%; /* 5.4rem */
-    }
-}
-
-.form-group {
-    display: flex;
-    flex-flow: column wrap;
-    align-items: center;
-    justify-content: center;
-    p {
-        color: $black;
-        font-family: Montserrat;
-        font-size: 2rem;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        margin-bottom: 3rem;
-        text-align: center;
-    }
-
-    .input-container {
-        position: relative;
-        margin: 0 auto 3rem;
-        textarea {
-            background-color: rgba(217, 217, 217, 0.30);
-            width: 100%;
-            height: 9.83731rem;
-            padding: 1.12rem 1.3rem;
-            border: none;
-            border-radius: .25rem;
-            color: $black;
-            font-family: Montserrat;
-            font-size: 1.375rem;
-            font-style: normal;
-            font-weight: 300;
-            line-height: normal;
-            resize: none;
-        }
-        input {
-            width: 100%;
-            height: 3.83731rem;
-            flex-shrink: 0;
-            background-color: rgba(217, 217, 217, 0.30);
-            border: none;
-            border-radius: .25rem;
-            text-indent: 1.3rem;
-            color: $black;
-            font-family: Montserrat;
-            font-size: 1.375rem;
-            font-style: normal;
-            font-weight: 300;
-            line-height: normal;
-        }
-        input:-webkit-autofill {
-            color: $black;
-            font-family: Montserrat;
-            font-size: 1.375rem;
-            font-style: normal;
-            font-weight: 300;
-            line-height: norma
-        }
-        label {
-            position: absolute;
-            left: 1.3rem;
-            top: 1.11rem;
-            color: $black;
-            font-family: Montserrat;
-            font-size: 1.375rem;
-            font-style: normal;
-            font-weight: 400;
-            line-height: normal;
-            transition: all 400ms ease;
-        }
-        input:focus {
-            outline: none;
-        }
-        textarea:focus {
-            outline: none;
-        }
-        input:focus + label, input:not(:placeholder-shown) + label{
-            top: -2rem;
-            left: 0;
-        }
-        textarea:focus + label, textarea:not(:placeholder-shown) + label{
-            top: -2rem;
-            left: 0;
-        }
-    }
-
-    button {
-        @include btn();
-        width: 100%;
-        height: 3.83731rem;
-        padding: 1rem 14rem;
-        border: none;
-        border-radius: .25rem;
-        color: $white;
-        font-family: Montserrat;
-        font-size: 1.5rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        cursor: pointer;
-        text-align: center;
-    }
-
 }

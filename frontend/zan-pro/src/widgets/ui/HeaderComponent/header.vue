@@ -18,7 +18,7 @@
         <router-link to="/">
             <div class="logo">
                 <img src="../../model/logo.svg" alt="svg logo" />
-                <p>Work & Study in Poland</p>
+                <p>{{ $t("navWork") }}</p>
             </div>
         </router-link>
         <nav>
@@ -53,13 +53,19 @@
             <nav class="nav-links" :class="{ active: isBurgerActive }">
                 <ul>
                     <router-link to="/"
-                        ><li>{{ $t("navHome") }}</li></router-link
+                        ><li @click="toggleBurger">
+                            {{ $t("navHome") }}
+                        </li></router-link
                     >
                     <router-link to="/employment"
-                        ><li>{{ $t("navWork") }}</li></router-link
+                        ><li @click="toggleBurger">
+                            {{ $t("navWork") }}
+                        </li></router-link
                     >
                     <router-link to="/contact"
-                        ><li>{{ $t("navContact") }}</li></router-link
+                        ><li @click="toggleBurger">
+                            {{ $t("navContact") }}
+                        </li></router-link
                     >
                 </ul>
             </nav>

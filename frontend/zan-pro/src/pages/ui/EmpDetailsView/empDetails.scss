@@ -204,6 +204,17 @@
         align-items: center;
         justify-content: center;
         position: relative;
+        .policy-container {
+            p {
+                max-width: 50ch;
+                font-size: 1.1rem;
+                font-weight: 400;
+                a {
+                    color: $yellow;
+                    font-weight: 500;
+                }
+            }
+        }
         .xmark {
             cursor: pointer;
             position: absolute;
