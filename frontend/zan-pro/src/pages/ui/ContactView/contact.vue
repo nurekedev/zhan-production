@@ -83,8 +83,6 @@
                     validateEmail() &&
                     validateQuestionText()
                 ) {
-
-                    
                     const formValues = {
                         full_name: full_name.value,
                         phone_number: phone_number.value,
@@ -92,11 +90,8 @@
                         question_text: question_text.value,
                     };
 
-                    
                     try {
-                        
                         await store.dispatch("questionSubmit", formValues);
-
 
                         console.log(
                             phone_number.value,
@@ -133,7 +128,7 @@
 
 <template>
     <main class="contact">
-        <section>
+        <section class="img">
             <div>{{ $t("navContact") }}</div>
         </section>
         <article class="main-article">
@@ -198,6 +193,16 @@
                             questionError
                         }}</span>
                     </div>
+                    <section class="policy-container">
+                        <p class="policy">
+                            {{ $t("formPolicyPart1") }}
+                            <router-link to="/policy"
+                                ><a>
+                                    {{ $t("formPolicyPart2") }}
+                                </a>
+                            </router-link>
+                        </p>
+                    </section>
                     <button type="submit" @click="showToast">
                         {{ $t("formButton") }}
                     </button>

@@ -23,10 +23,10 @@
                 });
             };
             const loadNextPage = async () => {
-                if (currentPage.value < 3) {
+                if (currentPage.value < Math.ceil(numberOfPages.value)) {
                     currentPage.value++;
                 } else {
-                    currentPage.value = 3;
+                    currentPage.value = Math.ceil(numberOfPages.value);
                 }
                 await store.dispatch("fetchVacancies", {
                     locale: locale.value,
@@ -59,6 +59,7 @@
                 numberOfPages,
                 showButtonPrev,
                 showButtonNext,
+                currentPage,
             };
         },
     };
@@ -67,8 +68,9 @@
     <div class="pagination">
         <img src="../../model/left-arrow.svg" @click="loadPrevPage" />
         <div class="p-item">
-            <span v-for="page in 3" :key="page" @click="loadPage(page)">
-                {{ page }}
+            <span @click="loadPage(1)"> 1 </span>
+            <span class="active">
+                {{ currentPage }}
             </span>
             <span
                 v-if="numberOfPages > 2"

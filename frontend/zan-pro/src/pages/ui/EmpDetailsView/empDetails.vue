@@ -119,9 +119,6 @@
                 }
             };
 
-
-
-            
             const handleSubmit = async () => {
                 if (
                     validateName() &&
@@ -129,7 +126,6 @@
                     validateEmail() &&
                     validateQuestionText() &&
                     isFile.value
-                    
                 ) {
                     const formData = new FormData();
                     formData.append("full_name", full_name.value);
@@ -361,13 +357,16 @@
                             name="file"
                             id="file"
                             placeholder=""
-                            accept="image/png, image/jpg, image/jpeg, application/pdf"
+                            accept="image/png, application/pdf"
                         />
                         <label class="input-file-label" for="file">{{
                             $t("formLabelFile")
                         }}</label>
                         <p v-if="selectedFileName" class="file-name">
                             {{ selectedFileName }}
+                        </p>
+                        <p v-else class="file-name">
+                            {{ $t("vacancyAllowedFormat") }}
                         </p>
                     </div>
                     <div class="input-container">
@@ -386,6 +385,16 @@
                             questionError
                         }}</span>
                     </div>
+                    <section class="policy-container">
+                        <p class="policy">
+                            {{ $t("formPolicyPart1") }}
+                            <router-link to="/policy"
+                                ><a>
+                                    {{ $t("formPolicyPart2") }}
+                                </a>
+                            </router-link>
+                        </p>
+                    </section>
                     <button type="submit">{{ $t("formButton") }}</button>
                 </form>
             </div>

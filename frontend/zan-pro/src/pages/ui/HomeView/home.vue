@@ -4,13 +4,7 @@
     import { useStore } from "vuex";
     import { useI18n } from "vue-i18n";
     import { Swiper, SwiperSlide } from "swiper/vue";
-    import {
-        Navigation,
-        Pagination,
-        Scrollbar,
-        A11y,
-        EffectFade,
-    } from "swiper/modules";
+    import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
     import router from "../../../app/providers";
     import "swiper/scss";
     import "swiper/scss/navigation";
@@ -120,9 +114,9 @@
             <img src="../../model/main.jpeg" />
             <div class="img-t-q">
                 <article>
-                    <h1>{{ $t("homePictureHeader") }}</h1>
+                    <h1>{{ $t("homeMainHeader") }}</h1>
                     <p>
-                        {{ $t("homePictureText") }}
+                        {{ $t("homeMainText") }}
                     </p>
                 </article>
                 <div class="form-group">
@@ -174,13 +168,13 @@
             </div>
         </section>
         <article>
-            <div class="about">
+            <!-- <div class="about">
                 <h1>{{ $t("homeMainHeader") }}</h1>
                 <p>
                     {{ $t("homeMainText") }}
                 </p>
-            </div>
-            <Swiper
+            </div> -->
+            <!-- <Swiper
                 :modules="modules"
                 :pagination="{ clickable: true }"
                 :autoplay="{ delay: 3000, disableOnInteraction: false }"
@@ -205,7 +199,7 @@
                         </svg>
                     </div>
                 </SwiperSlide>
-            </Swiper>
+            </Swiper> -->
         </article>
         <ToastNotificationComponent ref="toast" :message="responseMessage" />
     </main>

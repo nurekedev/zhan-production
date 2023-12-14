@@ -12,6 +12,7 @@
             object-fit: cover;
             object-position: 100% 36%;
             overflow: hidden;
+            filter: brightness(70%);
         }
         .img-t-q {
             position: absolute;
@@ -24,16 +25,18 @@
             align-items: center;
             justify-content: space-between;
             article {
-                width: 40rem;
+                max-width: 50rem;
                 height: auto;
                 h1 {
                     color: #fff;
                     font: normal 700 3.25rem / normal Montserrat;
                     margin-bottom: 1rem;
+                    text-align: center;
                 }
                 p {
                     color: #fff;
                     font: normal 400 1.75rem / normal Monserrat;
+                    text-align: justify;
                 }
             }
             .form-group {
@@ -44,6 +47,17 @@
                 background-color: $white;
                 padding: 2rem 2rem;
                 border-radius: 2rem;
+                .policy-container {
+                    p {
+                        max-width: 50ch;
+                        font-size: 1.1rem;
+                        font-weight: 400;
+                        a {
+                            color: $yellow;
+                            font-weight: 500;
+                        }
+                    }
+                }
                 p {
                     color: $black;
                     font-family: Montserrat;
