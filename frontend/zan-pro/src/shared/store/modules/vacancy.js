@@ -6,6 +6,7 @@ const state = reactive({
     vacancies: [],
     numberOfPages: 0,
     isLoading: null,
+    resStatus: "",
     vacancy: {
         name: "",
         salary: "",
@@ -34,7 +35,7 @@ const actions = {
             commit("UPDATE_VACANCIES", res.data.results);
             commit("UPDATE_NUMBER_OF_PAGES", res.data.count / 6);
         } catch (e) {
-            if (e.response.status === "500") {
+            if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             throw e;
@@ -51,7 +52,7 @@ const actions = {
             );
             commit("UPDATE_VACANCIES", res.data.results);
         } catch (e) {
-            if (e.response.status === "500") {
+            if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             throw e;
@@ -68,7 +69,7 @@ const actions = {
             commit("UPDATE_SIMILAR", res.data.similar_vacancies);
             commit("UPDATE_VACANCY", res.data.vacancy_details);
         } catch (e) {
-            if (e.response.status === "500") {
+            if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             throw e;
@@ -91,6 +92,9 @@ const mutations = {
     SET_IS_LOADING(state, payload) {
         state.isLoading = payload;
     },
+    UPDATE_STATUS(state, payload) {
+        state.resStatus = payload;
+    },
 };
 const getters = {
     allVacancies: (state) => state.vacancies,
@@ -98,6 +102,7 @@ const getters = {
     allSimilarVacancies: (state) => state.similar_vacancies,
     numberOfPages: (state) => state.numberOfPages,
     isLoading: (state) => state.isLoading,
+    resStatus: (state) => state.resStatus,
 };
 
 const vacancy = {

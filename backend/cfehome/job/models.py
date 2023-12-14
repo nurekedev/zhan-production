@@ -117,3 +117,19 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.author} - {self.body_text}"
+    
+
+class SocialMedia(models.Model):
+    """Модель для Социальных сетец"""
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    url = models.URLField(verbose_name=_('URL'))
+
+    class Meta:
+        verbose_name = _('Social Media')
+        verbose_name_plural = _('Social Media')
+        db_table = 'socials'
+
+    def __str__(self):
+        return f"{self.name}"
+
+

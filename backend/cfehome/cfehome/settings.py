@@ -179,16 +179,15 @@ SESSION_COOKIE_SECURE = True
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 LANGUAGES = [
-    ('en', _('English')),
     ('ru', _('Russian')),
     ('kk', _('Kazakh')),
 ]
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'  
-MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'kk')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'  
+MODELTRANSLATION_LANGUAGES = ('ru', 'kk')
 
 
 ADMIN_HONEYPOT_EMAIL_ADMINS = False

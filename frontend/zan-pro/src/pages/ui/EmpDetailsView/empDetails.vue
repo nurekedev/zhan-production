@@ -6,6 +6,8 @@
     import ToastNotificationComponent from "../../../shared/ToastNotificationComponent/toastNotificationComponent.vue";
     import { useI18n } from "vue-i18n";
     import { watchEffect } from "vue";
+    import router from "../../../app/providers";
+
     export default {
         name: "VacancyPage",
         components: {
@@ -53,7 +55,7 @@
                 () => store.getters.allSimilarVacancies
             );
             const responseMessage = computed(() => store.getters.getMessage);
-            console.log(currentVacancy.value);
+            const responseStatus = computed(() => store.getters.resStatus);
 
             // Methods
             const openModal = () => (showModal.value = true);
@@ -79,7 +81,7 @@
             const validateName = () => {
                 const emptyStringRegex = /^\s*$/;
                 if (emptyStringRegex.test(full_name.value)) {
-                    nameError.value = "Name field must be filled!";
+                    nameError.value = t("formNameError");
                     return false;
                 } else {
                     nameError.value = "";
@@ -90,8 +92,7 @@
                 const phoneNumberPattern =
                     /\b\d{11,}\b|\+\d{1,}\(\d{3}\)\d{3}[\s-]?\d{4}|\+\d{2}\d{3}[\s-]?\d{3}[\s-]?\d{3}|\d{4}[\s-]?\d{3}[\s-]?\d{4}|\d{3}[\s-]?\d{4}[\s-]?\d{4}/;
                 if (!phoneNumberPattern.test(phone_number.value)) {
-                    phoneError.value =
-                        "The phone format is incorrect! It must contain at least 11 numbers.";
+                    phoneError.value = t("formPhoneError");
                     return false;
                 } else {
                     phoneError.value = "";
@@ -101,7 +102,7 @@
             const validateEmail = () => {
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailPattern.test(email.value)) {
-                    emailError.value = "The email format is incorrect!";
+                    emailError.value = t("formEmailError");
                     return false;
                 } else {
                     emailError.value = "";
@@ -111,7 +112,7 @@
             const validateQuestionText = () => {
                 const emptyStringRegex = /^\s*$/;
                 if (emptyStringRegex.test(additional_text.value)) {
-                    questionError.value = "This field must be filled!";
+                    questionError.value = t("formAddError");
                     return false;
                 } else {
                     questionError.value = "";
@@ -149,11 +150,10 @@
                         if (resStatus === "500") {
                             router.push("/error500");
                         }
-                        console.log(e);
                         throw e;
                     }
                 } else {
-                    store.dispatch("setMessage", "You filled wrond data!");
+                    store.dispatch("setMessage", t("formWrongData"));
                 }
             };
             const showToast = () => {
@@ -161,18 +161,25 @@
                 toast.value.showToast();
             };
 
-            onMounted(() =>
-                store.dispatch("fetchVacancy", {
-                    locale: locale.value,
-                    slug: props.slug,
-                })
-            );
+            onMounted(() => {
+                try {
+                    store.dispatch("fetchVacancy", {
+                        locale: locale.value,
+                        slug: props.slug,
+                    });
+                } catch (e) {
+                    if (responseStatus.value === 500) {
+                        router.push;
+                    }
+                }
+            });
 
-            watchEffect(() =>
-                store.dispatch("fetchVacancy", {
-                    locale: locale.value,
-                    slug: props.slug,
-                })
+            watchEffect(
+                async () =>
+                    await store.dispatch("fetchVacancy", {
+                        locale: locale.value,
+                        slug: props.slug,
+                    })
             );
 
             watch(locale, async (newLocale, oldLocale) => {

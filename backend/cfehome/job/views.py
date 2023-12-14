@@ -21,11 +21,15 @@ from .permissions import *
 from .paginations import *
 from .throttling import ContactThrottling
 
-class ReviewApiView(generics.ListAPIView):
-    serializer_class = ReviewSerializer
+class SocialMediaRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = SocialMedia.objects.all()
+    serializer_class = SocialMediaSerializer
+    lookup_field = 'name'  # Замените 'name' на поле, по которому будет идентифицироваться соц.сеть
 
-    def get_queryset(self):
-        return Review.objects.all()
+    # Метод get_object() для получения конкретной записи о социальной сети
+    def get_object(self):
+        name = self.kwargs.get(self.lookup_field)
+        return self.queryset.get(name=name)
 
 
 class BaseVacancyView(generics.ListAPIView):
@@ -111,8 +115,6 @@ class LiteContactView(APIView):
             message = _('Message was sent succesfully')
             return Response({'message': message}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
 
 
 
@@ -225,6 +227,6 @@ vacancy_detail_view = VacancyDetailtView.as_view()
 main_lite_form = LiteContactView.as_view()
 response_vacancy_form = ResponseVacnacyView.as_view()
 question_contact_form = QuestionContactView.as_view()
-review_list_view = ReviewApiView.as_view()
+social_media_list_view = SocialMediaRetrieveAPIView.as_view()
 
 

@@ -2,6 +2,7 @@
     import ToastNotificationComponent from "../../../shared/ToastNotificationComponent/toastNotificationComponent.vue";
     import { computed, reactive, ref, toRefs } from "vue";
     import { useStore } from "vuex";
+    import { useI18n } from "vue-i18n";
     export default {
         name: "ContactPage",
         components: {
@@ -9,6 +10,7 @@
         },
         setup() {
             // Data
+            const { t, locale } = useI18n();
             const store = useStore();
             const fields = reactive({
                 full_name: "",
@@ -37,7 +39,7 @@
             const validateName = () => {
                 const emptyStringRegex = /^\s*$/;
                 if (emptyStringRegex.test(question_text.value)) {
-                    nameError.value = "Name field must be filled!";
+                    nameError.value = t("formNameError");
                     return false;
                 } else {
                     nameError.value = "";
@@ -48,8 +50,7 @@
                 const phoneNumberPattern =
                     /\b\d{11,}\b|\+\d{1,}\(\d{3}\)\d{3}[\s-]?\d{4}|\+\d{2}\d{3}[\s-]?\d{3}[\s-]?\d{3}|\d{4}[\s-]?\d{3}[\s-]?\d{4}|\d{3}[\s-]?\d{4}[\s-]?\d{4}/;
                 if (!phoneNumberPattern.test(phone_number.value)) {
-                    phoneError.value =
-                        "The phone format is incorrect! It must contain at least 11 numbers.";
+                    phoneError.value = t("formPhoneError");
                     return false;
                 } else {
                     phoneError.value = "";
@@ -59,7 +60,7 @@
             const validateEmail = () => {
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailPattern.test(email.value)) {
-                    emailError.value = "The email format is incorrect!";
+                    emailError.value = t("formEmailError");
                     return false;
                 } else {
                     emailError.value = "";
@@ -69,7 +70,7 @@
             const validateQuestionText = () => {
                 const emptyStringRegex = /^\s*$/;
                 if (emptyStringRegex.test(question_text.value)) {
-                    questionError.value = "This field must be filled!";
+                    questionError.value = t("formAddError");
                     return false;
                 } else {
                     questionError.value = "";
@@ -99,14 +100,13 @@
                         question_text.value = "";
                         
                     } catch (error) {
-                        if (resStatus === "500") {
+                        if (resStatus === 500) {
                             router.push("/error500");
                         }
-                        console.log(error);
                         throw error;
                     }
                 } else {
-                    store.dispatch("setMessage", "You filled wrond data!");
+                    store.dispatch("setMessage", t("formWrongData"));
                 }
             };
             const showToast = () => {
@@ -120,6 +120,8 @@
                 handleSubmit,
                 toast,
                 showToast,
+                t,
+                locale,
             };
         },
     };

@@ -20,6 +20,9 @@ class CityAdmin(TranslationAdmin):
 class CompanyAdmin(TranslationAdmin):
     list_display = ('name',)
 
+class SocialMediaAdmin(admin.ModelAdmin):
+    list_display = ('name', 'url',)
+
 
 BASIC_INFORMATION = """
     <li>Name (Title of vacancy)</li>
@@ -95,4 +98,5 @@ admin.site.register(City, CityAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(SocialMedia, SocialMediaAdmin)
 

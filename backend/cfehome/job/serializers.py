@@ -73,11 +73,11 @@ class QuestionContactSerializer(serializers.Serializer):
 
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-    """Сериализатор для отзыва. Для отображение всех полей отзывов"""
+class SocialMediaSerializer(serializers.ModelSerializer):
+    """Сериализатор для социальных сетей."""
     class Meta:
-        model = Review
-        fields = ('author', 'author_pic', 'body_text')
+        model = SocialMedia
+        fields = ('name', 'url',)
 
 
 
