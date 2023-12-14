@@ -78,7 +78,6 @@ class VacancyDetailtView(generics.RetrieveAPIView, BaseVacancyView):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class LiteContactView(APIView):
     """Получает данные с формы и возвращет статус действии (с предварительной защитой CSRF)"""
-    parser_classes = [FormParser, MultiPartParser]
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ContactThrottling]
 
@@ -176,7 +175,6 @@ class ResponseVacnacyView(APIView):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class QuestionContactView(APIView):
     """Для ролучения вопроса с клиента в разделе "Конакты" (с предварительной защитой CSRF)"""
-    parser_classes = [FormParser, MultiPartParser]
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ContactThrottling]
 
