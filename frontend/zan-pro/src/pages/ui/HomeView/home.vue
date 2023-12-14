@@ -71,23 +71,19 @@
                         await store.dispatch("submitForm", formValues);
                         full_name.value = "";
                         phone_number.value = "";
+                        store.dispatch("setMessage", t("form200"));
                     } catch (error) {
-                        if (resStatus === 500) {
+                        if (resStatus.value === 500) {
                             router.push("/error500");
+                        }
+                        if (resStatus.value === 429) {
+                            store.dispatch("setMessage", t("form429"));
                         }
                     }
                 } else {
                     store.dispatch("setMessage", t("formWrongData"));
                 }
             };
-
-            onMounted(() => store.dispatch("fetchReviews", locale.value));
-            // checks locale changing and triggers on change
-            watch(locale, async (newLocale, oldLocale) => {
-                if (newLocale !== oldLocale) {
-                    store.dispatch("fetchReviews", locale.value);
-                }
-            });
 
             return {
                 toast,

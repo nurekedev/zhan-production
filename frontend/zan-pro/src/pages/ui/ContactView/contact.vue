@@ -32,7 +32,7 @@
                 errorRefs;
             // Computed
             const responseMessage = computed(() => store.getters.getMessage);
-            const resStatus = computed(() => store.getters.responseStatus);
+            const responseStatus = computed(() => store.getters.responseStatus);
 
             // Methods
             // TODO: make regex validation for every input
@@ -98,10 +98,13 @@
                         phone_number.value = "";
                         email.value = "";
                         question_text.value = "";
-                        
+                        store.dispatch("setMessage", t("form200"));
                     } catch (error) {
-                        if (resStatus === 500) {
+                        if (responseMessage.value === 500) {
                             router.push("/error500");
+                        }
+                        if (responseMessage.value === 429) {
+                            store.dispatch("setMessage", t("form429"));
                         }
                         throw error;
                     }

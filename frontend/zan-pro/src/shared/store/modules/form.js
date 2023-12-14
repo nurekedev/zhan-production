@@ -42,13 +42,16 @@ const actions = {
         let locale = i18n.global.locale.value;
         try {
             const res = await axios.post(`${locale}/submit-contact/`, payload);
-            commit("UPDATE_MESSAGE", res.data.message);
+            console.log(res);
+            if (res.status === 200) {
+                commit("UPDATE_STATUS", res.status);
+            }
         } catch (e) {
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             if (e.response.status === 429) {
-                commit("UPDATE_MESSAGE", e.response.data.detail);
+                commit("UPDATE_STATUS", e.response.status);
             }
             throw e;
         }
@@ -63,11 +66,14 @@ const actions = {
 
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
+            if (e.response.status === 200) {
+                commit("UPDATE_STATUS", e.response.status);
+            }
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             if (e.response.status === 429) {
-                commit("UPDATE_MESSAGE", e.response.data.detail);
+                commit("UPDATE_STATUS", e.response.status);
             }
             throw e;
         }
@@ -86,11 +92,14 @@ const actions = {
             console.log(res.data.message);
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
+            if (e.response.status === 200) {
+                commit("UPDATE_STATUS", e.response.status);
+            }
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             if (e.response.status === 429) {
-                commit("UPDATE_MESSAGE", e.response.data.detail);
+                commit("UPDATE_STATUS", e.response.status);
             }
             throw e;
         }

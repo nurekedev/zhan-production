@@ -10,6 +10,7 @@
             // States
             const store = useStore();
             const showDropdown = ref(false);
+            localStorage.setItem("locale", "ru");
 
             // Computed
 

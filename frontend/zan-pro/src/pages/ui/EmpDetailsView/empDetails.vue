@@ -145,10 +145,14 @@
                         fileInput.value = null;
                         additional_text.value = "";
                         selectedFileName.value = "";
+                        store.dispatch("setMessage", t("form200"));
                         showToast();
                     } catch (e) {
-                        if (resStatus === "500") {
+                        if (responseStatus.value === 500) {
                             router.push("/error500");
+                        }
+                        if (responseStatus.value === 429) {
+                            store.dispatch("setMessage", t("form429"));
                         }
                         throw e;
                     }
