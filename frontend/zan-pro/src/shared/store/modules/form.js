@@ -44,16 +44,22 @@ const actions = {
             locale = "en";
         }
         try {
-            const res = await axios.post(`${locale}/submit-contact/`, payload);
+            const res = await axios.post(`${locale}/submit-contact/`, payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'charset': 'utf-8'
+                }
+            });
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
-            if (e.response.status === "500") {
+            if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
             }
             commit("UPDATE_MESSAGE", "You filled wrong data!");
             throw e;
         }
     },
+    
     async questionSubmit({ commit }, payload) {
         commit("CLEAR_MESSAGE");
         let locale = i18n.global.locale.value;
