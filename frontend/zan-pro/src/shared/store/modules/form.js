@@ -40,16 +40,9 @@ const actions = {
     async submitForm({ commit }, payload) {
         commit("CLEAR_MESSAGE");
         let locale = i18n.global.locale.value;
-        if (locale === "pl") {
-            locale = "en";
-        }
+      
         try {
-            const res = await axios.post(`${locale}/submit-contact/`, payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'charset': 'utf-8'
-                }
-            });
+            const res = await axios.post(`${locale}/submit-contact/`, payload);
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === 500) {
@@ -65,11 +58,10 @@ const actions = {
     async questionSubmit({ commit }, payload) {
         commit("CLEAR_MESSAGE");
         let locale = i18n.global.locale.value;
-        if (locale === "pl") {
-            locale = "en";
-        }
+
         try {
             const res = await axios.post(`${locale}/submit-question/`, payload);
+            
             console.log("File was sent successfully");
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
@@ -85,9 +77,7 @@ const actions = {
     async submitVacancy({ commit }, payload) {
         commit("CLEAR_MESSAGE");
         let locale = i18n.global.locale.value;
-        if (locale === "pl") {
-            locale = "en";
-        }
+
         try {
             const endPoint = `${locale}/api/v1/vacancies/${payload.slug}/submit/`;
             const res = await axios.post(endPoint, payload.form, {

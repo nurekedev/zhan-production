@@ -1,7 +1,7 @@
 import { i18n } from '@/main';
 
 const state = {
-    activeLocale: 'en',
+    activeLocale: 'ru',
     oldLocale: '',
 }
 const actions = {

@@ -93,12 +93,11 @@
                     try {
                         await store.dispatch("questionSubmit", formValues);
 
-                        console.log(
-                            phone_number.value,
-                            full_name.value,
-                            email.value,
-                            question_text.value
-                        );
+                        full_name.value = "";
+                        phone_number.value = "";
+                        email.value = "";
+                        question_text.value = "";
+                        
                     } catch (error) {
                         if (resStatus === "500") {
                             router.push("/error500");

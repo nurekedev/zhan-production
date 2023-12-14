@@ -26,9 +26,7 @@ const actions = {
     async fetchVacancies({ commit }, payload) {
         commit("SET_IS_LOADING", true);
         let { locale, page } = payload;
-        if (locale === "pl") {
-            locale = "en";
-        }
+      
         try {
             const res = await axios.get(
                 `${locale}/api/v1/vacancies/?page=${page}&page_size=6`
@@ -46,9 +44,7 @@ const actions = {
     async searchVacancies({ commit }, payload) {
         commit("SET_IS_LOADING", true);
         let { locale, page, page_size, search } = payload;
-        if (locale === "pl") {
-            locale = "en";
-        }
+        
         try {
             const res = await axios.get(
                 `${locale}/api/v1/vacancies/?page=${page}&page_size=${page_size}&search=${search}`
@@ -64,9 +60,7 @@ const actions = {
     },
     async fetchVacancy({ commit }, payload) {
         let locale = payload.locale;
-        if (locale === "pl") {
-            locale = "en";
-        }
+        
         try {
             const res = await axios.get(
                 `${locale}/api/v1/vacancies/${payload.slug}`
