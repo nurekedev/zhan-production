@@ -44,24 +44,19 @@ const actions = {
             locale = "en";
         }
         try {
-            const res = await axios.post(`${locale}/submit-contact/`, payload, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'charset': 'utf-8'
-                }
-            });
+            const res = await axios.post(`${locale}/submit-contact/`, payload);
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
-            } else if (e.response.status === 429) {
-                console.log(e.response.data.detail);
+            }
+            if (e.response.status === 429) {
                 commit("UPDATE_MESSAGE", e.response.data.detail);
             }
             throw e;
         }
     },
-    
+
     async questionSubmit({ commit }, payload) {
         commit("CLEAR_MESSAGE");
         let locale = i18n.global.locale.value;
@@ -70,13 +65,12 @@ const actions = {
         }
         try {
             const res = await axios.post(`${locale}/submit-question/`, payload);
-            console.log("File was sent successfully");
             commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
-            } else if (e.response.status === 429) {
-                console.log(r.response.data.detail);
+            }
+            if (e.response.status === 429) {
                 commit("UPDATE_MESSAGE", e.response.data.detail);
             }
             throw e;
@@ -100,8 +94,8 @@ const actions = {
         } catch (e) {
             if (e.response.status === 500) {
                 commit("UPDATE_STATUS", e.response.status);
-            } else if (e.response.status === 429) {
-                console.log(r.response.data.detail);
+            }
+            if (e.response.status === 429) {
                 commit("UPDATE_MESSAGE", e.response.data.detail);
             }
             throw e;

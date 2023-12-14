@@ -40,5 +40,10 @@
     "formButton": "Жіберу",
     "formSearch": "Табу",
     "formPolicyPart1": "Осы нысанды жіберу арқылы",
-    "formPolicyPart2": "сіз құпиялылық саясатымен келісесіз"
+    "formPolicyPart2": "сіз құпиялылық саясатымен келісесіз",
+    "formWrongData": "Қате толтырылған деректер!",
+    "formNameError": "Атау өрісі бос болмауы керек!",
+    "formPhoneError": "Қате нөмір пішімі! Ол кем дегенде 11 цифрдан тұруы керек.",
+    "formEmailError": "E-mail форматы дұрыс емес! Мысал: mail@mail.com",
+    "formAddError": "Сұрақ өрісі бос болмауы керек!"
 }

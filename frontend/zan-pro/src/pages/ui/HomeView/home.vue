@@ -18,7 +18,7 @@
             SwiperSlide,
         },
         setup() {
-            const { locale } = useI18n();
+            const { t, locale } = useI18n();
             const store = useStore();
             const form = reactive({
                 full_name: "",
@@ -43,7 +43,7 @@
             };
             const validateName = () => {
                 if (emptyStringRegex.test(full_name.value)) {
-                    nameError.value = "The name field must be filled!";
+                    nameError.value = t("formNameError");
                     return false;
                 } else {
                     nameError.value = "";
@@ -54,8 +54,7 @@
                 const phoneNumberPattern =
                     /\b\d{11,}\b|\+\d{1,}\(\d{3}\)\d{3}[\s-]?\d{4}|\+\d{2}\d{3}[\s-]?\d{3}[\s-]?\d{3}|\d{4}[\s-]?\d{3}[\s-]?\d{4}|\d{3}[\s-]?\d{4}[\s-]?\d{4}/;
                 if (!phoneNumberPattern.test(phone_number.value)) {
-                    phoneError.value =
-                        "The phone format is incorrect! It must contain at least 11 numbers.";
+                    phoneError.value = t("formPhoneError");
                     return false;
                 } else {
                     phoneError.value = "";
@@ -73,13 +72,12 @@
                         full_name.value = "";
                         phone_number.value = "";
                     } catch (error) {
-                        if (resStatus === "500") {
+                        if (resStatus === 500) {
                             router.push("/error500");
                         }
-                        console.log(error);
                     }
                 } else {
-                    store.dispatch("setMessage", "You filled wrond data!");
+                    store.dispatch("setMessage", t("formWrongData"));
                 }
             };
 

@@ -8,6 +8,7 @@
     import { useI18n } from "vue-i18n";
     import { onBeforeMount } from "vue";
     import { onUpdated } from "vue";
+    import router from "../../../app/providers";
     export default {
         name: "EmploymentPage",
         components: {
@@ -27,33 +28,52 @@
             const vacanciesLength = computed(
                 () => store.getters.vacanciesLength
             );
+            const responseStatus = computed(() => store.getters.resStatus);
             const isLoading = computed(() => store.getters.isLoading);
             // Methods
 
             // get all vacancies on component mount
             onBeforeMount(async () => {
-                await store.dispatch("fetchVacancies", {
-                    locale: locale.value,
-                    page: 1,
-                });
-            });
-            // checks locale changing and triggers on change
-            watch(locale, async (newLocale, oldLocale) => {
-                if (newLocale !== oldLocale) {
+                try {
                     await store.dispatch("fetchVacancies", {
                         locale: locale.value,
                         page: 1,
                     });
+                } catch (e) {
+                    if (responseStatus.value === 500) {
+                        router.push("/error500");
+                    }
+                }
+            });
+            // checks locale changing and triggers on change
+            watch(locale, async (newLocale, oldLocale) => {
+                try {
+                    if (newLocale !== oldLocale) {
+                        await store.dispatch("fetchVacancies", {
+                            locale: locale.value,
+                            page: 1,
+                        });
+                    }
+                } catch (e) {
+                    if (responseStatus.value === 500) {
+                        router.push("/error500");
+                    }
                 }
             });
 
             watchEffect(async () => {
-                await store.dispatch("searchVacancies", {
-                    search: search.value,
-                    locale: locale.value,
-                    page: 1,
-                    page_size: 6,
-                });
+                try {
+                    await store.dispatch("searchVacancies", {
+                        search: search.value,
+                        locale: locale.value,
+                        page: 1,
+                        page_size: 6,
+                    });
+                } catch (e) {
+                    if (responseStatus.value === 500) {
+                        router.push("/error500");
+                    }
+                }
             });
 
             return {
