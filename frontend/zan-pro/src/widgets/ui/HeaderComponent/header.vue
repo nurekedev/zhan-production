@@ -50,12 +50,8 @@
                 <span class="burger-line"></span>
                 <span class="burger-line"></span>
             </label>
-            <nav
-                class="nav-links"
-                :class="{ active: isBurgerActive }"
-                :data-set="this.$i18n.locale"
-            >
-                <ul>
+            <nav class="nav-links" :class="{ active: isBurgerActive }">
+                <ul :data-set="this.$i18n.locale">
                     <router-link to="/"
                         ><li @click="toggleBurger">
                             {{ $t('navHome') }}

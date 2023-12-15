@@ -141,10 +141,10 @@ header {
                     flex-direction: column;
                     align-items: center;
                 }
-                li[data-set='ru'] {
+                [data-set^='ru'] {
                     margin-left: 5rem;
                 }
-                li[data-set='kk'] {
+                [data-set='kk'] {
                     margin-left: 6rem;
                 }
             }
