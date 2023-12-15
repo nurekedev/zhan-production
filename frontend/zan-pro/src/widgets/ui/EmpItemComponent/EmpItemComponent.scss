@@ -1,5 +1,5 @@
-@import "../../../app/style/variables";
-@import "../../../app/style/mixin";
+@import '../../../app/style/variables';
+@import '../../../app/style/mixin';
 
 .item {
     width: 32rem;
@@ -23,7 +23,7 @@
                 color: $yellow;
             }
             h2::after {
-                content: "$";
+                content: ' PLN';
                 font: normal 700 1.5rem / normal Montserrat;
                 color: $yellow;
             }

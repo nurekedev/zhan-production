@@ -2,8 +2,16 @@
 <template>
     <main class="error500">
         <div class="error-container">
-            <h1><span>500 Internal Server Error:</span> Oops! Something went wrong on our end.</h1>
-            <p>Our team has been notified, and we're working hard to fix this issue. Please try again later. We apologize for any inconvenience this may have caused.</p>
+            <h1>
+                <span>500 Внутренняя ошибка сервера:</span> Упс! Что-то пошло не
+                так с нашей стороны.
+            </h1>
+            <p>
+                Наша команда была уведомлена, и мы прилагаем все усилия, чтобы
+                устранить эту проблему. Пожалуйста, повторите попытку позже. Мы
+                приносим извинения за любые неудобства, которые это могло
+                вызвать.
+            </p>
         </div>
     </main>
 </template>

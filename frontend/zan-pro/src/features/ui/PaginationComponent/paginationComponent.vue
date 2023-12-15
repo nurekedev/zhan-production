@@ -1,12 +1,12 @@
 <script>
-    import { computed } from "vue";
-    import { ref } from "vue";
-    import { useI18n } from "vue-i18n";
-    import { useStore } from "vuex";
+    import { computed } from 'vue';
+    import { ref } from 'vue';
+    import { useI18n } from 'vue-i18n';
+    import { useStore } from 'vuex';
 
     export default {
-        name: "Pagination",
-        props: { pages: "" },
+        name: 'Pagination',
+        props: { pages: '' },
         setup(props) {
             const { locale } = useI18n();
             const store = useStore();
@@ -14,21 +14,25 @@
             const showButtonPrev = ref(false);
             const showButtonNext = ref(true);
 
+            // Computed
+            const activePage = computed(() => store.getters.activePage);
             let numberOfPages = computed(() => store.getters.numberOfPages);
             // Methods
             const loadPage = async (page) => {
-                await store.dispatch("fetchVacancies", {
+                await store.dispatch('fetchVacancies', {
                     locale: locale.value,
                     page: page,
                 });
+                currentPage.value = page;
             };
             const loadNextPage = async () => {
                 if (currentPage.value < Math.ceil(numberOfPages.value)) {
                     currentPage.value++;
+                    store.dispatch('updateActivePage', currentPage.value);
                 } else {
                     currentPage.value = Math.ceil(numberOfPages.value);
                 }
-                await store.dispatch("fetchVacancies", {
+                await store.dispatch('fetchVacancies', {
                     locale: locale.value,
                     page: currentPage.value,
                 });
@@ -36,19 +40,21 @@
             const loadPrevPage = async () => {
                 if (currentPage.value > 1) {
                     currentPage.value--;
+                    store.dispatch('updateActivePage', currentPage.value);
                 } else {
                     currentPage.value = 1;
                 }
-                await store.dispatch("fetchVacancies", {
+                await store.dispatch('fetchVacancies', {
                     locale: locale.value,
                     page: currentPage.value,
                 });
             };
             const loadLastPage = async (page) => {
-                await store.dispatch("fetchVacancies", {
+                await store.dispatch('fetchVacancies', {
                     locale: locale.value,
                     page: page,
                 });
+                currentPage.value = page;
             };
 
             return {

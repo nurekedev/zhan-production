@@ -1,4 +1,4 @@
-@import "../../../app/style/mixin";
+@import '../../../app/style/mixin';
 
 .home-main {
     width: 100%;
@@ -17,7 +17,7 @@
         .img-t-q {
             position: absolute;
             top: 10rem;
-            left: 10rem;
+            left: calc(50% - 48rem);
             width: 85%;
             height: 27rem;
             padding: 0 1.5rem 0 2rem;
@@ -25,18 +25,18 @@
             align-items: center;
             justify-content: space-between;
             article {
-                max-width: 50rem;
+                max-width: 90rem;
                 height: auto;
                 h1 {
                     color: #fff;
-                    font: normal 700 3.25rem / normal Montserrat;
+                    font: normal 700 4.25rem / normal Montserrat;
                     margin-bottom: 1rem;
                     text-align: center;
                 }
                 p {
                     color: #fff;
-                    font: normal 400 1.75rem / normal Monserrat;
-                    text-align: justify;
+                    font: normal 400 2rem / normal Monserrat;
+                    text-align: center;
                 }
             }
             .form-group {
@@ -220,6 +220,7 @@
 @media (max-width: 460px) {
     .home-main {
         width: 100%;
+        height: 90vh;
         section {
             width: 100%;
             img {

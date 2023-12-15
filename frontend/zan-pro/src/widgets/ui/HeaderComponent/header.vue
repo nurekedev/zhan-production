@@ -18,24 +18,24 @@
         <router-link to="/">
             <div class="logo">
                 <img src="../../model/logo.svg" alt="svg logo" />
-                <p>{{ $t("navWork") }}</p>
+                <p>{{ $t('navWork') }}</p>
             </div>
         </router-link>
         <nav>
             <ul>
                 <router-link to="/"
                     ><li>
-                        <p>{{ $t("navHome") }}</p>
+                        <p>{{ $t('navHome') }}</p>
                     </li></router-link
                 >
                 <router-link to="/employment"
                     ><li>
-                        <p>{{ $t("navWork") }}</p>
+                        <p>{{ $t('navWork') }}</p>
                     </li></router-link
                 >
                 <router-link to="/contact"
                     ><li>
-                        <p>{{ $t("navContact") }}</p>
+                        <p>{{ $t('navContact') }}</p>
                     </li></router-link
                 >
             </ul>
@@ -51,20 +51,20 @@
                 <span class="burger-line"></span>
             </label>
             <nav class="nav-links" :class="{ active: isBurgerActive }">
-                <ul>
+                <ul :data-set="this.$i18n.locale">
                     <router-link to="/"
                         ><li @click="toggleBurger">
-                            {{ $t("navHome") }}
+                            {{ $t('navHome') }}
                         </li></router-link
                     >
                     <router-link to="/employment"
                         ><li @click="toggleBurger">
-                            {{ $t("navWork") }}
+                            {{ $t('navWork') }}
                         </li></router-link
                     >
                     <router-link to="/contact"
                         ><li @click="toggleBurger">
-                            {{ $t("navContact") }}
+                            {{ $t('navContact') }}
                         </li></router-link
                     >
                 </ul>
