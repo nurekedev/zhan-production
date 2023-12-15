@@ -1,15 +1,15 @@
 <script>
-    import ToastNotificationComponent from "../../../shared/ToastNotificationComponent/toastNotificationComponent.vue";
-    import { computed, reactive, ref, toRefs, onMounted, watch } from "vue";
-    import { useStore } from "vuex";
-    import { useI18n } from "vue-i18n";
-    import { Swiper, SwiperSlide } from "swiper/vue";
-    import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-    import router from "../../../app/providers";
-    import "swiper/scss";
-    import "swiper/scss/navigation";
-    import "swiper/scss/pagination";
-    import "swiper/scss/autoplay";
+    import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
+    import { computed, reactive, ref, toRefs, onMounted, watch } from 'vue';
+    import { useStore } from 'vuex';
+    import { useI18n } from 'vue-i18n';
+    import { Swiper, SwiperSlide } from 'swiper/vue';
+    import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+    import router from '../../../app/providers';
+    import 'swiper/scss';
+    import 'swiper/scss/navigation';
+    import 'swiper/scss/pagination';
+    import 'swiper/scss/autoplay';
 
     export default {
         components: {
@@ -21,14 +21,14 @@
             const { t, locale } = useI18n();
             const store = useStore();
             const form = reactive({
-                full_name: "",
-                phone_number: "",
+                full_name: '',
+                phone_number: '',
             });
             const formRefs = toRefs(form);
             const { full_name, phone_number } = formRefs;
-            const nameError = ref("");
-            const phoneError = ref("");
-            const message = ref("");
+            const nameError = ref('');
+            const phoneError = ref('');
+            const message = ref('');
             const toast = ref(null);
             const emptyStringRegex = /^\s*$/;
 
@@ -43,10 +43,10 @@
             };
             const validateName = () => {
                 if (emptyStringRegex.test(full_name.value)) {
-                    nameError.value = t("formNameError");
+                    nameError.value = t('formNameError');
                     return false;
                 } else {
-                    nameError.value = "";
+                    nameError.value = '';
                     return true;
                 }
             };
@@ -54,10 +54,10 @@
                 const phoneNumberPattern =
                     /\b\d{11,}\b|\+\d{1,}\(\d{3}\)\d{3}[\s-]?\d{4}|\+\d{2}\d{3}[\s-]?\d{3}[\s-]?\d{3}|\d{4}[\s-]?\d{3}[\s-]?\d{4}|\d{3}[\s-]?\d{4}[\s-]?\d{4}/;
                 if (!phoneNumberPattern.test(phone_number.value)) {
-                    phoneError.value = t("formPhoneError");
+                    phoneError.value = t('formPhoneError');
                     return false;
                 } else {
-                    phoneError.value = "";
+                    phoneError.value = '';
                     return true;
                 }
             };
@@ -68,20 +68,20 @@
                             full_name: full_name.value,
                             phone_number: phone_number.value,
                         };
-                        await store.dispatch("submitForm", formValues);
-                        full_name.value = "";
-                        phone_number.value = "";
-                        store.dispatch("setMessage", t("form200"));
+                        await store.dispatch('submitForm', formValues);
+                        full_name.value = '';
+                        phone_number.value = '';
+                        store.dispatch('setMessage', t('form200'));
                     } catch (error) {
                         if (resStatus.value === 500) {
-                            router.push("/error500");
+                            router.push('/error500');
                         }
                         if (resStatus.value === 429) {
-                            store.dispatch("setMessage", t("form429"));
+                            store.dispatch('setMessage', t('form429'));
                         }
                     }
                 } else {
-                    store.dispatch("setMessage", t("formWrongData"));
+                    store.dispatch('setMessage', t('formWrongData'));
                 }
             };
 
@@ -108,14 +108,14 @@
             <img src="../../model/main.jpeg" />
             <div class="img-t-q">
                 <article>
-                    <h1>{{ $t("homeMainHeader") }}</h1>
+                    <h1>{{ $t('homeMainHeader') }}</h1>
                     <p>
-                        {{ $t("homeMainText") }}
+                        {{ $t('homeMainText') }}
                     </p>
                 </article>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <form v-on:submit.prevent="handleSubmit()">
-                        <p>{{ $t("homeFormHeader") }}</p>
+                        <p>{{ $t('homeFormHeader') }}</p>
                         <div class="input-container">
                             <input
                                 type="text"
@@ -124,7 +124,7 @@
                                 placeholder=""
                                 v-model="full_name"
                             />
-                            <label for="name">{{ $t("formLabelName") }}</label>
+                            <label for="name">{{ $t('formLabelName') }}</label>
                             <span class="validation-error" v-if="nameError">{{
                                 nameError
                             }}</span>
@@ -138,7 +138,7 @@
                                 v-model="phone_number"
                             />
                             <label for="phone">{{
-                                $t("formLabelNumber")
+                                $t('formLabelNumber')
                             }}</label>
                             <span class="validation-error" v-if="phoneError">{{
                                 phoneError
@@ -146,29 +146,29 @@
                         </div>
                         <section class="policy-container">
                             <p class="policy">
-                                {{ $t("formPolicyPart1") }}
+                                {{ $t('formPolicyPart1') }}
                                 <router-link to="/policy"
                                     ><a>
-                                        {{ $t("formPolicyPart2") }}
+                                        {{ $t('formPolicyPart2') }}
                                     </a>
                                 </router-link>
                             </p>
                         </section>
                         <button @click="showToast" type="submit">
-                            {{ $t("formButton") }}
+                            {{ $t('formButton') }}
                         </button>
                     </form>
-                </div>
+                </div> -->
             </div>
         </section>
-        <article>
-            <!-- <div class="about">
+        <!-- <article> -->
+        <!-- <div class="about">
                 <h1>{{ $t("homeMainHeader") }}</h1>
                 <p>
                     {{ $t("homeMainText") }}
                 </p>
             </div> -->
-            <!-- <Swiper
+        <!-- <Swiper
                 :modules="modules"
                 :pagination="{ clickable: true }"
                 :autoplay="{ delay: 3000, disableOnInteraction: false }"
@@ -194,7 +194,7 @@
                     </div>
                 </SwiperSlide>
             </Swiper> -->
-        </article>
+        <!-- </article> -->
         <ToastNotificationComponent ref="toast" :message="responseMessage" />
     </main>
 </template>

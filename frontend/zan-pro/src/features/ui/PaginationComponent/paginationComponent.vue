@@ -14,6 +14,8 @@
             const showButtonPrev = ref(false);
             const showButtonNext = ref(true);
 
+            // Computed
+            const activePage = computed(() => store.getters.activePage);
             let numberOfPages = computed(() => store.getters.numberOfPages);
             // Methods
             const loadPage = async (page) => {
@@ -26,6 +28,7 @@
             const loadNextPage = async () => {
                 if (currentPage.value < Math.ceil(numberOfPages.value)) {
                     currentPage.value++;
+                    store.dispatch('updateActivePage', currentPage.value);
                 } else {
                     currentPage.value = Math.ceil(numberOfPages.value);
                 }
@@ -37,6 +40,7 @@
             const loadPrevPage = async () => {
                 if (currentPage.value > 1) {
                     currentPage.value--;
+                    store.dispatch('updateActivePage', currentPage.value);
                 } else {
                     currentPage.value = 1;
                 }

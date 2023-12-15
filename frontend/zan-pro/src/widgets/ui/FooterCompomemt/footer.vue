@@ -67,9 +67,9 @@
                     <a v-if="igUrl" :href="igUrl" target="_blank"
                         ><img src="../../model/instagram.svg"
                     /></a>
-                    <a v-if="vkUrl" :href="vkUrl" target="_blank"
+                    <!-- <a v-if="vkUrl" :href="vkUrl" target="_blank"
                         ><img src="../../model/vk.svg"
-                    /></a>
+                    /></a> -->
                     <a v-if="waUrl" :href="waUrl" target="_blank"
                         ><img src="../../model/whatsapp.svg"
                     /></a>
