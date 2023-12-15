@@ -107,9 +107,12 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-}}
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'zan-prod',
+        'USER': 'postgres',
+        'PASSWORD': '123456789n',
+    }
+}
 
 
 # pip install psycopg2-binary
@@ -255,7 +258,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
 DEFAULT_FROM_EMAIL = "Work on Poland" 
 EMAIL_HOST_USER =  'snurekeee03@gmail.com'
-EMAIL_HOST_PASSWORD = 'maxarwewkjxxaeyv'
+EMAIL_HOST_PASSWORD = 'fxrcwhrvdcciulnk'
 
 
 
