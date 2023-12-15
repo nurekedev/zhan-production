@@ -14,6 +14,7 @@
             const vkUrl = computed(() => store.getters.getVk);
             const igUrl = computed(() => store.getters.getIg);
             const xUrl = computed(() => store.getters.getX);
+            const waUrl = computed(() => store.getters.getWa);
 
             // Methods
 
@@ -23,12 +24,14 @@
                 await store.dispatch('getVkUrl');
                 await store.dispatch('getIgUrl');
                 await store.dispatch('getXUrl');
+                await store.dispatch('getWaUrl');
             });
             return {
                 fbUrl,
                 vkUrl,
                 igUrl,
                 xUrl,
+                waUrl,
             };
         },
     };
@@ -50,19 +53,25 @@
                     {{ $t('footerMail') }}:
                     <a href="#">KasiaBasiaTosia@gmail.com</a>
                 </p>
-                <p>{{ $t('footerNumber') }}:</p>
+                <!-- <p>{{ $t('footerNumber') }}:</p> -->
             </div>
             <div>
                 <p>{{ $t('footerSocial') }}</p>
                 <div>
-                    <a :href="fbUrl" target="_blank"
+                    <a v-if="fbUrl" :href="fbUrl" target="_blank"
                         ><img src="../../model/facebook.svg"
                     /></a>
-                    <a :href="xUrl" target="_blank"
+                    <a v-if="xUrl" :href="xUrl" target="_blank"
                         ><img src="../../model/twiter.svg"
                     /></a>
-                    <a :href="igUrl" target="_blank"
+                    <a v-if="igUrl" :href="igUrl" target="_blank"
                         ><img src="../../model/instagram.svg"
+                    /></a>
+                    <a v-if="vkUrl" :href="vkUrl" target="_blank"
+                        ><img src="../../model/vk.svg"
+                    /></a>
+                    <a v-if="waUrl" :href="waUrl" target="_blank"
+                        ><img src="../../model/whatsapp.svg"
                     /></a>
                 </div>
             </div>
