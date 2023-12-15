@@ -13,6 +13,7 @@ from rest_framework import generics, permissions, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import  FormParser, MultiPartParser, FileUploadParser
+from threading import Thread  # Импортируем Thread для асинхронной отправки почты
 
 
 from .models import *
@@ -78,43 +79,81 @@ class VacancyDetailtView(generics.RetrieveAPIView, BaseVacancyView):
         }
         return Response(data)
 
-
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class LiteContactView(APIView):
-    """Получает данные с формы и возвращет статус действии (с предварительной защитой CSRF)"""
+    """Получает данные с формы и возвращает статус действия (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ContactThrottling]
+
+    def send_email_async(self, html, email_subject):
+        email = EmailMessage(
+            subject=email_subject,
+            body=html,
+            from_email=settings.EMAIL_HOST_USER,
+            to=['snurzan21@gmail.com']
+        )
+        email.content_subtype = 'html'
+        email.send()
 
     def post(self, request):
         serializer = LiteContactSerializer(data=request.data)
         if serializer.is_valid():
-
             applicant_full_name = serializer.validated_data['full_name']
             applicant_phone_number = serializer.validated_data['phone_number']
 
-
-            html = render_to_string('message.html', {
+            html = render_to_string('contact.html', {
                 'name': applicant_full_name,
                 'phone_number': applicant_phone_number,
             })
 
-            email_subject = f"Question from {applicant_full_name}"
-
+            email_subject = f"Клиент оставил контакты ({applicant_full_name})"
             
-            email = EmailMessage(
-                subject=email_subject,
-                body=html,
-                from_email=settings.EMAIL_HOST_USER,
-                to=['snurzan21@gmail.com']
-            )
+            # Отправка почты в отдельном потоке
+            email_thread = Thread(target=self.send_email_async, args=(html, email_subject))
+            email_thread.start()
 
-            email.content_subtype = 'html'
-            email.send()
-            
-
-            message = _('Message was sent succesfully')
+            message = _('Message was sent successfully')
             return Response({'message': message}, status=status.HTTP_200_OK)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @method_decorator(ensure_csrf_cookie, name='dispatch')
+# class LiteContactView(APIView):
+#     """Получает данные с формы и возвращет статус действии (с предварительной защитой CSRF)"""
+#     permission_classes = [permissions.AllowAny]
+#     throttle_classes = [ContactThrottling]
+
+#     def post(self, request):
+
+#         serializer = LiteContactSerializer(data=request.data)
+#         if serializer.is_valid():
+
+            
+
+#             applicant_full_name = serializer.validated_data['full_name']
+#             applicant_phone_number = serializer.validated_data['phone_number']
+
+
+#             html = render_to_string('contact.html', {
+#                 'name': applicant_full_name,
+#                 'phone_number': applicant_phone_number,
+#             })
+
+#             email_subject = f"Клиент оставил контакты ({applicant_full_name})"
+
+            
+#             email = EmailMessage(
+#                 subject=email_subject,
+#                 body=html,
+#                 from_email=settings.EMAIL_HOST_USER,
+#                 to=['snurzan21@gmail.com']
+#             )
+
+#             email.content_subtype = 'html'
+#             email.send()
+#             message = _('Message was sent succesfully')
+#             return Response({'message': message}, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -152,7 +191,7 @@ class ResponseVacnacyView(APIView):
                 'additional_text': applicant_additional_text,
             })
 
-            email_subject = f"Application for {vacancy_title}"
+            email_subject = f"Отклик на вакансию {vacancy_title}"
 
             email = EmailMessage(
                 subject=email_subject,
@@ -176,9 +215,19 @@ class ResponseVacnacyView(APIView):
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class QuestionContactView(APIView):
-    """Для ролучения вопроса с клиента в разделе "Конакты" (с предварительной защитой CSRF)"""
+    """Для получения вопроса с клиента в разделе 'Контакты' (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ContactThrottling]
+
+    def send_email_async(self, html, email_subject):
+        email = EmailMessage(
+            subject=email_subject,
+            body=html,
+            from_email=settings.EMAIL_HOST_USER,
+            to=['snurzan21@gmail.com']
+        )
+        email.content_subtype = 'html'
+        email.send()
 
     def post(self, request):
         serializer = QuestionContactSerializer(data=request.data)
@@ -188,35 +237,68 @@ class QuestionContactView(APIView):
             applicant_email = serializer.validated_data['email']
             applicant_question_text = serializer.validated_data['question_text']
 
-            """Готовый функционал отправка пиьсем через SMTP"""
-            html = render_to_string('message.html', {
+            html = render_to_string('question.html', {
                 'name': applicant_full_name,
                 'phone_number': applicant_phone_number,
                 'email': applicant_email,
                 'question': applicant_question_text
             })
 
-            email_subject = f"Question from {applicant_email}"
+            email_subject = f"Вопрос от клиента: {applicant_email}"
 
-            email = EmailMessage(
-                subject=email_subject,
-                body=html,
-                from_email=settings.EMAIL_HOST_USER,
-                to=['snurzan21@gmail.com'] 
-            )
+            # Отправка почты в отдельном потоке
+            email_thread = Thread(target=self.send_email_async, args=(html, email_subject))
+            email_thread.start()
 
-            email.content_subtype = 'html'
-            email.send()
-
-            print(applicant_full_name,
-                  applicant_phone_number,
-                  applicant_email,
-                  applicant_question_text)
-
-            message = _('Message was sent succesfully')
+            message = _('Message was sent successfully')
             return Response({'message': message}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+# @method_decorator(ensure_csrf_cookie, name='dispatch')
+# class QuestionContactView(APIView):
+#     """Для ролучения вопроса с клиента в разделе "Конакты" (с предварительной защитой CSRF)"""
+#     permission_classes = [permissions.AllowAny]
+#     throttle_classes = [ContactThrottling]
+
+#     def post(self, request):
+#         serializer = QuestionContactSerializer(data=request.data)
+#         if serializer.is_valid():
+#             applicant_full_name = serializer.validated_data['full_name']
+#             applicant_phone_number = serializer.validated_data['phone_number']
+#             applicant_email = serializer.validated_data['email']
+#             applicant_question_text = serializer.validated_data['question_text']
+
+#             """Готовый функционал отправка пиьсем через SMTP"""
+#             html = render_to_string('question.html', {
+#                 'name': applicant_full_name,
+#                 'phone_number': applicant_phone_number,
+#                 'email': applicant_email,
+#                 'question': applicant_question_text
+#             })
+
+#             email_subject = f"Вопрос от клиента: {applicant_email}"
+
+#             email = EmailMessage(
+#                 subject=email_subject,
+#                 body=html,
+#                 from_email=settings.EMAIL_HOST_USER,
+#                 to=['snurzan21@gmail.com'] 
+#             )
+
+#             email.content_subtype = 'html'
+#             email.send()
+
+#             print(applicant_full_name,
+#                   applicant_phone_number,
+#                   applicant_email,
+#                   applicant_question_text)
+
+#             message = _('Message was sent succesfully')
+#             return Response({'message': message}, status=status.HTTP_200_OK)
+
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

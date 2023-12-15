@@ -50,7 +50,7 @@
                     {{ $t('footerMail') }}:
                     <a href="#">KasiaBasiaTosia@gmail.com</a>
                 </p>
-                <p>{{ $t('footerNumber') }}: +7 777 777 77 77</p>
+                <p>{{ $t('footerNumber') }}:</p>
             </div>
             <div>
                 <p>{{ $t('footerSocial') }}</p>

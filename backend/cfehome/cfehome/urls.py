@@ -50,7 +50,6 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('api/v1/vacancies/', include('job.urls')),
-    
     path('submit-contact/', main_lite_form, name='submitcontact'),
     path('submit-question/', question_contact_form, name='submitquestion'),
 )

@@ -1,56 +1,14 @@
-{% load css %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Contact form</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>{{name}} оставил свои контакты</title>
 </head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 20px auto;
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .info {
-        margin-bottom: 15px;
-    }
-
-    .info label {
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-    }
-</style>
 
 <body>
-    <div class="container">
-
-        <div class="info">
-            <label>Full Name:</label>
-            <p>{{ name }}</p>
-        </div>
-
-        <div class="info">
-            <label>Phone Number:</label>
-            <p>{{ phone_number }}</p>
-        </div>
-
-    </div>
+    ФИО: <p>{{ name }}</p>
+    Контакты: <p>{{ phone_number }}</p>
 </body>
 
 </html>
