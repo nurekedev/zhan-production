@@ -124,7 +124,6 @@
             // Life Cycle
             onMounted(async () => {
                 await store.dispatch('getFbUrl');
-                await store.dispatch('getVkUrl');
                 await store.dispatch('getIgUrl');
                 await store.dispatch('getXUrl');
                 await store.dispatch('getWaUrl');
@@ -160,7 +159,7 @@
                 <div class="social-links">
                     <div class="mail">
                         <img src="../../model/email.svg" alt="" />
-                        <a href="#"> <span>KasiaBasiaTosia@gmail.com</span></a>
+                        <a href="#"> <span>zhanarfraczak@gmail.com</span></a>
                     </div>
                     <div class="icons">
                         <a :href="fbUrl" target="_blank" v-if="fbUrl"

@@ -42,7 +42,8 @@ const actions = {
         let locale = i18n.global.locale.value;
         try {
             const res = await axios.post(`${locale}/submit-contact/`, payload);
-            console.log(res);
+       
+            
             if (res.status === 200) {
                 commit("UPDATE_STATUS", res.status);
             }
@@ -89,8 +90,7 @@ const actions = {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            console.log(res.data.message);
-            commit("UPDATE_MESSAGE", res.data.message);
+            // commit("UPDATE_MESSAGE", res.data.message);
         } catch (e) {
             if (e.response.status === 200) {
                 commit("UPDATE_STATUS", e.response.status);

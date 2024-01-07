@@ -32,16 +32,16 @@
             const isLoading = computed(() => store.getters.isLoading);
             // Methods
 
-            // get all vacancies on component mount
+                        // get all vacancies on component mount
             onBeforeMount(async () => {
                 try {
-                    await store.dispatch("fetchVacancies", {
-                        locale: locale.value,
+                    await store.dispatch('fetchVacancies', {
+                        locale: localStorage.getItem("locale"),
                         page: 1,
                     });
                 } catch (e) {
                     if (responseStatus.value === 500) {
-                        router.push("/error500");
+                        router.push('/error500');
                     }
                 }
             });
@@ -49,29 +49,29 @@
             watch(locale, async (newLocale, oldLocale) => {
                 try {
                     if (newLocale !== oldLocale) {
-                        await store.dispatch("fetchVacancies", {
-                            locale: locale.value,
+                        await store.dispatch('fetchVacancies', {
+                            locale: localStorage.getItem("locale"),
                             page: 1,
                         });
                     }
                 } catch (e) {
                     if (responseStatus.value === 500) {
-                        router.push("/error500");
+                        router.push('/error500');
                     }
                 }
             });
 
             watchEffect(async () => {
                 try {
-                    await store.dispatch("searchVacancies", {
+                    await store.dispatch('searchVacancies', {
                         search: search.value,
-                        locale: locale.value,
+                        locale: localStorage.getItem("locale"),
                         page: 1,
                         page_size: 6,
                     });
                 } catch (e) {
                     if (responseStatus.value === 500) {
-                        router.push("/error500");
+                        router.push('/error500');
                     }
                 }
             });

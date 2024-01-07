@@ -21,7 +21,6 @@
             // Life cycle
             onMounted(async () => {
                 await store.dispatch('getFbUrl');
-                await store.dispatch('getVkUrl');
                 await store.dispatch('getIgUrl');
                 await store.dispatch('getXUrl');
                 await store.dispatch('getWaUrl');
@@ -51,7 +50,7 @@
                 <p>{{ $t('footerContact') }}</p>
                 <p>
                     {{ $t('footerMail') }}:
-                    <a href="#">KasiaBasiaTosia@gmail.com</a>
+                    <a href="#">zhanarfraczak@gmail.com</a>
                 </p>
                 <!-- <p>{{ $t('footerNumber') }}:</p> -->
             </div>

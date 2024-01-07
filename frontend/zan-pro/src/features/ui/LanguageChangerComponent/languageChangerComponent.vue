@@ -13,6 +13,7 @@
             localStorage.setItem("locale", "ru");
 
             // Computed
+            const activeLocale = computed(() => store.getters.activeLocale);
 
             // Methods
             const changeLocale = (newLocale) => {
@@ -27,6 +28,7 @@
                 showDropdown,
                 changeLocale,
                 toggleDropdown,
+                activeLocale,
             };
         },
     };
@@ -35,7 +37,7 @@
 <template>
     <div class="locale-container">
         <div class="active-locale" @click="toggleDropdown">
-            <p>{{ this.$i18n.locale }}</p>
+            <p>{{ activeLocale }}</p>
         </div>
         <div v-if="showDropdown" class="dropdown-content">
             <div class="locale" @click="changeLocale('ru')"><p>ru</p></div>

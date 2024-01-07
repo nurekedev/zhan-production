@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
-from os import getenv
 
 import os
 import psycopg
@@ -28,20 +27,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(getenv('SECRET_KEY'))
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-WEBSITE_URL = 'http://127.0.0.1:8000'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
-SITE_ID = 1
+SITE_ID = 1 
 
 INSTALLED_APPS = [
-    'grappelli', # custom admin template
+    # 'grappelli', # custom admin template
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,7 +54,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'debug_toolbar',
     'rosetta',
     'admin_honeypot',
     
@@ -64,9 +61,7 @@ INSTALLED_APPS = [
     'job',
 ]
 
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,7 +73,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'cfehome.urls'
@@ -107,10 +101,10 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'zan-prod',
-        'USER': 'postgres',
-        'PASSWORD': '123456789n',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
     }
 }
 
@@ -140,32 +134,11 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:5173'
-]
+
 
 CORS_ALLOW_CREDENTIALS = True
 
-# CORS_ALLOW_HEADERS = [
-# 'accept',
-# 'accept-encoding',
-# 'authorization',
-# 'content-type',
-# 'dnt',
-# 'origin',
-# 'user-agent',
-# 'x-csrftoken',
-# 'x-requested-with',
-# ]
 
-# CORS_ALLOW_METHODS = [
-# 'DELETE',
-# 'GET',
-# 'OPTIONS',
-# 'PATCH',
-# 'POST',
-# 'PUT',
-# ]
 
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:5173',
@@ -255,10 +228,11 @@ REST_FRAMEWORK = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True 
-DEFAULT_FROM_EMAIL = "Work on Poland" 
-EMAIL_HOST_USER =  'snurekeee03@gmail.com'
-EMAIL_HOST_PASSWORD = 'fxrcwhrvdcciulnk'
+EMAIL_USE_TLS = os.getenv('TLS_STATUS') 
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+EMAIL_HOST_USER = os.getenv("EMAIL_SMTP")
+EMAIL_HOST_PASSWORD = os.getenv("APP_PASSWORD")
+
 
 
 

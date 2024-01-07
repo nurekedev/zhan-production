@@ -21,13 +21,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.conf.urls.i18n import i18n_patterns
+from django.conf.urls.static import static
 
 
 from job.views import main_lite_form, question_contact_form
-
-
 from job.views import main_lite_form, question_contact_form, social_media_list_view
-
 from job.sitemaps import VacancySitemap
 
 
@@ -37,12 +35,11 @@ sitemaps = {
 
 urlpatterns = [
 
-    path('grappelli/', include('grappelli.urls')),
+    # path('grappelli/', include('grappelli.urls')),
     path('admin/', include('admin_honeypot.urls')),
     path('art2qn788npek/', admin.site.urls),
     path('rosetta/', include('rosetta.urls')),
     path('social-media/<str:name>/', social_media_list_view),
-    path('__debug__/', include(debug_toolbar.urls)),
     path('sitemap.xml', sitemap, {'sitemaps':sitemaps}, 
          name='django.contrib.sitemaps.views.sitemap'),
     
@@ -53,5 +50,7 @@ urlpatterns += i18n_patterns(
     path('submit-contact/', main_lite_form, name='submitcontact'),
     path('submit-question/', question_contact_form, name='submitquestion'),
 )
+
+
 
 

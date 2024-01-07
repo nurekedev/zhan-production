@@ -161,7 +161,7 @@ class LiteContactView(APIView):
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class ResponseVacnacyView(APIView):
     """Получает данные с формы (ФИО, номер телефона, почта, резюме и скрытое поле(название вакансии))Возвращет статус действии (с предварительной защитой CSRF)"""
-    parser_classes = [FormParser, MultiPartParser]
+    parser_classes = [MultiPartParser]
     permission_classes = [permissions.AllowAny]
     throttle_classes = [ContactThrottling]
 
@@ -199,6 +199,10 @@ class ResponseVacnacyView(APIView):
                 from_email=settings.EMAIL_HOST_USER,
                 to=['snurzan21@gmail.com']
             )
+
+            if applicant_cv: 
+                email.attach(applicant_cv.name, applicant_cv.read(), applicant_cv.content_type)
+
 
             email.content_subtype = 'html'
             email.send()

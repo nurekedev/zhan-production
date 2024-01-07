@@ -18,7 +18,7 @@
         <article>
             <div class="text">
                 <h1>{{ title }}</h1>
-                <!-- <h2>{{ salary }}</h2> -->
+                <h2>{{ salary }}</h2>
                 <h3>{{ companyName }}</h3>
                 <h3>{{ city }}</h3>
             </div>

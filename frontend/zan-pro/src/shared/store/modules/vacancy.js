@@ -29,7 +29,6 @@ const actions = {
         commit('SET_IS_LOADING', true);
         let { locale, page } = payload;
         commit('SET_PAGE', page);
-        console.log(state.currentPage);
         try {
             const res = await axios.get(
                 `${locale}/api/v1/vacancies/?page=${state.currentPage}&page_size=6`

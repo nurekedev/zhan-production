@@ -67,7 +67,6 @@
                     const format = file.name.slice(start + 1, file.name.length);
                     if (format === 'png' || format === 'pdf') {
                         selectedFileName.value = file.name;
-                        console.log(selectedFileName.value);
                         isFile.value = true;
                     } else {
                         store.dispatch('setMessage', t('formFileError'));
@@ -224,10 +223,10 @@
             <section class="top-container">
                 <div class="left-info">
                     <h2>{{ currentVacancy.name }}</h2>
-                    <!-- <p class="salary">
+                    <p class="salary">
                         {{ $t('vacancySalary') }}:
                         <span>{{ currentVacancy.salary }} PLN</span>
-                    </p> -->
+                    </p>
                 </div>
                 <div class="right-info">
                     <div class="right-info__text">

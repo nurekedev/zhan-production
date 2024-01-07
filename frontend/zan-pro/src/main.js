@@ -8,7 +8,8 @@ import ru from "./app/providers/locale/ru.json";
 import kk from "./app/providers/locale/kk.json";
 import axios from "axios";
 
-axios.defaults.baseURL = "http://127.0.0.1:8000/";
+axios.defaults.baseURL =  process.env.API_URL
+
 
 const i18n = createI18n({
     legacy: false,

@@ -39,6 +39,21 @@ const router = createRouter({
             path: "/error500",
             component: () => import("../../pages/ui/500ErrorView/error500.vue"),
         },
+        {
+            path: '/admin',
+            name: 'djangoAdmin',
+            beforeEnter() {
+                window.location.href = 'https://api.zanworkspoland.com/admin';
+            },
+        },
+        {
+            path: '/tuxcod1wYjbitixvaq',
+            name: 'djangoRealAdmin',
+            beforeEnter() {
+                window.location.href = 'https://api.zanworkspoland.com/art2qn788npek';
+            },
+        },
+
     ],
 });
 
