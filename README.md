@@ -27,8 +27,8 @@ https://zanworkspoland.com
 - Кастомный админ-панель
 
 
-Авторы
+## Авторы
 
-Батыр Олжабаев([meaculpv](https://github.com/meaculpv)) - Дизайнер & Фронтенд-Разработчик
-Арсен Өмірбек ([holyPaladu](https://github.com/holyPaladu)) - Фронтенд-Разработчик 
-Сақтағанов Нұржан (@me) ([nurekedev](https://github.com/nurekedev)) - Бэкенд-Разработчик & Проджект менеджер
+- Батыр Олжабаев([meaculpv](https://github.com/meaculpv)) - Дизайнер & Фронтенд-Разработчик
+- Арсен Өмірбек ([holyPaladu](https://github.com/holyPaladu)) - Фронтенд-Разработчик 
+- Сақтағанов Нұржан (@me) ([nurekedev](https://github.com/nurekedev)) - Бэкенд-Разработчик & Проджект менеджер
