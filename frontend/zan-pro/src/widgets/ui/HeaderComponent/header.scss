@@ -1,5 +1,5 @@
 @import '../../../app/style/variables';
-header{
+header {
     width: 100%;
     height: 5rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -7,55 +7,147 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    .logo{
+    .logo {
         display: flex;
         align-items: center;
-        img{
+        img {
             width: 4.5rem;
             height: 4.5rem;
             margin: 0.2rem 1.5rem;
         }
-        p{
-            font:normal 600 1.5rem/normal Montserrat;
+        p {
+            font: normal 600 1.5rem / normal Montserrat;
         }
     }
-    nav{
-        font: normal 500 1.25rem/normal Montserrat;
+    nav {
+        font: normal 500 1.25rem / normal Montserrat;
         margin: 0 1.5rem 0 0;
-        ul{
+        ul {
             display: flex;
             justify-content: space-between;
             gap: 1rem;
-            li{
+            li {
                 list-style: none;
+                display: flex;
+                position: relative;
+            }
+            li::before {
+                content: '';
+                width: 100%;
+                height: 4px;
+                background-color: $red;
+                position: absolute;
+                top: calc(50%);
+                left: 0;
+                transform: scale(0);
+                transition: transform 400ms ease-in-out;
+            }
+            li:hover::before {
+                transform: scale(1) translateY(0.7rem);
             }
         }
     }
-    .burger-btn {
+    $burgerHeight: calc(0.3rem * 3 + 0.4rem * 2);
+    $xWidth: calc($burgerHeight * 1.4142135);
+    .burger-container {
         display: none;
+        .burger-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            width: max-content;
+            position: absolute;
+            top: 1.4rem;
+            right: 1rem;
+            z-index: 2;
+            cursor: pointer;
+            input {
+                appearance: none;
+                outline: none;
+                pointer-events: none;
+            }
+            input:checked {
+                width: 0;
+                opacity: 0;
+            }
+            .burger-line {
+                content: '';
+                width: 3rem;
+                height: 0.3rem;
+                background-color: $black;
+                transform-origin: left center;
+                transition: all 200ms ease-in-out;
+                border-radius: 20rem;
+            }
+        }
+        .burger-menu.active {
+            .burger-line:nth-child(1) {
+                transform: rotate(45deg) translate(0, calc(0.3rem / -2));
+                width: 2.2rem;
+                margin-left: 1rem;
+            }
+            .burger-line:nth-child(2) {
+                opacity: 0;
+            }
+            .burger-line:nth-child(3) {
+                transform: rotate(-45deg) translate(0, calc(0.3rem / 2));
+                width: 2.2rem;
+                margin-left: 1rem;
+            }
+        }
     }
 }
 
 @media (max-width: 460px) {
     header {
-        height: 3.15rem;
-        .burger-btn {
-            display: block;
-            margin-right: 1rem;
-        }
+        height: 100%;
+        align-items: start;
+        justify-content: start;
         .logo {
             img {
-                width: 2.5rem;
-                height: 2.5rem;
-                margin: .88rem .63rem;
+                width: 3rem;
+                height: 3rem;
+                margin: 0.88rem 0.63rem;
             }
             p {
                 display: none;
             }
         }
-    }
-
-    li {
-        display: none;
+        nav {
+            margin: 0;
+            ul {
+                display: none;
+                li::before {
+                    display: none;
+                    position: relative;
+                }
+            }
+        }
+        .burger-container {
+            display: flex;
+            flex-grow: 100%;
+            flex-basis: 100%;
+            .nav-links {
+                min-height: 0;
+                transition: transform 300ms ease-in-out;
+            }
+            .burger-menu.active + .nav-links {
+                min-height: 30rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+                [data-set^='ru'] {
+                    margin-left: 5rem;
+                }
+                [data-set='kk'] {
+                    margin-left: 6rem;
+                }
+            }
+        }
     }
 }

@@ -1,0 +1,165 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-05 09:47+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: admin.py:13
+msgid "Sign in | Administration"
+msgstr "Кіру | Әкімшілік"
+
+#: models.py:20 models.py:33 models.py:56
+msgid "Name"
+msgstr "Аты"
+
+#: models.py:23 models.py:24
+msgid "Cities"
+msgstr "Қалалар"
+
+#: models.py:36 models.py:37
+msgid "Companies"
+msgstr "Компаниялар"
+
+#: models.py:52
+msgid "Draft"
+msgstr "Үлгі"
+
+#: models.py:53
+msgid "Published"
+msgstr "Жарияланды"
+
+#: models.py:59
+msgid "Photo"
+msgstr "Фото"
+
+#: models.py:60
+msgid "Salary"
+msgstr "Төлеу"
+
+#: models.py:63
+msgid "Responsibility"
+msgstr "Міндеттілік"
+
+#: models.py:64
+msgid "Requirements"
+msgstr "Талаптар"
+
+#: models.py:65
+msgid "Schedule"
+msgstr "Кесте"
+
+#: models.py:67
+msgid "Working Condition"
+msgstr "Жұмыс шарттары"
+
+#: models.py:68
+msgid "Accommodation"
+msgstr "Тұру мекені"
+
+#: models.py:69
+msgid "Nutrition"
+msgstr "Тамақ"
+
+#: models.py:70
+msgid "Additional text"
+msgstr "Қосымша мәтін"
+
+#: models.py:73
+msgid "City"
+msgstr "Қала"
+
+#: models.py:75
+msgid "Company"
+msgstr "Компания"
+
+#: models.py:76
+msgid "Published Time"
+msgstr "Жарияланған уақыт"
+
+#: models.py:79
+msgid "Status"
+msgstr "Мәртебе"
+
+#: models.py:82
+msgid "Created by"
+msgstr "Жасалған"
+
+#: models.py:85 models.py:86
+msgid "Vacancies"
+msgstr "Бос орындар"
+
+#: models.py:109
+msgid "Author"
+msgstr "Автор"
+
+#: models.py:110
+msgid "Text of review"
+msgstr "Тексеру мәтіні"
+
+#: models.py:113 models.py:114
+msgid "Reviews"
+msgstr "Пікірлер"
+
+#: serializers.py:47 serializers.py:55 serializers.py:68
+msgid "Enter your full name"
+msgstr "Толық атыңызды енгізіңіз"
+
+#: serializers.py:49 serializers.py:57 serializers.py:70
+msgid "Enter your phone number"
+msgstr "Телефон нөміріңізді енгізіңіз"
+
+#: serializers.py:58 serializers.py:71
+msgid "Enter your email"
+msgstr "Электрондық поштаңызды енгізіңіз"
+
+#: serializers.py:60
+msgid "Upload your CV"
+msgstr "CV файлын жүктеңіз"
+
+#: serializers.py:62
+msgid "Enter additional text (optional)"
+msgstr "Қосымша мәтіні енгізіңіз (міндетті емес)"
+
+#: serializers.py:73
+msgid "Enter your question text (optional)"
+msgstr "Сұрақ мәтінін енгізіңіз (міндетті емес)"
+
+#: validators.py:19
+msgid ""
+"Phone number must be entered in the format: '+999999999'. Up to 15 digits "
+"allowed."
+msgstr ""
+"Телефон нөмірі '+999999999' форматында енгізілуі керек. 15 символға дейін "
+"жазуға мүмкіндік бар."
+
+#: validators.py:27
+msgid "File too large. Size should not exceed 10 MiB."
+msgstr "Файл өте үлкен. Өлшемі 10 МБ-дан асқын болмауы керек."
+
+#: validators.py:40
+#, python-format
+msgid "Unsupported file extension. Allowed extensions are %(extensions)s"
+msgstr ""
+"Қолданылмаған файл кеңейтімі. Рұқсат етілген кеңейтімдер: %(extensions)s"
+
+#: views.py:105 views.py:164 views.py:211
+msgid "Message was sent succesfully"
+msgstr "Хабар сәтті жіберілді"
+
+#: views.py:125
+msgid "Data not found"
+msgstr "Деректер табылмады"

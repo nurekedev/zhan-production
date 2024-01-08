@@ -1,138 +1,414 @@
 <script>
-import { ref } from 'vue';
-import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemComponent.vue';
+    import { ref } from 'vue';
+    import { useStore } from 'vuex';
+    import { reactive, toRefs, computed, onMounted, watch } from 'vue';
+    import EmpItemComponent from '../../../widgets/ui/EmpItemComponent/EmpItemComponent.vue';
+    import ToastNotificationComponent from '../../../shared/ToastNotificationComponent/toastNotificationComponent.vue';
+    import { useI18n } from 'vue-i18n';
+    import { watchEffect } from 'vue';
+    import router from '../../../app/providers';
+
     export default {
         name: 'VacancyPage',
-        components: { EmpItemComponent },
-        setup() {
+        components: {
+            EmpItemComponent,
+            ToastNotificationComponent,
+        },
+        props: ['slug'],
+        setup(props) {
+            // State
+            const { t, locale } = useI18n();
+            const store = useStore();
             const showModal = ref(false);
             const selectedFileName = ref('');
+            const fileInput = ref(null);
+            const isFile = ref(false);
+            const fields = reactive({
+                full_name: '',
+                phone_number: '',
+                email: '',
+                cv_field: null,
+                additional_text: '',
+            });
+            const fieldRefs = toRefs(fields);
+            const {
+                full_name,
+                phone_number,
+                email,
+                cv_field,
+                additional_text,
+            } = fieldRefs;
+            const toast = ref(null);
+            const errors = reactive({
+                nameError: '',
+                phoneError: '',
+                emailError: '',
+                questionError: '',
+            });
+            const errorRefs = toRefs(errors);
+            const { nameError, phoneError, emailError, questionError } =
+                errorRefs;
 
-            const openModal = () => showModal.value = true;
-            const closeModal = () => showModal.value = false;
+            // Computed
+            const currentVacancy = computed(() => store.getters.currentVacancy);
+            const similarVacancies = computed(
+                () => store.getters.allSimilarVacancies
+            );
+            const responseMessage = computed(() => store.getters.getMessage);
+            const responseStatus = computed(() => store.getters.resStatus);
+
+            // Methods
+            const openModal = () => (showModal.value = true);
+            const closeModal = () => (showModal.value = false);
             const onFileChange = (event) => {
                 const file = event.target.files[0];
                 if (file) {
-                    selectedFileName.value = file.name;
+                    const start = file.name.lastIndexOf('.');
+                    const format = file.name.slice(start + 1, file.name.length);
+                    if (format === 'png' || format === 'pdf') {
+                        selectedFileName.value = file.name;
+                        isFile.value = true;
+                    } else {
+                        store.dispatch('setMessage', t('formFileError'));
+                        showToast();
+                    }
                 } else {
                     selectedFileName.value = '';
+                    isFile.value = false;
+                }
+            };
+            const validateName = () => {
+                const emptyStringRegex = /^\s*$/;
+                if (emptyStringRegex.test(full_name.value)) {
+                    nameError.value = t('formNameError');
+                    return false;
+                } else {
+                    nameError.value = '';
+                    return true;
+                }
+            };
+            const validatePhone = () => {
+                const phoneNumberPattern =
+                    /\b\d{11,}\b|\+\d{1,}\(\d{3}\)\d{3}[\s-]?\d{4}|\+\d{2}\d{3}[\s-]?\d{3}[\s-]?\d{3}|\d{4}[\s-]?\d{3}[\s-]?\d{4}|\d{3}[\s-]?\d{4}[\s-]?\d{4}/;
+                if (!phoneNumberPattern.test(phone_number.value)) {
+                    phoneError.value = t('formPhoneError');
+                    return false;
+                } else {
+                    phoneError.value = '';
+                    return true;
+                }
+            };
+            const validateEmail = () => {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email.value)) {
+                    emailError.value = t('formEmailError');
+                    return false;
+                } else {
+                    emailError.value = '';
+                    return true;
+                }
+            };
+            const validateQuestionText = () => {
+                const emptyStringRegex = /^\s*$/;
+                if (emptyStringRegex.test(additional_text.value)) {
+                    questionError.value = t('formAddError');
+                    return false;
+                } else {
+                    questionError.value = '';
+                    return true;
                 }
             };
 
+            const handleSubmit = async () => {
+                if (
+                    validateName() &&
+                    validatePhone() &&
+                    validateEmail() &&
+                    validateQuestionText() &&
+                    isFile.value
+                ) {
+                    const formData = new FormData();
+                    formData.append('full_name', full_name.value);
+                    formData.append('phone_number', phone_number.value);
+                    formData.append('email', email.value);
+                    formData.append('cv_field', fileInput.value.files[0]);
+                    formData.append('additional_text', additional_text.value);
+                    try {
+                        store.dispatch('submitVacancy', {
+                            slug: props.slug,
+                            form: formData,
+                        });
+                        full_name.value = '';
+                        phone_number.value = '';
+                        email.value = '';
+                        fileInput.value = null;
+                        additional_text.value = '';
+                        selectedFileName.value = '';
+                        store.dispatch('setMessage', t('form200'));
+                        showToast();
+                    } catch (e) {
+                        if (responseStatus.value === 500) {
+                            router.push('/error500');
+                        }
+                        if (responseStatus.value === 429) {
+                            store.dispatch('setMessage', t('form429'));
+                        }
+                        throw e;
+                    }
+                } else {
+                    store.dispatch('setMessage', t('formWrongData'));
+                }
+            };
+            const showToast = () => {
+                showModal.value = false;
+                toast.value.showToast();
+            };
+
+            onMounted(() => {
+                try {
+                    store.dispatch('fetchVacancy', {
+                        locale: locale.value,
+                        slug: props.slug,
+                    });
+                } catch (e) {
+                    if (responseStatus.value === 500) {
+                        router.push;
+                    }
+                }
+            });
+
+            watchEffect(
+                async () =>
+                    await store.dispatch('fetchVacancy', {
+                        locale: locale.value,
+                        slug: props.slug,
+                    })
+            );
+
+            watch(locale, async (newLocale, oldLocale) => {
+                if (newLocale !== oldLocale) {
+                    await store.dispatch('fetchVacancies', locale.value);
+                }
+            });
+
             return {
+                ...fieldRefs,
+                ...errorRefs,
                 showModal,
                 selectedFileName,
                 openModal,
                 closeModal,
-                onFileChange
-            }
-        }
-        // data() {
-        //     return {
-        //         showModal: false,
-        //     };
-        // },
-        // methods: {
-        //     openModal() {
-        //         this.showModal = true;
-        //     },
-        //     closeModal() {
-        //         this.showModal = false;
-        //     }
-        // },
-    }
+                onFileChange,
+                currentVacancy,
+                similarVacancies,
+                fileInput,
+                handleSubmit,
+                toast,
+                responseMessage,
+                showToast,
+                // vacancyItem
+            };
+        },
+    };
 </script>
 
 <template>
-    <main class="main-page" >
-        <section>
-            <img src="../../model/employment-main.jpeg" alt="emplloyment-main">
+    <main class="main-page">
+        <div class="main-img">
             <div class="info">
                 <p>{{ $t('navWork') }}</p>
             </div>
-        </section>
+        </div>
         <div class="left-side">
             <section class="top-container">
                 <div class="left-info">
-                    <h2>UX/UI Designer</h2>
-                    <p class="salary">Зарплата: <span>1000 - 1500 $</span><br><small>На руки</small></p>
-                    <p>Без опыта работы</p>
+                    <h2>{{ currentVacancy.name }}</h2>
+                    <p class="salary">
+                        {{ $t('vacancySalary') }}:
+                        <span>{{ currentVacancy.salary }} PLN</span>
+                    </p>
                 </div>
                 <div class="right-info">
                     <div class="right-info__text">
-                        <p>Частная компаия %Company Name%</p>
-                        <p class="city">Варшава</p>
+                        <p>{{ currentVacancy.company.name }}</p>
+                        <p class="city">{{ currentVacancy.city.name }}</p>
                     </div>
-                    <button @click="openModal">{{ $t('cardButtonRespond') }}</button>
+                    <button @click="openModal">
+                        {{ $t('vacancyRespond') }}
+                    </button>
                 </div>
             </section>
             <article class="details">
-                <section class="detail description">
-                    <h4>{{ $t('vacancyDescription') }}</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex officiis labore molestiae! Sed laborum ipsam officiis iure ea laudantium vel!</p>
-                    <ul>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                        <li><p>Lorem, ipsum dolor.</p></li>
-                    </ul>
-                </section>
-                <section class="detail responsibilities">
+                <section
+                    v-if="currentVacancy.responsibility_text"
+                    class="detail responsibilities"
+                >
                     <h4>{{ $t('vacancyResponsibility') }}</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro molestiae, quidem culpa magnam minima blanditiis. Excepturi, vitae odio voluptatum fugiat iure, ut quod dolorem at exercitationem harum dolor laborum voluptas, itaque velit possimus repellat ab ipsa repudiandae laboriosam. Quae numquam eius ducimus excepturi suscipit voluptates animi eligendi illo itaque eum!</p>
+                    <p>{{ currentVacancy.responsibility_text }}</p>
                 </section>
-                <section class="detail requirments">
+
+                <section
+                    v-if="currentVacancy.requirement_text"
+                    class="detail responsibilities"
+                >
                     <h4>{{ $t('vacancyRequirments') }}</h4>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt ex laborum amet quo sed accusantium ratione reprehenderit minus aliquam est tempore illo iste eius non, doloribus dolores vel aperiam quasi iure, at, ea quidem id. Doloribus, voluptatem rem. Et eos necessitatibus neque nobis architecto voluptate repudiandae alias distinctio incidunt fugiat quos rerum saepe a dolorem, ab deserunt. At dignissimos et veritatis aperiam cumque? Saepe dolores ducimus atque beatae, velit commodi aliquid placeat pariatur voluptatem, necessitatibus est harum neque nesciunt, exercitationem sapiente laborum natus dolor et nam sit libero tempora. Dolores aut voluptas perspiciatis reiciendis ut quo architecto omnis molestias nisi!</p>
+                    <p>{{ currentVacancy.requirement_text }}</p>
                 </section>
-                <section class="detail schedule">
+
+                <section
+                    v-if="currentVacancy.schedule"
+                    class="detail responsibilities"
+                >
                     <h4>{{ $t('vacancySchedule') }}</h4>
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit neque, explicabo a maxime reiciendis libero quia! Officiis sit cupiditate velit est ex nostrum asperiores obcaecati veniam. Saepe, minima eveniet quo officia labore, vitae asperiores nihil natus sapiente dolorum eius id repellendus, dolores placeat laboriosam exercitationem nesciunt! Omnis id voluptatibus officiis nemo eligendi, harum cum asperiores commodi eos minus earum ab reiciendis recusandae, ipsam, corporis velit rem delectus! Earum quibusdam recusandae numquam fugiat a dolores fuga repudiandae rerum eum explicabo, quia porro esse at non suscipit quis impedit dolorum dignissimos, accusantium, exercitationem minima excepturi! Blanditiis molestiae nesciunt nihil rerum, sint nam.</p>
+                    <p>{{ currentVacancy.schedule }}</p>
                 </section>
-                <section class="detail additional">
-                    <h4>{{ $t('vacancyAdditional') }}</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, voluptas amet maxime pariatur excepturi eaque! Reprehenderit tempore nostrum deleniti veritatis quae recusandae commodi corrupti dicta quis reiciendis? Ipsum doloremque quisquam sunt animi voluptates quo laboriosam numquam reprehenderit mollitia iste incidunt repellat labore possimus, quidem dignissimos odit temporibus officiis optio dolor laudantium, illo dolore nam? Impedit repudiandae sit, laboriosam est culpa at illo voluptatibus optio inventore consequuntur officiis totam reiciendis dicta. </p>
+
+                <section
+                    v-if="currentVacancy.working_condition_text"
+                    class="detail requirments"
+                >
+                    <h4>{{ $t('vacancyCondition') }}</h4>
+                    <p>{{ currentVacancy.working_condition_text }}</p>
                 </section>
-                <section class="detail living">
+
+                <section
+                    v-if="currentVacancy.accommodation"
+                    class="detail living"
+                >
                     <h4>{{ $t('vacancyLiving') }}</h4>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint fugiat iste iure aspernatur quia alias beatae molestias corrupti mollitia molestiae dolore, nisi, qui, vel accusamus animi ipsa neque eveniet doloribus. Harum sequi excepturi consequuntur culpa repellendus libero quae mollitia reiciendis, assumenda, labore, expedita perspiciatis magni porro ducimus fuga quaerat veniam!</p>
+                    <p>{{ currentVacancy.accommodation }}</p>
+                </section>
+
+                <section
+                    v-if="currentVacancy.nutrition"
+                    class="detail schedule"
+                >
+                    <h4>{{ $t('vacancyNutrition') }}</h4>
+                    <p>{{ currentVacancy.nutrition }}</p>
+                </section>
+
+                <section
+                    v-if="currentVacancy.additional_text"
+                    class="detail additional"
+                >
+                    <h4>{{ $t('vacancyAdditional') }}</h4>
+                    <p>{{ currentVacancy.additional_text }}</p>
                 </section>
             </article>
         </div>
         <aside class="similar-vacancy">
             <h2>{{ $t('vacancyAsideSimilar') }}</h2>
-            <EmpItemComponent v-for="i in 2" :key="i" />
+            <EmpItemComponent
+                v-for="vacancy in similarVacancies"
+                :key="vacancy.slug"
+                :slug="vacancy.slug"
+                :title="vacancy.name"
+                :picURL="vacancy.model_pic"
+                :salary="vacancy.salary"
+                :companyName="vacancy.company.name"
+                :city="vacancy.city.name"
+            />
         </aside>
-        <div class="modal-overlay" v-if="showModal"></div>
+        <div class="modal-overlay" v-if="showModal" @click="closeModal"></div>
         <div class="modal" v-if="showModal">
             <div class="modal-content">
-                <img src="../../model/xmark.svg" alt="X" class="xmark" @click="closeModal">
-                <form action="" method="post">
-                        <p>{{ $t('vacancyFormHeader') }}</p>
-                        <div class="input-container">
-                            <input type="text" name="name" id="name" placeholder="">
-                            <label for="name">{{ $t('formLabelName') }}</label>
-                        </div>
-                        <div class="input-container">
-                            <input type="text" name="number" id="number" placeholder="">
-                            <label for="number">{{ $t('formLabelNumber') }}</label>
-                        </div>
-                        <div class="input-container">
-                            <input type="email" name="email" id="email" placeholder="">
-                            <label for="email">{{ $t('formLabelMail') }}</label>
-                        </div>
-                        <div class="input-container-file">
-                            <input @change="onFileChange" ref="fileInput" type="file" name="file" id="file" placeholder="" accept="image/png, image/jpg, image/jpeg, application/pdf">
-                            <label class="input-file-label" for="file">{{ $t('formLabelFile') }}</label>
-                            <p v-if="selectedFileName" class="file-name">{{ selectedFileName }}</p>
-                        </div>
-                        <div class="input-container">
-                            <textarea name="additional" id="additional" cols="30" rows="10" placeholder=""></textarea>
-                            <label for="additional">{{ $t('formLabelOptional') }}</label>
-                        </div>
-                        <button type="submit">{{ $t('formButton') }}</button>
+                <img
+                    src="../../model/xmark.svg"
+                    alt="X"
+                    class="xmark"
+                    @click="closeModal"
+                />
+                <form v-on:submit.prevent="handleSubmit">
+                    <p>{{ $t('vacancyFormHeader') }}</p>
+                    <div class="input-container">
+                        <input
+                            type="text"
+                            name="name"
+                            id="name"
+                            placeholder=""
+                            v-model="full_name"
+                        />
+                        <label for="name">{{ $t('formLabelName') }}</label>
+                        <span class="validation-error" v-if="nameError">{{
+                            nameError
+                        }}</span>
+                    </div>
+                    <div class="input-container">
+                        <input
+                            type="text"
+                            name="number"
+                            id="number"
+                            placeholder=""
+                            v-model="phone_number"
+                        />
+                        <label for="number">{{ $t('formLabelNumber') }}</label>
+                        <span class="validation-error" v-if="phoneError">{{
+                            phoneError
+                        }}</span>
+                    </div>
+                    <div class="input-container">
+                        <input
+                            type="email"
+                            name="email"
+                            id="email"
+                            placeholder=""
+                            v-model="email"
+                        />
+                        <label for="email">{{ $t('formLabelMail') }}</label>
+                        <span class="validation-error" v-if="emailError">{{
+                            emailError
+                        }}</span>
+                    </div>
+                    <div class="input-container-file">
+                        <input
+                            @change="onFileChange"
+                            ref="fileInput"
+                            type="file"
+                            name="file"
+                            id="file"
+                            placeholder=""
+                            accept="image/png, application/pdf"
+                        />
+                        <label class="input-file-label" for="file">{{
+                            $t('formLabelFile')
+                        }}</label>
+                        <p v-if="selectedFileName" class="file-name">
+                            {{ selectedFileName }}
+                        </p>
+                        <p v-else class="file-name">
+                            {{ $t('vacancyAllowedFormat') }}
+                        </p>
+                    </div>
+                    <div class="input-container">
+                        <textarea
+                            name="additional"
+                            id="additional"
+                            cols="30"
+                            rows="10"
+                            placeholder=""
+                            v-model="additional_text"
+                        ></textarea>
+                        <label for="additional">{{
+                            $t('formLabelOptional')
+                        }}</label>
+                        <span class="validation-error" v-if="questionError">{{
+                            questionError
+                        }}</span>
+                    </div>
+                    <section class="policy-container">
+                        <p class="policy">
+                            {{ $t('formPolicyPart1') }}
+                            <router-link to="/policy"
+                                ><a>
+                                    {{ $t('formPolicyPart2') }}
+                                </a>
+                            </router-link>
+                        </p>
+                    </section>
+                    <button type="submit">{{ $t('formButton') }}</button>
                 </form>
             </div>
         </div>
+        <ToastNotificationComponent ref="toast" :message="responseMessage" />
     </main>
 </template>

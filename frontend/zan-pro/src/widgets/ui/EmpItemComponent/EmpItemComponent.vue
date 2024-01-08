@@ -1,18 +1,34 @@
+<script>
+    export default {
+        name: 'EmpItem',
+        props: {
+            title: '',
+            slug: '',
+            salary: '',
+            companyName: '',
+            city: '',
+            picURL: '',
+        },
+    };
+</script>
+
 <template>
     <div class="item">
-        <img src="../../model/Vacancy img.png">
+        <img :src="picURL" alt="vacancy picture" />
         <article>
-            <h1>UX/UI designer</h1>
-            <h2>1000$</h2>
-            <h3>Частная компания “Company Name”</h3>
-            <h3>Варшава</h3>
+            <div class="text">
+                <h1>{{ title }}</h1>
+                <h2>{{ salary }}</h2>
+                <h3>{{ companyName }}</h3>
+                <h3>{{ city }}</h3>
+            </div>
             <div class="btn">
-                <button><router-link to="/employmentDetails">{{ $t('cardButtonRespond') }}</router-link></button>
+                <button>
+                    <router-link :to="'/employment/' + slug + '/'">{{
+                        $t('cardButtonRespond')
+                    }}</router-link>
+                </button>
             </div>
         </article>
     </div>
 </template>
-
-<script setup>
-
-</script>

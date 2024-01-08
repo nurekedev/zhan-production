@@ -101,21 +101,13 @@ class Vacancy(models.Model):
         
     def get_absolute_url(self):
         return reverse('vacancy-detail', kwargs={'slug': self.slug}) 
-    
 
-    # def save(self, *args, **kwargs):
-    #     super().save()
-    #     image = Image.open(self.model_pic.path)
-
-    #     if image.height > 500 or image.width > 500:
-    #         croped_image = (500, 500)
-    #         image.thumbnail(croped_image)
-    #         image.save(self.model_pic.path)
 
 
 class Review(models.Model):
     """Модель для Отзыва пользователей"""
     author = models.CharField(verbose_name=_('Author'), max_length=100)
+    author_pic = models.ImageField(verbose_name=_('Photo'), upload_to='jobs', blank=True, null=True, help_text='Extensions: .jpg .jpeg, .png,')
     body_text = models.TextField(verbose_name=_('Text of review'))
 
     class Meta:
@@ -125,3 +117,19 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.author} - {self.body_text}"
+    
+
+class SocialMedia(models.Model):
+    """Модель для Социальных сетец"""
+    name = models.CharField(verbose_name=_('Name'), max_length=255)
+    url = models.URLField(verbose_name=_('URL'))
+
+    class Meta:
+        verbose_name = _('Social Media')
+        verbose_name_plural = _('Social Media')
+        db_table = 'socials'
+
+    def __str__(self):
+        return f"{self.name}"
+
+

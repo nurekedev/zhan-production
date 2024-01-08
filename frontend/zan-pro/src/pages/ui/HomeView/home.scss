@@ -1,140 +1,312 @@
 @import '../../../app/style/mixin';
 
-.home-main{
+.home-main {
     width: 100%;
     min-height: calc(100vh - 16rem);
-    section{
+    section {
         width: 100%;
         position: relative;
-        img{
+        img {
             width: 100%;
             height: 60rem;
-            object-fit:cover;
+            object-fit: cover;
             object-position: 100% 36%;
             overflow: hidden;
+            filter: brightness(70%);
         }
-        .img-t-q{
+        .img-t-q {
             position: absolute;
             top: 10rem;
-            left: 10rem;
+            left: calc(50% - 48rem);
             width: 85%;
             height: 27rem;
             padding: 0 1.5rem 0 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            article{
-                width: 40rem;
+            article {
+                max-width: 90rem;
                 height: auto;
-                h1{
-                    color: #FFF;
-                    font: normal 700 3.25rem/normal Montserrat;
+                h1 {
+                    color: #fff;
+                    font: normal 700 4.25rem / normal Montserrat;
                     margin-bottom: 1rem;
+                    text-align: center;
                 }
-                p{
-                    color: #FFF;
-                    font: normal 400 1.75rem/normal Monserrat;
+                p {
+                    color: #fff;
+                    font: normal 400 2rem / normal Monserrat;
+                    text-align: center;
                 }
             }
-            form{
-                width: 35rem;
-                height: 100%;
-                background-color: #fff;
-                border-radius: 0.625rem;
+            .form-group {
                 display: flex;
-                flex-direction: column;
+                flex-flow: column wrap;
                 align-items: center;
-                gap: 3rem;
-                label{
-                    margin-top: 2rem;
-                    font: normal 600 2rem/normal Montserrat;
+                justify-content: center;
+                background-color: $white;
+                padding: 2rem 2rem;
+                border-radius: 2rem;
+                .policy-container {
+                    p {
+                        max-width: 50ch;
+                        font-size: 1.1rem;
+                        font-weight: 400;
+                        a {
+                            color: $yellow;
+                            font-weight: 500;
+                        }
+                    }
                 }
-                input{
-                    background-color: #D9D9D94D;
-                    border: none;
-                    width: 90%;
-                    height: 3rem;
-                    padding: 0.5rem 1rem;
-                    font: normal 300 1.25rem/normal Montserrat;
-                    color: #949494;
-                }
-                input:focus{
-                    outline: none;
-                }
-                input::placeholder{
-                    font: normal 300 1.25rem/normal Montserrat;
-                    color: #949494;
-                }
-                button{
-                    @include btn;
-                    border: none;
-                    width: 90%;
-                    height: 3rem;
-                    padding: 0.5rem 0;
+                p {
+                    color: $black;
+                    font-family: Montserrat;
+                    font-size: 2rem;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: normal;
+                    margin-bottom: 3rem;
                     text-align: center;
-                    font: normal 700 1.5rem/normal Montserrat;
+                }
+                .input-container {
+                    position: relative;
+                    margin: 0 auto 3rem;
+                    textarea {
+                        background-color: rgba(217, 217, 217, 0.3);
+                        width: 100%;
+                        height: 9.83731rem;
+                        padding: 1.12rem 1.3rem;
+                        border: none;
+                        border-radius: 0.25rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: normal;
+                        resize: none;
+                    }
+                    input {
+                        width: 100%;
+                        height: 3.83731rem;
+                        flex-shrink: 0;
+                        background-color: rgba(217, 217, 217, 0.3);
+                        border: none;
+                        border-radius: 0.25rem;
+                        text-indent: 1.3rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: normal;
+                    }
+                    input:-webkit-autofill {
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: norma;
+                    }
+                    label {
+                        position: absolute;
+                        left: 1.3rem;
+                        top: 1.11rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        transition: all 400ms ease;
+                    }
+                    input:focus {
+                        outline: none;
+                    }
+                    textarea:focus {
+                        outline: none;
+                    }
+                    input:focus + label,
+                    input:not(:placeholder-shown) + label {
+                        top: -2rem;
+                        left: 0;
+                    }
+                    textarea:focus + label,
+                    textarea:not(:placeholder-shown) + label {
+                        top: -2rem;
+                        left: 0;
+                    }
+                }
+
+                button {
+                    @include btn();
+                    width: 100%;
+                    height: 3.83731rem;
+                    padding: 1rem 14rem;
+                    border: none;
+                    border-radius: 0.25rem;
+                    color: $white;
+                    font-family: Montserrat;
+                    font-size: 1.5rem;
+                    font-style: normal;
+                    font-weight: 700;
+                    line-height: normal;
+                    cursor: pointer;
+                    text-align: center;
                 }
             }
         }
     }
-    article{
+    article {
         width: 100%;
-        .about{
+        .about {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
             align-items: center;
             margin: 5rem 0;
-            h1{
-                font: normal 700 4rem/normal Montserrat;
+            h1 {
+                font: normal 700 4rem / normal Montserrat;
             }
-            p{
+            p {
                 width: 80%;
-                font: normal 400 1.5rem/normal Montserrat;
+                font: normal 400 1.5rem / normal Montserrat;
                 text-align: center;
             }
         }
-        aside{
+        .review {
             width: 100%;
-            height: 35rem;
-            .review-title{
-                width: 100%;
-                margin: 5rem 0;
-                display: flex;
-                align-items: center;
-                gap: 1.5rem;
+            margin: 5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-direction: column;
+            h1 {
+                font: normal 500 2.5rem / normal Montserrat;
+                letter-spacing: 0.2rem;
+            }
+            .review-img {
+                width: 12rem;
+                height: 12rem;
+                object-fit: cover;
+                border-radius: 50%;
+            }
+            h2 {
+                font: normal 300 1.75rem / normal Montserrat;
+            }
+            p {
+                font: normal 600 1.25rem / normal Montserrat;
+                width: 80%;
+                text-align: center;
+                margin-top: 4rem;
+            }
+            svg {
+                position: absolute;
+                bottom: 0;
+                z-index: -1;
+            }
+        }
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: $red;
+        }
+        .swiper-pagination-bullet {
+            background-color: $red;
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .home-main {
+        width: 100%;
+        height: 90vh;
+        section {
+            width: 100%;
+            img {
+                height: 50rem;
+            }
+            .img-t-q {
                 flex-direction: column;
-                h1{
-                    font: normal 500 2.5rem/normal Montserrat;
-                    letter-spacing: 0.2rem;
+                width: 95%;
+                top: 10rem;
+                left: 0.75rem;
+                padding: 0;
+                article {
+                    width: 100%;
+                    margin-bottom: 3rem;
+                    h1 {
+                        color: #fff;
+                        font: normal 700 2.5rem / normal Montserrat;
+                        margin-bottom: 1rem;
+                    }
+                    p {
+                        color: #fff;
+                        font: normal 400 1.25rem / normal Montserrat;
+                    }
                 }
-                .review-img{
-                    width: 12rem;
-                    height: 12rem;
-                    background-color: #949494;
-                    border-radius: 50%;
+                .form-group {
+                    width: 100%;
+                    padding: 2rem 1rem;
+                    border-radius: 1rem;
+                    form {
+                        width: 95%;
+                        margin: 0 auto;
+                        p {
+                            font: normal 600 1.55rem / normal Montserrat;
+                            margin-bottom: 2rem;
+                        }
+                        .input-container {
+                            margin: 0 auto 2rem;
+                            input {
+                                height: 3rem;
+                            }
+                            label {
+                                font: normal 400 1rem / normal Montserrat;
+                            }
+                        }
+                        button {
+                            width: 100%;
+                            padding: 0.5rem;
+                            height: 3rem;
+                        }
+                    }
                 }
-                h2{
-                    font: normal 300 1.75rem/normal Montserrat;
+            }
+        }
+        article {
+            .about {
+                margin: 2.5rem 0;
+                gap: 1rem;
+                h1 {
+                    font: normal 700 2rem / normal Montserrat;
                 }
-                p{
-                    font: normal 600 1.25rem/normal Montserrat;
+                p {
+                    font: normal 400 1rem / normal Montserrat;
+                    text-align: justify;
+                }
+            }
+            .review {
+                margin: 0;
+                h1 {
+                    font: normal 500 1.5rem / normal Montserrat;
+                }
+                .review-img {
+                    width: 6rem;
+                    height: 6rem;
+                }
+                h2 {
+                    font: normal 300 1.25rem / normal Montserrat;
+                }
+                p {
+                    font: normal 400 1rem / normal Montserrat;
                     width: 80%;
                     text-align: center;
                     margin-top: 4rem;
                 }
-                .home-pagination{
-                    width: 25%;
-                    height: 0.4rem;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 4rem;
-                    span{
-                        width: 24%;
-                        height: 100%;
-                        background-color: #949494;
-                    }
-                }
+            }
+            .swiper-pagination-bullet {
+                background-color: $red;
             }
         }
     }

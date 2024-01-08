@@ -1,41 +1,66 @@
 @import '../../../app/style/variables';
 @import '../../../app/style/mixin';
 
-.item{
+.item {
     width: 32rem;
     height: 28rem;
-    img{
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    img {
         width: 100%;
         height: 58%;
+        border-radius: 0.25rem;
+        object-fit: cover;
     }
-    article{
+    article {
         width: 100%;
-        height: 42%;
-        padding: 1rem;
-        h1{
-            font: normal 700 1.375rem/normal Montserrat;
+        margin-top: 1.4rem;
+        .text {
+            padding: 0 1rem;
+            h1 {
+                font: normal 700 1.375rem / normal Montserrat;
+            }
+            h2 {
+                font: normal 700 1.5rem / normal Montserrat;
+                color: $yellow;
+            }
+            h2::after {
+                content: ' PLN';
+                font: normal 700 1.5rem / normal Montserrat;
+                color: $yellow;
+            }
+            h3 {
+                font: normal 400 1.125rem / normal Montserrat;
+            }
         }
-        h2{
-            font: normal 700 1.5rem/normal Montserrat;
-            color: $yellow;
-        }
-        h3{
-            font: normal 400 1.125rem/normal Montserrat;
-        }
-        .btn{
+        .btn {
             display: flex;
             gap: 1.5rem;
             margin-top: 1rem;
-            button{
+            button {
                 @include btn;
+                width: 100%;
                 border: none;
-                font: normal 700 1.375rem/normal Montserrat;
+                font: normal 700 1.375rem / normal Montserrat;
                 padding: 0.5rem;
-                border-radius: 0.5rem;
-                a:-webkit-any-link{
+                // border-radius: 0.5rem;
+                a {
+                    color: $white;
+                }
+                a:-webkit-any-link {
                     color: $white;
                 }
             }
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .item {
+        width: auto;
+        height: auto;
+        box-shadow: none;
+        article {
+            padding: 0;
         }
     }
 }

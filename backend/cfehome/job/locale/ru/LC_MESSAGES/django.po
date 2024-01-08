@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-24 15:55+0000\n"
+"POT-Creation-Date: 2023-12-05 09:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,109 +20,113 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: models.py:18 models.py:31 models.py:54
-msgid "Name"
-msgstr "Название"
+#: admin.py:13
+msgid "Sign in | Administration"
+msgstr "Войти | Администрирование"
 
-#: models.py:21 models.py:22
+#: models.py:20 models.py:33 models.py:56
+msgid "Name"
+msgstr "Имя"
+
+#: models.py:23 models.py:24
 msgid "Cities"
 msgstr "Города"
 
-#: models.py:34 models.py:35
+#: models.py:36 models.py:37
 msgid "Companies"
 msgstr "Компании"
 
-#: models.py:50
+#: models.py:52
 msgid "Draft"
 msgstr "Черновик"
 
-#: models.py:51
+#: models.py:53
 msgid "Published"
-msgstr "Активный"
+msgstr "Опубликовано"
 
-#: models.py:57
+#: models.py:59
 msgid "Photo"
 msgstr "Фото"
 
-#: models.py:58
+#: models.py:60
 msgid "Salary"
-msgstr "Оплата труда"
+msgstr "Зарплата"
 
-#: models.py:61
+#: models.py:63
 msgid "Responsibility"
-msgstr "Ответственность"
+msgstr "Обязанность"
 
-#: models.py:62
+#: models.py:64
 msgid "Requirements"
 msgstr "Требования"
 
-#: models.py:63
-msgid "Schedule"
-msgstr "График"
-
 #: models.py:65
-msgid "Working Condition"
-msgstr "Условия работы"
+msgid "Schedule"
+msgstr "Расписание"
 
-#: models.py:66
+#: models.py:67
+msgid "Working Condition"
+msgstr "Рабочие условия"
+
+#: models.py:68
 msgid "Accommodation"
 msgstr "Проживание"
 
-#: models.py:67
+#: models.py:69
 msgid "Nutrition"
 msgstr "Питание"
 
-#: models.py:68
+#: models.py:70
 msgid "Additional text"
-msgstr "Дополнительная информация"
+msgstr "Дополнительный текст"
 
-#: models.py:71
+#: models.py:73
 msgid "City"
 msgstr "Город"
 
-#: models.py:73
+#: models.py:75
 msgid "Company"
 msgstr "Компания"
 
-#: models.py:74
+#: models.py:76
 msgid "Published Time"
 msgstr "Время публикации"
 
-#: models.py:77
+#: models.py:79
 msgid "Status"
 msgstr "Статус"
 
-#: models.py:80
+#: models.py:82
 msgid "Created by"
-msgstr "Создан(-a)"
+msgstr "Создано"
 
-#: models.py:83 models.py:84
+#: models.py:85 models.py:86
 msgid "Vacancies"
 msgstr "Вакансии"
 
-#: models.py:115
+#: models.py:109
 msgid "Author"
 msgstr "Автор"
 
-#: models.py:116
+#: models.py:110
 msgid "Text of review"
-msgstr "Текст отзыва"
+msgstr "Текст обзора"
 
-#: models.py:119 models.py:120
+#: models.py:113 models.py:114
 msgid "Reviews"
 msgstr "Отзывы"
 
-#: serializers.py:47 serializers.py:55
+#: serializers.py:47 serializers.py:55 serializers.py:68
 msgid "Enter your full name"
-msgstr "Введите ваше ФИО"
+msgstr "Введите ваше полное имя"
 
-#: serializers.py:49 serializers.py:57
+#: serializers.py:49 serializers.py:57 serializers.py:70
 msgid "Enter your phone number"
 msgstr "Введите ваш номер телефона"
 
-#: serializers.py:58
+#: serializers.py:58 serializers.py:71
 msgid "Enter your email"
-msgstr "Введите ваш email"
+msgstr "Введите ваш адрес электронной почты"
 
 #: serializers.py:60
 msgid "Upload your CV"
@@ -130,15 +134,18 @@ msgstr "Загрузите ваше резюме"
 
 #: serializers.py:62
 msgid "Enter additional text (optional)"
-msgstr "Введите дополнительный текст (необязательно)"
+msgstr "Введите дополнительный текст (по желанию)"
+
+#: serializers.py:73
+msgid "Enter your question text (optional)"
+msgstr "Введите текст вашего вопроса (по желанию)"
 
 #: validators.py:19
 msgid ""
 "Phone number must be entered in the format: '+999999999'. Up to 15 digits "
 "allowed."
 msgstr ""
-"Номер телефона необходимо вводить в формате: «+999999999». Допускается до 15 "
-"цифр."
+"Номер телефона должен быть введен в формате: '+999999999'. Допускается до 15 цифр."
 
 #: validators.py:27
 msgid "File too large. Size should not exceed 10 MiB."
@@ -147,12 +154,12 @@ msgstr "Файл слишком большой. Размер не должен �
 #: validators.py:40
 #, python-format
 msgid "Unsupported file extension. Allowed extensions are %(extensions)s"
-msgstr "Неподдерживаемое расширение файла. Допустимые расширения: %(extensions)s"
+msgstr "Неподдерживаемое расширение файла. Разрешенные расширения: %(extensions)s"
 
-#: views.py:79 views.py:116
-msgid "Message was sent succesfully"
-msgstr "Сообщение успешно отправлено"
+#: views.py:105 views.py:164 views.py:211
+msgid "Message was sent successfully"
+msgstr "Сообщение было успешно отправлено"
 
-#: views.py:92
+#: views.py:125
 msgid "Data not found"
 msgstr "Данные не найдены"

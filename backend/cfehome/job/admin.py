@@ -20,6 +20,9 @@ class CityAdmin(TranslationAdmin):
 class CompanyAdmin(TranslationAdmin):
     list_display = ('name',)
 
+class SocialMediaAdmin(admin.ModelAdmin):
+    list_display = ('name', 'url',)
+
 
 BASIC_INFORMATION = """
     <li>Name (Title of vacancy)</li>
@@ -85,7 +88,7 @@ class VacancyAdmin(TranslationAdmin):
 
 
 class ReviewAdmin(TranslationAdmin):
-    list_display = ('author', 'body_text',)
+    list_display = ('author', 'author_pic', 'body_text',)
     list_filter = ('author',)
     search_fields = ('author', 'body_text', )
     ordering = ('author',)
@@ -95,35 +98,5 @@ admin.site.register(City, CityAdmin)
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Vacancy, VacancyAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(SocialMedia, SocialMediaAdmin)
 
-
-# class VacancyAdmin(admin.ModelAdmin):
-#     model = Vacancy
-#     list_display = ['name', 'slug', 'model_pic', 'salary', 'body', 'city',
-#                     'company', 'publish', 'created', 'status', 'user']
-#     fields = ['name', 'slug', 'model_pic', 'salary', 'body', 'city',
-#                     'company', 'publish', 'status']
-#     prepopulated_fields = {'slug': ('name', )}
-#     list_filter = ['salary', 'name', 'publish', 'user']
-#     search_fields = ['user', 'body_text', 'salary', 'name', 'publish']
-#     ordering = ['salary']
-
-#     def save_form(self, request, form, change):
-#         obj = form.save(commit=False)
-#         if not obj.pk:
-#             obj.user = request.user
-#         obj.save()
-#         return obj
-
-# class ReviewAdmin(admin.ModelAdmin):
-#     """Базовые настройки для модели "Отзыв". Для текста было использовано редактор WYSIWYG"""
-#     list_display = ['author', 'body_text']
-#     list_filter = ['author']
-#     search_fields = ['author', 'body_text']
-#     ordering = ['author']
-
-
-# admin.site.register(City, CityAdmin)
-# admin.site.register(Company, CompanyAdmin)
-# admin.site.register(Vacancy, VacancyAdmin)
-# admin.site.register(Review, ReviewAdmin)

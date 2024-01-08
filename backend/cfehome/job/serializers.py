@@ -1,7 +1,7 @@
 from django.utils.translation import gettext as _
 
 from rest_framework.reverse import reverse
-from rest_framework import serializers, validators
+from rest_framework import serializers
 
 
 from .models import *
@@ -32,7 +32,7 @@ class VacancySerializer(serializers.ModelSerializer):
     class Meta:
         model = Vacancy
         fields = ('name', 'slug', 'url', 'model_pic', 'salary', 'city', 'company',
-                  'responsibility_text', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish',)
+                  'responsibility_text', 'requirement_text', 'schedule', 'working_condition_text', 'accommodation', 'nutrition', 'additional_text', 'publish',)
 
     def get_detail_url(self, obj):
         request = self.context.get('request')
@@ -69,5 +69,15 @@ class QuestionContactSerializer(serializers.Serializer):
     phone_number = serializers.CharField(
         validators=[validate_phone_number], help_text=_("Enter your phone number"))
     email = serializers.EmailField(help_text=_("Enter your email"))
-    question_text = serializers.CharField(
-        max_length=300, help_text=_("Enter your question text (optional)"))
+    question_text = serializers.CharField(max_length=255, help_text=_("Enter your question text (optional)"))
+
+
+
+class SocialMediaSerializer(serializers.ModelSerializer):
+    """Сериализатор для социальных сетей."""
+    class Meta:
+        model = SocialMedia
+        fields = ('name', 'url',)
+
+
+

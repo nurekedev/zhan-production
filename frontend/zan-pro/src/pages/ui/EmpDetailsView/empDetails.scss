@@ -1,5 +1,5 @@
-@import '../../../app/style/variables';
-@import '../../../app/style/mixin';
+@import "../../../app/style/variables";
+@import "../../../app/style/mixin";
 
 .main-page {
     width: 100%;
@@ -8,19 +8,15 @@
     grid-template-columns: 70rem 1fr;
     gap: 2rem;
     position: relative;
-    section {
+    .main-img {
         width: 100%;
         position: relative;
         display: grid;
         grid-column: 1 / 3;
         grid-row: 1 / 2;
-        img {
-            width: 100%;
-            height: 60rem;
-            object-fit:cover;
-            object-position: 100% 36%;
-            overflow: hidden;
-        }
+        background-image: url("../../model/employment-main.jpeg");
+        background-size: cover;
+        height: 60rem;
         .info {
             position: absolute;
             bottom: 2.37rem;
@@ -28,8 +24,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 31.25rem;
+            width: fit-content;
             height: 3.75rem;
+            padding: 0.4rem 1rem;
             background-color: $red;
             p {
                 color: $white;
@@ -48,6 +45,7 @@
         display: flex;
         flex-flow: column wrap;
         margin-left: 2rem;
+        padding-top: 4rem;
     }
 
     .top-container {
@@ -60,6 +58,7 @@
         background: $white;
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
         .left-info {
+            justify-self: flex-start;
             h2 {
                 width: fit-content;
                 font-family: Montserrat;
@@ -67,7 +66,6 @@
                 font-style: normal;
                 font-weight: 700;
                 line-height: normal;
-                background-color: $yellow;
             }
             .salary {
                 font-family: Montserrat;
@@ -75,15 +73,9 @@
                 font-style: normal;
                 font-weight: 500;
                 line-height: normal;
-                small {
-                    font-family: Montserrat;
-                    font-size: 1rem;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: normal;
-                }
                 span {
                     color: $yellow;
+                    font-size: 1.5rem;
                 }
             }
             p {
@@ -102,21 +94,27 @@
             font-weight: 400;
             line-height: normal;
             display: flex;
+            align-items: center;
             flex-flow: column wrap;
             .right-info__text {
                 margin-bottom: 2rem;
+                .city {
+                    text-indent: 0.3rem;
+                    display: flex;
+                    align-items: center;
+                }
                 .city::before {
-                    content: '';
-                    width: 0.375rem;
-                    height: 0.375rem;
+                    content: "";
+                    width: 0.4rem;
+                    height: 0.4rem;
                     background-color: $red;
                     border-radius: 50%;
                 }
             }
             button {
                 @include btn();
-                width: 100%;
                 height: 2.5rem;
+                width: 24rem;
                 border: none;
                 border-radius: 0.1875rem;
                 color: $white;
@@ -133,7 +131,6 @@
     .details {
         display: flex;
         flex-flow: column wrap;
-        align-items: center;
         padding: 2rem;
         .detail {
             margin: 1.5rem 0;
@@ -145,7 +142,7 @@
                 line-height: normal;
             }
             h4::after {
-                content: ':';
+                content: ":";
             }
             p {
                 text-align: justify;
@@ -167,7 +164,8 @@
         grid-row: 2 / 4;
         display: flex;
         flex-flow: column wrap;
-        margin-left: 12rem;
+        margin: 0 6rem;
+        gap: 1.5rem;
         h2 {
             color: $black;
             text-align: justify;
@@ -176,45 +174,6 @@
             font-style: normal;
             font-weight: 700;
             line-height: normal;
-        }
-        .item{
-            width: 32rem;
-            height: 28rem;
-            margin: 2rem 0;
-            img{
-                width: 100%;
-                height: 58%;
-            }
-            article{
-                width: 100%;
-                height: 42%;
-                padding: 1rem;
-                h1{
-                    font: normal 700 1.375rem/normal Montserrat;
-                }
-                h2{
-                    font: normal 700 1.5rem/normal Montserrat;
-                    color: $yellow;
-                }
-                h3{
-                    font: normal 400 1.125rem/normal Montserrat;
-                }
-                .btn{
-                    display: flex;
-                    gap: 1.5rem;
-                    margin-top: 1rem;
-                    button{
-                        @include btn;
-                        border: none;
-                        font: normal 700 1.375rem/normal Montserrat;
-                        padding: 0.5rem;
-                        border-radius: 0.1875rem;
-                        a:-webkit-any-link {
-                            color: $white;
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -226,7 +185,7 @@
     z-index: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba($color: $black, $alpha: .4);
+    background-color: rgba($color: $black, $alpha: 0.4);
 }
 .modal {
     position: fixed;
@@ -234,14 +193,26 @@
     top: calc(50% - 45vh);
     background-color: $white;
     padding: 3rem;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     z-index: 1;
+    width: 50rem;
     .modal-content {
         display: flex;
         flex-flow: column wrap;
         align-items: center;
         justify-content: center;
         position: relative;
+        .policy-container {
+            p {
+                max-width: 50ch;
+                font-size: 1.1rem;
+                font-weight: 400;
+                a {
+                    color: $yellow;
+                    font-weight: 500;
+                }
+            }
+        }
         .xmark {
             cursor: pointer;
             position: absolute;
@@ -251,7 +222,7 @@
             font-weight: 600;
             // color: $white;
             // background-color: $red;
-            padding: .2rem .6rem;
+            padding: 0.2rem 0.6rem;
         }
         p {
             color: $black;
@@ -263,17 +234,17 @@
             margin-bottom: 3rem;
             text-align: center;
         }
-    
+
         .input-container {
             position: relative;
             margin: 0 auto 3rem;
             textarea {
-                background-color: rgba(217, 217, 217, 0.30);
+                background-color: rgba(217, 217, 217, 0.3);
                 width: 100%;
                 height: 9.83731rem;
                 padding: 1.12rem 1.3rem;
                 border: none;
-                border-radius: .25rem;
+                border-radius: 0.25rem;
                 color: $black;
                 font-family: Montserrat;
                 font-size: 1.375rem;
@@ -285,9 +256,9 @@
             input {
                 width: 100%;
                 height: 3.83731rem;
-                background-color: rgba(217, 217, 217, 0.30);
+                background-color: rgba(217, 217, 217, 0.3);
                 border: none;
-                border-radius: .25rem;
+                border-radius: 0.25rem;
                 text-indent: 1.3rem;
                 color: $black;
                 font-family: Montserrat;
@@ -302,7 +273,7 @@
                 font-size: 1.375rem;
                 font-style: normal;
                 font-weight: 300;
-                line-height: norma
+                line-height: norma;
             }
             label {
                 position: absolute;
@@ -322,11 +293,13 @@
             textarea:focus {
                 outline: none;
             }
-            input:focus + label, input:not(:placeholder-shown) + label{
+            input:focus + label,
+            input:not(:placeholder-shown) + label {
                 top: -2rem;
                 left: 0;
             }
-            textarea:focus + label, textarea:not(:placeholder-shown) + label{
+            textarea:focus + label,
+            textarea:not(:placeholder-shown) + label {
                 top: -2rem;
                 left: 0;
             }
@@ -335,7 +308,7 @@
         .input-container-file {
             position: relative;
             width: 100%;
-            margin: 0 auto 3rem;
+            margin: 0 0 2.5rem;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -353,24 +326,23 @@
                 font-weight: 400;
                 line-height: normal;
                 border: 1px solid $black;
-                padding: .6rem .6rem;
+                padding: 0.6rem 0.6rem;
             }
             .file-name {
                 font-size: 1rem;
                 font-weight: 400;
                 padding-top: 1rem;
-                margin-left: -6rem;
-                text-overflow: ellipsis ellipsis;
+                margin-left: -4rem;
             }
         }
-    
+
         button {
             @include btn();
             width: 100%;
             height: 3.83731rem;
             padding: 1rem 14rem;
             border: none;
-            border-radius: .25rem;
+            border-radius: 0.25rem;
             color: $white;
             font-family: Montserrat;
             font-size: 1.5rem;
@@ -379,6 +351,132 @@
             line-height: normal;
             cursor: pointer;
             text-align: center;
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    * {
+        font-size: 14px;
+    }
+    .main-page {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        .left-side {
+            grid-row: 2 / 3;
+            grid-column: 1 / 2;
+            margin-left: 0;
+            padding-top: 0;
+        }
+        .similar-vacancy {
+            grid-row: 3 / 4;
+            grid-column: 1 / 2;
+            margin: 0;
+            padding: 0 0.8rem;
+        }
+        .main-img {
+            grid-row: 1 / 2;
+            grid-column: 1 / 2;
+            height: 40rem;
+            background-position: 40% 40%;
+            .info {
+                bottom: 1rem;
+                left: 1rem;
+                padding: 0.5rem 0.5rem;
+                p {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        .top-container {
+            height: auto;
+            flex-direction: column;
+            align-items: start;
+            padding: 2rem;
+            gap: 2rem;
+            .right-info {
+                align-items: start;
+                width: 100%;
+                button {
+                    width: 100%;
+                }
+            }
+        }
+        .similar-vacancy {
+            grid-column: 1 / 2;
+            margin-bottom: 6rem;
+        }
+    }
+
+    .modal {
+        width: 100%;
+        left: 0;
+        top: 15lvh;
+        .modal-content {
+            width: 100%;
+            p {
+                color: $black;
+                font-family: Montserrat;
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+            }
+            form {
+                width: 23rem;
+            }
+            button {
+                height: 2.5625rem;
+                padding: 0;
+                color: $white;
+                font-family: Montserrat;
+                font-size: 1.25rem;
+                font-style: normal;
+                font-weight: 700;
+                line-height: normal;
+            }
+            .input-container {
+                margin: 0 auto 1.5rem;
+                input {
+                    color: $black;
+                    font-family: montserrat;
+                    font-size: 0.875rem;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: normal;
+                }
+                textarea {
+                    color: $black;
+                    font-family: montserrat;
+                    font-size: 0.875rem;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: normal;
+                }
+                label {
+                    color: $black;
+                    font-family: Montserrat;
+                    font-size: 0.875rem;
+                    font-style: normal;
+                    font-weight: 4 00;
+                    line-height: normal;
+                }
+                input:focus + label,
+                input:not(:placeholder-shown) + label {
+                    top: -1.2rem;
+                    left: 0;
+                }
+                textarea:focus + label,
+                textarea:not(:placeholder-shown) + label {
+                    top: -1.2rem;
+                    left: 0;
+                }
+                .input-container-file {
+                    .input-file-label {
+                        font-size: 0.4rem;
+                    }
+                }
+            }
         }
     }
 }

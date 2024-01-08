@@ -1,6 +1,6 @@
 @import url(./base.scss);
 @import url(./mixin.scss);
-@import 'variables';
+@import "variables";
 @import url(../../widgets/ui/HeaderComponent/header.scss);
 @import url(../../widgets/ui/FooterCompomemt/footer.scss);
 @import url(../../pages/ui/HomeView/home.scss);
@@ -12,3 +12,6 @@
 @import url(../../pages/ui/EmpDetailsView/empDetails.scss);
 @import url(../../features/ui/LanguageChangerComponent/languageChangerComponent.scss);
 @import url(../../shared//ToastNotificationComponent/toastNotificationComponent.scss);
+@import url(../../pages/ui/404ErrorView/error404.scss);
+@import url(../../pages/ui/500ErrorView/error500.scss);
+@import url(../../pages/ui/PolicyView/policy.scss);

@@ -1,20 +1,20 @@
-@import '../../../app/style/mixin';
-@import '../../../app/style/variables';
+@import "../../../app/style/mixin";
+@import "../../../app/style/variables";
 
-.emp-main{
+.emp-main {
     width: 100%;
     min-height: calc(100vh - 16rem);
-    section{
+    section {
         width: 100%;
         position: relative;
-        img{
+        img {
             width: 100%;
             height: 60rem;
-            object-fit:cover;
+            object-fit: cover;
             // object-position: 100% 36%;
             overflow: hidden;
         }
-        .page-title{
+        .page-title {
             position: absolute;
             bottom: 5rem;
             left: 5rem;
@@ -22,15 +22,15 @@
             height: fit-content;
             padding: 1rem;
             background-color: $red;
-            p{
-                font: normal 700 2.5rem/normal Montserrat;
+            p {
+                font: normal 700 2.5rem / normal Montserrat;
                 color: $white;
             }
         }
     }
-    article{
+    article {
         width: 100%;
-        .wrap{
+        .wrap {
             width: 95%;
             margin: 2rem auto;
             height: fit-content;
@@ -38,23 +38,145 @@
             flex-direction: column;
             align-items: center;
             gap: 3.5rem;
-            .wrap-title{
+            .wrap-title {
                 width: 100%;
                 height: fit-content;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                h1{
-                    font: normal 700 3rem/normal Montserrat;
+                h1 {
+                    font: normal 700 3rem / normal Montserrat;
+                }
+                .input-container {
+                    position: relative;
+                    width: 35%;
+                    input {
+                        width: 100%;
+                        height: 3.8rem;
+                        flex-shrink: 0;
+                        background-color: rgba(217, 217, 217, 0.3);
+                        border: none;
+                        border-radius: 0.25rem;
+                        text-indent: 1.3rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: normal;
+                    }
+                    input:-webkit-autofill {
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: norma;
+                    }
+                    label {
+                        position: absolute;
+                        left: 1.3rem;
+                        top: 1.11rem;
+                        color: $black;
+                        font-family: Montserrat;
+                        font-size: 1.375rem;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: normal;
+                        transition: all 400ms ease;
+                        opacity: 0.6;
+                    }
+                    input:focus {
+                        outline: none;
+                    }
+                    input:focus + label,
+                    input:not(:placeholder-shown) + label {
+                        top: -2rem;
+                        left: 0;
+                    }
+                    img {
+                        position: absolute;
+                        width: 2.75rem;
+                        height: 1.875rem;
+                        right: 0;
+                        top: 1rem;
+                        margin-right: 1rem;
+                    }
+                    /* Убираем крестик в поле ввода типа search */
+                    input[type="search"]::-webkit-search-clear-button,
+                    input[type="search"]::-webkit-search-cancel-button {
+                        -webkit-appearance: none;
+                        appearance: none;
+                        display: none;
+                    }
+                    input[type="search"] {
+                        /* Убираем внутренний отступ, добавленный для крестика */
+                        padding-right: 4rem;
+                    }
                 }
             }
-            .wrap-content{
+            .wrap-content {
                 width: 100%;
                 display: flex;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                gap: 2rem;
-                padding: 0 2rem;
+                justify-content: center;
+                align-items: center;
+                .vacancy-items {
+                    max-width: 88%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 5rem;
+                }
+                .vacancy-skeleton {
+                    animation: rotate 1000ms linear infinite;
+                }
+                @keyframes rotate {
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 460px) {
+    .emp-main {
+        section {
+            img {
+                height: 30rem;
+            }
+            .page-title {
+                bottom: 2rem;
+                left: 1rem;
+                width: fit-content;
+                height: fit-content;
+                padding: 0.5rem;
+                p {
+                    font: normal 700 1.25rem / normal Montserrat;
+                }
+            }
+        }
+        article {
+            width: 100%;
+            .wrap {
+                margin: 1rem auto;
+                width: 90%;
+                justify-content: center;
+                .wrap-title {
+                    flex-direction: column;
+                    width: 100%;
+                    align-items: start;
+                    gap: 1.75rem;
+                    h1 {
+                        font: normal 700 2rem / normal Montserrat;
+                    }
+                    .input-container {
+                        width: 100%;
+                    }
+                }
+                .wrap-content {
+                    padding: 0;
+                }
             }
         }
     }

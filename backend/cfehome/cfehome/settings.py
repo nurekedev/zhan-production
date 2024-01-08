@@ -12,8 +12,12 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+from dotenv import load_dotenv
+
 import os
 import psycopg
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,24 +27,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m-w0t#dgxvl$u@fbb&$yyull1qx@r%*i^yg%5ehhrhshy$kdlt'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-WEBSITE_URL = 'http://127.0.0.1:8000'
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '7766cd35230fc6'
-EMAIL_HOST_PASSWORD = '7bef4d1c0faed0'
-EMAIL_PORT = '2525'
 
 # Application definition
-SITE_ID = 1
+SITE_ID = 1 
 
 INSTALLED_APPS = [
-    'grappelli', # custom admin template
+    # 'grappelli', # custom admin template
     'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -55,8 +54,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'debug_toolbar',
-    'drf_spectacular',
     'rosetta',
     'admin_honeypot',
     
@@ -64,9 +61,6 @@ INSTALLED_APPS = [
     'job',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-]
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 
@@ -85,7 +79,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'cfehome.urls'
@@ -126,8 +119,10 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
     }
 }
 
@@ -153,20 +148,40 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+]
+
+
+CSRF_COOKIE_SECURE = True
+
+
+SESSION_COOKIE_SECURE = True
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 LANGUAGES = [
-    ('en', _('English')),
     ('ru', _('Russian')),
     ('kk', _('Kazakh')),
 ]
 
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'  
-MODELTRANSLATION_LANGUAGES = ('en', 'ru', 'kk')
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'  
+MODELTRANSLATION_LANGUAGES = ('ru', 'kk')
 
 
 ADMIN_HONEYPOT_EMAIL_ADMINS = False
@@ -201,55 +216,43 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 REST_FRAMEWORK = {
 
     'DATETIME_FORMAT': '%d.%m.%y %H:%M',
 
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
 
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 
-    # 'DEFAULT_THROTTLE_CLASSES': [
-    #     'rest_framework.throttling.AnonRateThrottle',
-    #     'rest_framework.throttling.UserRateThrottle'
-    # ],
-
-    # 'DEFAULT_THROTTLE_RATES': {
-    #     'anon': '100/day',
-    #     'user': '1000/day'
-    # },
-    # 'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.LimitOffPagination',
-    # 'PAGE_SIZE': 100,
-
+    'DEFAULT_THROTTLE_RATES': {
+        'contact_form': '5/min'
+    },
 
 }
 
-
-
-
-SPECTACULAR_SETTINGS = {
-    "TITLE": "Zan API Documentation",
-    "DESCRIPTION": "DRF API Endpoints of website",
-    "VERSION": "1.0.0",
-}
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'snurekeee03@gmail.com'
-EMAIL_HOST_PASSWORD = 'bvpqshybjtztzugg'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_USE_TLS = os.getenv('TLS_STATUS') 
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+EMAIL_HOST_USER = os.getenv("EMAIL_SMTP")
+EMAIL_HOST_PASSWORD = os.getenv("APP_PASSWORD")
 
-# CORS_ALLOW_CREDENTIALS = True
-# CSRF_COOKIE_HTTPONLY = False
+
+
+
+
+
