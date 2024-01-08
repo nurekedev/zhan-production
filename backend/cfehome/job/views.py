@@ -13,7 +13,7 @@ from rest_framework import generics, permissions, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import  FormParser, MultiPartParser, FileUploadParser
-from threading import Thread  # Импортируем Thread для асинхронной отправки почты
+from threading import Thread  
 
 
 from .models import *
@@ -22,12 +22,16 @@ from .permissions import *
 from .paginations import *
 from .throttling import ContactThrottling
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 class SocialMediaRetrieveAPIView(generics.RetrieveAPIView):
     queryset = SocialMedia.objects.all()
     serializer_class = SocialMediaSerializer
-    lookup_field = 'name'  # Замените 'name' на поле, по которому будет идентифицироваться соц.сеть
+    lookup_field = 'name'  
 
-    # Метод get_object() для получения конкретной записи о социальной сети
     def get_object(self):
         name = self.kwargs.get(self.lookup_field)
         return self.queryset.get(name=name)
@@ -79,21 +83,11 @@ class VacancyDetailtView(generics.RetrieveAPIView, BaseVacancyView):
         }
         return Response(data)
 
+
+
+
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
-    
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.middleware.csrf import get_token
-
-
-# @ensure_csrf_cookie
-# def get_csrf(request):
-#     response = JsonResponse({'detail': 'CSRF cookie set'})
-#     response['X-CSRFToken'] = get_token(request)
-#     return response
-
-
-
-@method_decorator(csrf_protect, name='dispatch')
 class LiteContactView(APIView):
     """Получает данные с формы и возвращает статус действия (с предварительной защитой CSRF)"""
     permission_classes = [permissions.AllowAny]
@@ -104,7 +98,7 @@ class LiteContactView(APIView):
             subject=email_subject,
             body=html,
             from_email=settings.EMAIL_HOST_USER,
-            to=['snurzan21@gmail.com']
+            to=[os.getenv('CUSTOMER_EMAIL')]
         )
         email.content_subtype = 'html'
         email.send()
@@ -160,7 +154,7 @@ class LiteContactView(APIView):
 #                 subject=email_subject,
 #                 body=html,
 #                 from_email=settings.EMAIL_HOST_USER,
-#                 to=['snurzan21@gmail.com']
+#                 to=[os.getenv('CUSTOMER_EMAIL')]
 #             )
 
 #             email.content_subtype = 'html'
@@ -212,7 +206,7 @@ class ResponseVacnacyView(APIView):
                 subject=email_subject,
                 body=html,
                 from_email=settings.EMAIL_HOST_USER,
-                to=['snurzan21@gmail.com']
+                to=[os.getenv('CUSTOMER_EMAIL')]
             )
 
             if applicant_cv: 
@@ -243,7 +237,7 @@ class QuestionContactView(APIView):
             subject=email_subject,
             body=html,
             from_email=settings.EMAIL_HOST_USER,
-            to=['snurzan21@gmail.com']
+            to=[os.getenv('CUSTOMER_EMAIL')]
         )
         email.content_subtype = 'html'
         email.send()
@@ -275,49 +269,6 @@ class QuestionContactView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# @method_decorator(ensure_csrf_cookie, name='dispatch')
-# class QuestionContactView(APIView):
-#     """Для ролучения вопроса с клиента в разделе "Конакты" (с предварительной защитой CSRF)"""
-#     permission_classes = [permissions.AllowAny]
-#     throttle_classes = [ContactThrottling]
-
-#     def post(self, request):
-#         serializer = QuestionContactSerializer(data=request.data)
-#         if serializer.is_valid():
-#             applicant_full_name = serializer.validated_data['full_name']
-#             applicant_phone_number = serializer.validated_data['phone_number']
-#             applicant_email = serializer.validated_data['email']
-#             applicant_question_text = serializer.validated_data['question_text']
-
-#             """Готовый функционал отправка пиьсем через SMTP"""
-#             html = render_to_string('question.html', {
-#                 'name': applicant_full_name,
-#                 'phone_number': applicant_phone_number,
-#                 'email': applicant_email,
-#                 'question': applicant_question_text
-#             })
-
-#             email_subject = f"Вопрос от клиента: {applicant_email}"
-
-#             email = EmailMessage(
-#                 subject=email_subject,
-#                 body=html,
-#                 from_email=settings.EMAIL_HOST_USER,
-#                 to=['snurzan21@gmail.com'] 
-#             )
-
-#             email.content_subtype = 'html'
-#             email.send()
-
-#             print(applicant_full_name,
-#                   applicant_phone_number,
-#                   applicant_email,
-#                   applicant_question_text)
-
-#             message = _('Message was sent succesfully')
-#             return Response({'message': message}, status=status.HTTP_200_OK)
-
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
