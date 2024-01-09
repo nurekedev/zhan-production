@@ -1,5 +1,6 @@
+![imresizer-1704781125255](https://github.com/nurekedev/zhan-production/assets/91678403/f540079d-f26d-4927-9e63-615f18bfd0a3)
 
-/Users/nurzhansaktaganov/Downloads/imresizer-1704781125255.png
+
 # Zan - Work in Poland [Проект на заказ]
 
 Zan - вебсайт для нахождения работы за границей 
