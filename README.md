@@ -1,6 +1,8 @@
-# Zan - Work in Poland
 
-Zan - вебсайт для нахождения работы за границей
+![image_2023-12-15_19-56-12](https://github.com/nurekedev/zhan-production/assets/91678403/2013a855-c397-4ab0-8a9e-4b04d2c63a04)
+# Zan - Work in Poland [Проект на заказ]
+
+Zan - вебсайт для нахождения работы за границей 
 
 ## Описание
 
